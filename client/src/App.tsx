@@ -1,8 +1,22 @@
+import Navigation from "./component/Navigation";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Reseller from "./page/Reseller";
+import Retailer from "./page/Retailer";
+import Inventory from "./page/Inventory";
+
 const App = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Yo</h1>
-    </div>
+    <>
+      <Navigation />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Inventory />} />
+          <Route path="/*" element={<Inventory />} />
+          <Route path="/retailer" element={<Retailer />} />
+          <Route path="/reseller" element={<Reseller />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

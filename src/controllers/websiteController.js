@@ -13,7 +13,8 @@ const getResellWebsite = async (req, res) => {
 
 const addWebsite = async (req, res) => {
     const newWebsite = new WebsiteModel({
-        name: req.body.name
+        name: req.body.name,
+        img: req.body.img
     });
 
     try {
@@ -26,7 +27,8 @@ const addWebsite = async (req, res) => {
 
 const addResellWebsite = async (req, res) => {
     const newResellWebsite = new ResellWebsiteModel({
-        name: req.body.name
+        name: req.body.name,
+        img: req.body.img
     });
 
     try {

@@ -4,12 +4,12 @@ import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
 const getWebsite = async (req, res) => {
-    const websites = await WebsiteModel.find().select();
+    const websites = await WebsiteModel.find().sort({"name": 1}).select();
     res.status(200).json(websites);
 };
 
 const getResellWebsite = async (req, res) => {
-    const websites = await ResellWebsiteModel.find().select();
+    const websites = await ResellWebsiteModel.find().sort({"name": 1}).select();
     res.status(200).json(websites);
 };
 

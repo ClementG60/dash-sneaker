@@ -1,5 +1,7 @@
 import WebsiteModel from "../models/websiteModel.js";
 import ResellWebsiteModel from "../models/resellWebsiteModel.js";
+import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
 
 const getWebsite = async (req, res) => {
     const websites = await WebsiteModel.find().select();
@@ -39,5 +41,33 @@ const addResellWebsite = async (req, res) => {
     }
 };
 
-export { getWebsite, getResellWebsite, addWebsite, addResellWebsite };
+const deleteResellWebsite = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).send("ID unknown");
+    }
+
+    ResellWebsiteModel.findByIdAndRemove(
+        req.params.id,
+        (err, docs) => {
+            if (!err) res.send(docs);
+            else console.log("Delete error : " + err);
+        }
+    )
+};
+
+const deleteWebsite = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).send("ID unknown");
+    }
+
+    WebsiteModel.findByIdAndRemove(
+        req.params.id,
+        (err, docs) => {
+            if (!err) res.send(docs);
+            else console.log("Delete error : " + err);
+        }
+    )
+};
+
+export { getWebsite, getResellWebsite, addWebsite, addResellWebsite, deleteWebsite, deleteResellWebsite };
 

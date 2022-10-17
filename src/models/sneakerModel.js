@@ -11,7 +11,7 @@ const sneakerSchema = new mongoose.Schema(
             required: true
         },
         buyingPrice: {
-            type: String,
+            type: Number,
             required: true
         },
         buyingDate: {
@@ -30,7 +30,7 @@ const sneakerSchema = new mongoose.Schema(
             type: Date,
         },
         resellPrice: {
-            type: String
+            type: Number
         },
         resellWebsiteId: {
             type: String

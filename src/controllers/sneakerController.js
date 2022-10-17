@@ -71,7 +71,7 @@ const deleteSneaker = async (req, res) => {
         req.params.id,
         (err, docs) => {
             if (!err) res.send(docs);
-            else console.log('Delete error : ' + err);
+            else console.log("Delete error : " + err);
         }
     )
 

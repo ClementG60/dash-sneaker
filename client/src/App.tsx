@@ -9,6 +9,7 @@ import axios from "axios";
 import { setSneakers } from "./feature/sneakersSlice";
 import { setResellWebsites } from "./feature/resellWebsitesSlice";
 import { setWebsites } from "./feature/websitesSlice";
+import Expensive from "./page/Expensive";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -43,7 +44,7 @@ const App = () => {
           <Route path="/*" element={<Home />} />
           <Route path="/retailer" element={<Retailer />} />
           <Route path="/reseller" element={<Reseller />} />
-          <Route path="/expensive" element={<Reseller />} />
+          <Route path="/expensive" element={<Expensive />} />
         </Routes>
       </BrowserRouter>
     </>

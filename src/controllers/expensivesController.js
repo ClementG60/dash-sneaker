@@ -1,4 +1,4 @@
-import ExpensivesModel from "../models/expensivesModel";
+import ExpensivesModel from "../models/expensivesModel.js";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -17,6 +17,11 @@ const addExpensive = async (req, res) => {
   }
 };
 
+const getExpensives = async (req, res) => {
+  const expensives = await ExpensivesModel.find().select();
+  res.status(200).json(expensives);
+};
+
 const deleteExpensive = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).send("ID unknown");
@@ -28,4 +33,4 @@ const deleteExpensive = async (req, res) => {
   });
 };
 
-export { addExpensive, deleteExpensive };
+export { addExpensive, deleteExpensive, getExpensives };

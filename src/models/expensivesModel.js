@@ -20,6 +20,6 @@ const expensivesSchema = new mongoose.Schema(
     }
 );
 
-const expensivesModel = mongoose.model("expensives", expensivesSchema);
+const ExpensivesModel = mongoose.model("expensives", expensivesSchema);
 
-export default expensivesModel;
+export default ExpensivesModel;

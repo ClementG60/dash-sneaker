@@ -67,7 +67,7 @@ const Inventory = () => {
       });
   };
 
-    /*
+  /*
     toast.success("La paire a bien été mise à jour.", {
       position: "bottom-right",
       autoClose: 5000,
@@ -82,7 +82,7 @@ const Inventory = () => {
 
   return (
     <>
-      <div className="ml-12 mb-5">
+      <div className="mx-12 mb-5 flex justify-between">
         <button
           className="bg-purple-700 text-white font-bold p-3 flex items-center"
           onClick={() => setOpenFormSneaker(!openFormSneaker)}
@@ -90,10 +90,6 @@ const Inventory = () => {
           <AddIcon />
           Ajouter une paire
         </button>
-        {openFormSneaker && <FormSneaker update={true}/>}
-      </div>
-
-      <div>
         <input
           type="text"
           name="searchBar"
@@ -102,6 +98,13 @@ const Inventory = () => {
           onChange={(e) => handleSearchTerm(e)}
         />
       </div>
+
+      {openFormSneaker && (
+        <div className="mx-auto w-10/12 transition ease">
+          <FormSneaker update={true} />
+        </div>
+      )}
+
       <div>
         <table className="border-collapse table-auto w-11/12 text-sm text-center">
           <thead>

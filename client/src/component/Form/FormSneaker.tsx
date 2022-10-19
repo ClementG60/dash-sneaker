@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import axios from "axios";
-import { addSneaker, setSneakers } from "../feature/sneakersSlice";
+import { addSneaker, setSneakers } from "../../feature/sneakersSlice";
 import moment from "moment";
-import { IFormSneaker } from "../interface/Interface";
+import { IFormSneaker } from "../../interface/Interface";
 
 const FormSneaker = ({ update }: IFormSneaker) => {
   const inputName = useRef<HTMLInputElement | null>(null);
@@ -53,7 +53,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
     "51 EU",
   ];
 
-  const addNewSneaker = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSneaker = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const data = {
@@ -84,7 +84,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
     <form
       action=""
       className="grid grid-cols-2 gap-2"
-      onSubmit={(e) => addNewSneaker(e)}
+      onSubmit={(e) => handleSneaker(e)}
     >
       <div className="flex flex-col">
         <label htmlFor="name" className="text-purple-300 py-2">
@@ -111,7 +111,11 @@ const FormSneaker = ({ update }: IFormSneaker) => {
         >
           <option disabled value=""></option>
           {sizes.map((size, index) => {
-            return <option key={index}>{size}</option>;
+            return (
+              <option key={index} value={size}>
+                {size}
+              </option>
+            );
           })}
         </select>
       </div>

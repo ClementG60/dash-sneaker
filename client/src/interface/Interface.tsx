@@ -1,37 +1,48 @@
 export interface ISite {
-    _id: string,
-    name: string,
+  _id: string;
+  name: string;
 }
 
 export interface IGetSites {
-    type: string
+  type: string;
 }
 
 export interface ISneaker {
-    _id: string,
-    name: string,
-    size: string,
-    buyingPrice: string,
-    buyingDate: string,
-    websiteId: string,
-    sold: boolean,
-    sellingDate: string,
-    resellPrice: string,
-    resellWebsiteId: string,
+  _id: string;
+  name: string;
+  size: string;
+  buyingPrice: string;
+  buyingDate: string;
+  websiteId: string;
+  sold: boolean;
+  sellingDate: string;
+  resellPrice: string;
+  resellWebsiteId: string;
 }
 
 export interface IModal {
-    setOpenModal: (value: boolean) => void;
+  setOpenModal: (value: boolean) => void;
 }
 
 export interface IFormSneaker {
-    update: boolean;
+  update: boolean;
 }
 
 export interface ISneakerState {
-    sneakers: Array<ISneaker>
+  sneakers: Array<ISneaker>;
 }
 
 export interface IWebsiteState {
-    websites: Array<ISite>
+  websites: Array<ISite>;
+}
+
+export interface IExpensive {
+  _id: string;
+  name: string;
+  type: string;
+  price: number;
+}
+
+export interface IExpensiveState {
+  expensives: Array<IExpensive>;
 }

@@ -1,4 +1,4 @@
-import AddWebsite from "../component/AddWebsite";
+import AddWebsite from "../component/Form/FormWebsite";
 import GetSites from "../component/GetSites";
 
 const Retailer = () => {

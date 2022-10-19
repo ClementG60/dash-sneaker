@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import websitesReducer from "../feature/websitesSlice";
 import resellWebsitesReducer from "../feature/resellWebsitesSlice";
 import sneakersReducer from "../feature/sneakersSlice";
+import expensivesReducer from "../feature/expensiveSlice";
 
 const store = configureStore({
     reducer: {
         websites: websitesReducer,
         resellWebsites: resellWebsitesReducer,
-        sneakers: sneakersReducer
+        sneakers: sneakersReducer,
+        expensives: expensivesReducer
     }
 })
 

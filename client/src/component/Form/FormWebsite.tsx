@@ -1,10 +1,10 @@
-import { IGetSites } from "../interface/Interface";
+import { IGetSites } from "../../interface/Interface";
 import { useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import axios from "axios";
-import { useAppDispatch } from "../app/hooks";
-import { addWebsite, setWebsites } from "../feature/websitesSlice";
-import { addResellWebsite, setResellWebsites } from "../feature/resellWebsitesSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { addWebsite, setWebsites } from "../../feature/websitesSlice";
+import { addResellWebsite, setResellWebsites } from "../../feature/resellWebsitesSlice";
 
 const AddWebsite = ({ type }: IGetSites) => {
     const [website, setWebsite] = useState<string>();

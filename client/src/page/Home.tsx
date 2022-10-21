@@ -1,9 +1,9 @@
-import Inventory from "../component/Inventory";
+import Inventory from "../component/SneakerInventory";
 
 const Home = () => {
     return (
         <>
-            <Inventory />
+            Accueil
         </>
     );
 };

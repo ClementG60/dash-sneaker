@@ -1,6 +1,6 @@
 import { IModal } from "../interface/Interface";
 import CloseIcon from "@mui/icons-material/Close";
-import FormSneaker from "./FormSneaker";
+import FormSneaker from "./Form/FormSneaker";
 
 const Modal = ({ setOpenModal }: IModal) => {
   return (

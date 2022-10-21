@@ -9,10 +9,10 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { deleteSneaker } from "../feature/sneakersSlice";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import FormSneaker from "./FormSneaker";
+import FormSneaker from "./Form/FormSneaker";
 import Modal from "./Modal";
 
-const Inventory = () => {
+const SneakerInventory = () => {
   const sneakers = useAppSelector((state) => state.sneakers.sneakers);
   const websites = useAppSelector((state) => state.websites.websites);
   const resellWebsites = useAppSelector(
@@ -166,4 +166,4 @@ const Inventory = () => {
   );
 };
 
-export default Inventory;
+export default SneakerInventory;

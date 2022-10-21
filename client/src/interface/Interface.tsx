@@ -23,6 +23,10 @@ export interface ISneaker {
 export interface IModal {
   setOpenModal: (value: boolean) => void;
 }
+export interface INavigation {
+  setIsOpen: (value: boolean) => void;
+  isOpen: boolean;
+}
 
 export interface IFormSneaker {
   update: boolean;

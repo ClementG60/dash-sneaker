@@ -1,6 +1,6 @@
 import { INavigation } from "../interface/Interface";
-import { BsArrowRightShort } from "react-icons/bs";
-import { BsArrowLeftShort } from "react-icons/bs";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { MdSpaceDashboard } from "react-icons/md";
 import { MdOutlineInventory2 } from "react-icons/md";
 import { SiWebcomponentsdotorg } from "react-icons/si";
@@ -21,12 +21,12 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
     },
   ];
   return (
-    <div className="bg-purple-700 min-h-screen text-white relative">
+    <div className="bg-indigo-500 min-h-screen text-white relative">
       <div
-        className="absolute text-3xl -right-3 top-9 rounded-full bg-white text-purple-700 border border-purple-700"
+        className="absolute text-2xl -right-4 top-20 rounded-full bg-white text-indigo-500 drop-shadow-lg p-1" 
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? <BsArrowLeftShort /> : <BsArrowRightShort />}
+        {isOpen ? <MdOutlineKeyboardArrowLeft /> : <MdOutlineKeyboardArrowRight />}
       </div>
       <div className="inline-flex items-center p-5 pt-8">
         <span className="text-2xl">
@@ -46,7 +46,7 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
           return (
             <li
               key={index}
-              className="flex text-gray-300 text-sm p-2 cursor-pointer gap-x-4 rounded-md mt-2 hover:bg-purple-500"
+              className="flex text-gray-300 text-sm p-2 cursor-pointer gap-x-4 rounded-md mt-2 hover:bg-indigo-300"
             >
               <a href={menu.link} className="flex items-center gap-x-5">
                 <span className="text-2xl">{menu.icon}</span>

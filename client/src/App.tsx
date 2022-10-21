@@ -36,15 +36,15 @@ const App = () => {
 
   return (
     <div className="flex flex-row min-h-full">
-      <div className={`flex-none ${isOpen ? "w-72" :"w-16"} duration-300`}>
+      <div className={`flex-none ${isOpen ? "w-60" :"w-16"} duration-300`}>
         <Navigation setIsOpen={setIsOpen} isOpen={isOpen}/>
       </div>
-      <div className="flex-auto">
+      <div className="flex-auto bg-slate-100">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/*" element={<Home />} />
-          <Route path="/inventoy" element={<Inventory />} />
+          <Route path="/inventory" element={<Inventory />} />
           <Route path="/retailer" element={<Retailer />} />
           <Route path="/reseller" element={<Reseller />} />
           <Route path="/expensive" element={<Expensive />} />

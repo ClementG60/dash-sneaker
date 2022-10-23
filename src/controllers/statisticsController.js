@@ -118,7 +118,7 @@ const getSums = async (req, res) => {
               $expr: { $eq: [{ $year: date }, Number(req.params.year)] },
             },
           },
-          { $group: { _id: null, totalAmount: { $sum: price } } },
+          { $group: { _id: null, sum: { $sum: price } } },
         ]
       : {
           $expr: { $eq: ["$sold", true] },

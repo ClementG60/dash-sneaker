@@ -4,15 +4,16 @@ import FormSneaker from "./Form/FormSneaker";
 
 const Modal = ({ setOpenModal }: IModal) => {
   return (
-    <div className="fixed z-10 bg-transparent/75 mx-auto p-6 top-0 left-0 h-full w-full">
-      <div className="bg-white w-5/6 h-1/2 opacity-100 mx-auto p-2 h-auto">
+    <div className="fixed z-10 bg-transparent/50 mx-auto p-6 top-0 left-0 h-full w-full">
+      <div className="bg-slate-100 w-5/6 h-1/2 opacity-100 mx-auto p-6 h-auto rounded-xl">
         <div
-          className="cursor-pointer text-right mb-3"
+          className="cursor-pointer flex flex-row-reverse mb-3"
           onClick={() => {
             setOpenModal(false);
           }}
         >
-          <CloseIcon />
+          <span className="p-1 rounded-md flex bg-zinc-200 hover:scale-110 duration-300"><CloseIcon className=""/></span>
+          
         </div>
         <FormSneaker update={true}/>
       </div>

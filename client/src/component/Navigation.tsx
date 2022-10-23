@@ -28,7 +28,7 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
       >
         {isOpen ? <MdOutlineKeyboardArrowLeft /> : <MdOutlineKeyboardArrowRight />}
       </div>
-      <div className="inline-flex items-center p-5 pt-8">
+      <div className="flex items-center p-5 pt-8">
         <span className="text-2xl">
           <MdSpaceDashboard />
         </span>

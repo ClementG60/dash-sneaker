@@ -1,7 +1,6 @@
 import axios from "axios";
 import { ISite, ISneaker } from "../interface/Interface";
 import { dateParser } from "./Utils";
-import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import DriveFileRenameOutlineTwoToneIcon from "@mui/icons-material/DriveFileRenameOutlineTwoTone";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -9,9 +8,9 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { deleteSneaker } from "../feature/sneakersSlice";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import FormSneaker from "./Form/FormSneaker";
 import Modal from "./Modal";
-
+import { FaTrash } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 const SneakerInventory = () => {
   const sneakers = useAppSelector((state) => state.sneakers.sneakers);
   const websites = useAppSelector((state) => state.websites.websites);
@@ -20,7 +19,7 @@ const SneakerInventory = () => {
   );
   const dispatch = useAppDispatch();
 
-  const [openFormSneaker, setOpenFormSneaker] = useState<boolean>(false);
+  const [openFormAddSneaker, setOpenFormAddSneaker] = useState<boolean>(false);
   const [updateSneaker, setUpdateSneaker] = useState<boolean>(false);
 
   const ths: Array<string> = [
@@ -84,10 +83,10 @@ const SneakerInventory = () => {
     <>
       <div className="mx-12 mb-5 flex justify-between">
         <button
-          className="bg-indigo-500 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setOpenFormSneaker(!openFormSneaker)}
+          className="flex bg-indigo-500 text-white font-bold rounded my-auto hover:rotate-180 duration-300 cursor-pointer"
+          onClick={() => setOpenFormAddSneaker(!openFormAddSneaker)}
         >
-          Ajouter une paire
+          <AddIcon/>
         </button>
         <input
           type="text"
@@ -97,27 +96,20 @@ const SneakerInventory = () => {
           onChange={(e) => handleSearchTerm(e)}
         />
       </div>
-
-      {openFormSneaker && (
-        <div className="mx-auto w-10/12 duration-300">
-          <FormSneaker update={true} />
-        </div>
-      )}
-
       <div>
-        <table className="border-collapse table-auto w-11/12 text-sm text-center">
-          <thead>
+        <table className="border-collapse table-auto w-11/12 text-center mx-auto">
+          <thead className="bg-slate-200 rounded-lg uppercase text-xs tracking-wide">
             <tr>
               {ths.map((th: string, index: number) => {
-                return <th key={index}>{th}</th>;
+                return <th key={index} className="py-4 text-slate-400">{th}</th>;
               })}
             </tr>
           </thead>
           <tbody>
             {sneakers.map((sneaker: ISneaker, index: number) => {
               return (
-                <tr key={index}>
-                  <td>{sneaker.name}</td>
+                <tr key={index} className="border-b text-sm text-indigo-900 font-medium">
+                  <td className="py-4">{sneaker.name}</td>
                   <td>{sneaker.size}</td>
                   <td>
                     {websites?.map((website: ISite) => {
@@ -138,19 +130,19 @@ const SneakerInventory = () => {
                   </td>
                   <td>{sneaker.sold ? sneaker.resellPrice : ""}</td>
                   <td>{sneaker.sold ? dateParser(sneaker.sellingDate) : ""}</td>
-                  <td className="flex justify-around">
+                  <td className="flex justify-around py-4">
                     <div
-                      className="cursor-pointer"
+                      className="cursor-pointer text-lg"
                       onClick={() => setUpdateSneaker(!updateSneaker)}
                     >
-                      <DriveFileRenameOutlineTwoToneIcon />
+                      <FaPen />
                       <ToastContainer />
                     </div>
                     <div
-                      className="cursor-pointer"
+                      className="cursor-pointer text-lg"
                       onClick={() => handleDeleteSneaker(sneaker._id)}
                     >
-                      <DeleteForeverTwoToneIcon />
+                      <FaTrash />
                       <ToastContainer />
                     </div>
                   </td>
@@ -159,7 +151,7 @@ const SneakerInventory = () => {
             })}
           </tbody>
         </table>
-        {updateSneaker && <Modal setOpenModal={setUpdateSneaker} />}
+        {openFormAddSneaker && <Modal setOpenModal={setOpenFormAddSneaker} />}
       </div>
     </>
   );

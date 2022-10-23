@@ -18,7 +18,7 @@ const GetSites = ({ type }: IGetSites) => {
             return (
               <li
                 key={index}
-                className="p-3 bg-gradient-to-r from-purple-300 to-purple-200 font-bold text-slate-50 rounded-br-lg rounded-tl-lg transition ease-in-out hover:scale-110 duration-300"
+                className="p-3 bg-gradient-to-r from-indigo-500 to-indigo-400 font-bold text-slate-50 rounded-br-lg rounded-tl-lg transition ease-in-out hover:scale-110 duration-300"
               >
                 {site.name}
               </li>

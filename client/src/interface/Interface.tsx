@@ -28,6 +28,12 @@ export interface INavigation {
   isOpen: boolean;
 }
 
+export interface ICardBooking {
+  title: string,
+  sum: number,
+  lastSumMonth: number,
+}
+
 export interface IFormSneaker {
   update: boolean;
 }

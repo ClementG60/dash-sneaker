@@ -87,7 +87,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
       onSubmit={(e) => handleSneaker(e)}
     >
       <div className="flex items-center w-full">
-        <label htmlFor="name" className="text-indigo-500 font-bold pr-4 w-1/3">
+        <label htmlFor="name" className="text-indigo-500 font-medium pr-4 w-1/3">
           Paire
         </label>
         <input
@@ -99,7 +99,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
         />
       </div>
       <div className="flex items-center w-full">
-        <label htmlFor="size" className="text-indigo-500 font-bold pr-4 w-1/3">
+        <label htmlFor="size" className="text-indigo-500 font-medium pr-4 w-1/3">
           Taille
         </label>
         <select
@@ -122,7 +122,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
       <div className="flex items-center w-full">
         <label
           htmlFor="buyingPrice"
-          className="text-indigo-500 font-bold pr-4 w-1/3"
+          className="text-indigo-500 font-medium pr-4 w-1/3"
         >
           Prix d'achat
         </label>
@@ -137,7 +137,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
       <div className="flex items-center w-full">
         <label
           htmlFor="buyingDate"
-          className="text-indigo-500 font-bold pr-4 w-1/3"
+          className="text-indigo-500 font-medium pr-4 w-1/3"
         >
           Date d'achat
         </label>
@@ -153,7 +153,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
       <div className="flex items-center w-full">
         <label
           htmlFor="website"
-          className="text-indigo-500 font-bold pr-4 w-1/3"
+          className="text-indigo-500 font-medium pr-4 w-1/3"
         >
           Site
         </label>
@@ -176,13 +176,13 @@ const FormSneaker = ({ update }: IFormSneaker) => {
         </select>
       </div>
       <div className="flex items-center w-full">
-        <label htmlFor="sold" className="text-indigo-500 font-bold pr-4 w-1/3">
+        <label htmlFor="sold" className="text-indigo-500 font-medium pr-4 w-1/3">
           Vendu ?
         </label>
         <select
           name="sold"
           id="sold"
-          className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
+          className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
           onChange={(e) => setSold(e.target.value)}
           defaultValue=""
           ref={selectSold}
@@ -197,7 +197,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
           <div className="flex items-center w-full">
             <label
               htmlFor="sellingPrice"
-              className="text-indigo-500 font-bold pr-4 w-1/3"
+              className="text-indigo-500 font-medium pr-4 w-1/3"
             >
               Prix de vente
             </label>
@@ -212,7 +212,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
           <div className="flex items-center w-full">
             <label
               htmlFor="sellingDate"
-              className="text-indigo-500 font-bold pr-4 w-1/3"
+              className="text-indigo-500 font-medium pr-4 w-1/3"
             >
               Date de vente
             </label>
@@ -227,7 +227,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
           <div className="flex items-center w-full">
             <label
               htmlFor="resellWebsite"
-              className="w-1/3 text-indigo-500 font-bold pr-4"
+              className="w-1/3 text-indigo-500 font-medium pr-4"
             >
               Site
             </label>
@@ -252,7 +252,7 @@ const FormSneaker = ({ update }: IFormSneaker) => {
       <input
         type="submit"
         value="Ajouter"
-        className="cursor-pointer col-span-2 mt-3 rounded-md bg-gradient-to-r from-purple-300 to-purple-200 text-white w-1/6 mx-auto py-3 text-md hover:font-bold"
+        className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md hover:bg-indigo-400"
       />
     </form>
   );

@@ -84,10 +84,9 @@ const SneakerInventory = () => {
     <>
       <div className="mx-12 mb-5 flex justify-between">
         <button
-          className="bg-purple-700 text-white font-bold p-3 flex items-center"
+          className="bg-indigo-500 text-white font-bold py-2 px-4 rounded"
           onClick={() => setOpenFormSneaker(!openFormSneaker)}
         >
-          <AddIcon />
           Ajouter une paire
         </button>
         <input
@@ -100,7 +99,7 @@ const SneakerInventory = () => {
       </div>
 
       {openFormSneaker && (
-        <div className="mx-auto w-10/12 transition ease">
+        <div className="mx-auto w-10/12 duration-300">
           <FormSneaker update={true} />
         </div>
       )}
@@ -126,7 +125,7 @@ const SneakerInventory = () => {
                         return website.name;
                     })}
                   </td>
-                  <td>{sneaker.buyingPrice}</td>
+                  <td>{sneaker.buyingPrice} €</td>
                   <td>{dateParser(sneaker.buyingDate)}</td>
                   <td>{sneaker.sold ? "Oui" : "Non"}</td>
                   <td>

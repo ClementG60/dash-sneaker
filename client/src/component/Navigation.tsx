@@ -21,7 +21,7 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
     },
   ];
   return (
-    <div className="bg-indigo-500 min-h-screen text-white relative">
+    <div className="bg-indigo-500 min-h-screen text-white relative rounded-r-xl">
       <div
         className="absolute text-2xl -right-4 top-20 rounded-full bg-white text-indigo-500 drop-shadow-lg p-1" 
         onClick={() => setIsOpen(!isOpen)}
@@ -46,7 +46,7 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
           return (
             <li
               key={index}
-              className="flex text-gray-300 text-sm p-2 cursor-pointer gap-x-4 rounded-md mt-2 hover:bg-indigo-300"
+              className="flex text-gray-300 text-sm p-2 cursor-pointer gap-x-4 rounded-md mt-2 hover:bg-indigo-400"
             >
               <a href={menu.link} className="flex items-center gap-x-5">
                 <span className="text-2xl">{menu.icon}</span>

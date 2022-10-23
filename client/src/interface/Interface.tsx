@@ -50,3 +50,14 @@ export interface IExpensive {
 export interface IExpensiveState {
   expensives: Array<IExpensive>;
 }
+
+export interface InputGroupProps {
+  label?: string;
+  placeholder?: string;
+  value: string;
+  onChangeText: (value: string) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
+  error?: boolean;
+  errorDetails?: string;
+};

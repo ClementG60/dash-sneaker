@@ -83,29 +83,29 @@ const FormSneaker = ({ update }: IFormSneaker) => {
   return (
     <form
       action=""
-      className="grid grid-cols-2 gap-2"
+      className="grid grid-cols-3 gap-6 text-center"
       onSubmit={(e) => handleSneaker(e)}
     >
-      <div className="flex flex-col">
-        <label htmlFor="name" className="text-purple-300 py-2">
+      <div className="flex items-center w-full">
+        <label htmlFor="name" className="text-indigo-500 font-bold pr-4 w-1/3">
           Paire
         </label>
         <input
           type="text"
           name="name"
           id="name"
-          className="py-2 px-2 border text-zinc-500 rounded-md focus:outline-none focus:border-purple-300 focus:border-2"
+          className="bg-gray-200 text-gray-700 appearance-none rounded border-2 border-gray-200 w-2/3 h-full py-2 px-4 leading-tight focus:border-indigo-500 focus:outline-none focus:bg-white"
           ref={inputName}
         />
       </div>
-      <div className="flex flex-col">
-        <label htmlFor="size" className="text-purple-300 py-2">
+      <div className="flex items-center w-full">
+        <label htmlFor="size" className="text-indigo-500 font-bold pr-4 w-1/3">
           Taille
         </label>
         <select
           name="size"
           id="size"
-          className="py-2 px-2 border text-zinc-500 rounded-md focus:outline-none focus:border-purple-300 focus:border-2"
+          className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
           defaultValue=""
           ref={selectSize}
         >
@@ -119,39 +119,48 @@ const FormSneaker = ({ update }: IFormSneaker) => {
           })}
         </select>
       </div>
-      <div className="flex flex-col">
-        <label htmlFor="buyingPrice" className="text-purple-300 py-2">
+      <div className="flex items-center w-full">
+        <label
+          htmlFor="buyingPrice"
+          className="text-indigo-500 font-bold pr-4 w-1/3"
+        >
           Prix d'achat
         </label>
         <input
           type="text"
           name="buyingPrice"
           id="buyingPrice"
-          className="py-2 px-2 border text-zinc-500 rounded-md focus:outline-none focus:border-purple-300 focus:border-2"
+          className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
           ref={inputBuyingPrice}
         />
       </div>
-      <div className="flex flex-col">
-        <label htmlFor="buyingDate" className="text-purple-300 py-2">
+      <div className="flex items-center w-full">
+        <label
+          htmlFor="buyingDate"
+          className="text-indigo-500 font-bold pr-4 w-1/3"
+        >
           Date d'achat
         </label>
         <input
           type="date"
           name="buyingDate"
           id="buyingDate"
-          className="py-2 px-2 border text-zinc-500 rounded-md focus:outline-none focus:border-purple-300 focus:border-2"
+          className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
           defaultValue={moment().format("YYYY-MM-DD")}
           ref={inputBuyingDate}
         />
       </div>
-      <div className="flex flex-col">
-        <label htmlFor="website" className="text-purple-300 py-2">
+      <div className="flex items-center w-full">
+        <label
+          htmlFor="website"
+          className="text-indigo-500 font-bold pr-4 w-1/3"
+        >
           Site
         </label>
         <select
           name="website"
           id="website"
-          className="py-2 px-2 border text-zinc-500 rounded-md focus:outline-none focus:border-purple-300 focus:border-2"
+          className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
           defaultValue=""
           ref={selectWebsiteId}
         >
@@ -166,14 +175,14 @@ const FormSneaker = ({ update }: IFormSneaker) => {
             })}
         </select>
       </div>
-      <div className="flex flex-col">
-        <label htmlFor="sold" className="text-purple-300 py-2">
+      <div className="flex items-center w-full">
+        <label htmlFor="sold" className="text-indigo-500 font-bold pr-4 w-1/3">
           Vendu ?
         </label>
         <select
           name="sold"
           id="sold"
-          className="py-2 px-2 border text-zinc-500 rounded-md focus:outline-none focus:border-purple-300 focus:border-2"
+          className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
           onChange={(e) => setSold(e.target.value)}
           defaultValue=""
           ref={selectSold}
@@ -185,38 +194,47 @@ const FormSneaker = ({ update }: IFormSneaker) => {
       </div>
       {sold === "true" && (
         <>
-          <div className="flex flex-col">
-            <label htmlFor="sellingPrice" className="text-purple-300 py-2">
+          <div className="flex items-center w-full">
+            <label
+              htmlFor="sellingPrice"
+              className="text-indigo-500 font-bold pr-4 w-1/3"
+            >
               Prix de vente
             </label>
             <input
               type="text"
               name="sellingPrice"
               id="sellingPrice"
-              className="py-2 px-2 border text-zinc-500 rounded-md focus:outline-none focus:border-purple-300 focus:border-2"
+              className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
               ref={inputResellPrice}
             />
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="sellingDate" className="text-purple-300 py-2">
+          <div className="flex items-center w-full">
+            <label
+              htmlFor="sellingDate"
+              className="text-indigo-500 font-bold pr-4 w-1/3"
+            >
               Date de vente
             </label>
             <input
               type="date"
               name="sellingDate"
               id="sellingDate"
-              className="py-2 px-2 border text-zinc-500 rounded-md focus:outline-none focus:border-purple-300 focus:border-2"
+              className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
               ref={inputSellingDate}
             />
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="resellWebsite" className="text-purple-300 py-2">
+          <div className="flex items-center w-full">
+            <label
+              htmlFor="resellWebsite"
+              className="w-1/3 text-indigo-500 font-bold pr-4"
+            >
               Site
             </label>
             <select
               name="resellWebsite"
               id="resellWebsite"
-              className="py-2 px-2 border text-zinc-500 rounded-md focus:outline-none focus:border-purple-300 focus:border-2"
+              className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
               ref={selectResellWebsiteId}
             >
               {resellWebsites &&

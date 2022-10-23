@@ -7,6 +7,7 @@ const addExpensive = async (req, res) => {
     name: req.body.name,
     type: req.body.type,
     price: req.body.price,
+    date: req.body.date,
   });
 
   try {

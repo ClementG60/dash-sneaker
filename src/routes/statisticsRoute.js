@@ -3,8 +3,7 @@ import {
   getBuyingStats,
   getSalesStats,
   getExpensivesStats,
-  getExpensivesSum,
-  getExpensives
+  getSums
 } from "../controllers/statisticsController.js";
 const router = express.Router();
 /*
@@ -15,6 +14,5 @@ router.get("/sales", getAllSales);
 router.get("/get-sales-stats/:type?/:year?/:month?", getSalesStats);
 router.get("/get-buying-stats/:type?/:year?/:month?", getBuyingStats);
 router.get("/get-expensives-stats/:type?/:year?/:month?", getExpensivesStats);
-router.get("/get-expensives-sum/:type?/:year?/:month?", getExpensivesSum);
-router.get("/get-expensives-sum/:year", getExpensives);
+router.get("/get-sums/:data/:type?/:year?/:month?", getSums);
 export default router;

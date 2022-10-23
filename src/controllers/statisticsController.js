@@ -77,30 +77,48 @@ const getExpensivesStats = async (req, res) => {
   res.status(200).json(sales);
 };
 
-const getExpensivesSum = async (req, res) => {
-  const sales = await ExpensivesModel.aggregate(
+const getSums = async (req, res) => {
+  const model =
+    req.params.data === "expensives" ? ExpensivesModel : SneakerModel;
+  const date =
+    req.params.data === "sneakersBuying"
+      ? "$buyingDate"
+      : req.params.data === "sneakersSelling"
+      ? "$sellingDate"
+      : "$date";
+
+  const price =  req.params.data === "sneakersBuying"
+  ? "$buyingPrice"
+  : req.params.data === "sneakersSelling"
+  ? "$resellPrice"
+  : "$price";
+  const sales = await model.aggregate(
     req.params.type === "month"
       ? [
           {
             $match: {
               $and: [
-                { $expr: { $eq: [{ $year: "$date" }, Number(req.params.year)] } },
                 {
-                  $expr: { $eq: [{ $month: "$date" }, Number(req.params.month)] },
+                  $expr: { $eq: [{ $year: date }, Number(req.params.year)] },
+                },
+                {
+                  $expr: {
+                    $eq: [{ $month: date }, Number(req.params.month)],
+                  },
                 },
               ],
             },
           },
-          { $group: { _id: null, sum: { $sum: "$price" } } },
+          { $group: { _id: null, sum: { $sum: price } } },
         ]
       : req.params.type === "year"
       ? [
           {
             $match: {
-              $expr: { $eq: [{ $year: "$date" }, Number(req.params.year)] },
+              $expr: { $eq: [{ $year: date }, Number(req.params.year)] },
             },
           },
-          { $group: { _id: null, totalAmount: { $sum: "$price" } } },
+          { $group: { _id: null, totalAmount: { $sum: price } } },
         ]
       : {
           $expr: { $eq: ["$sold", true] },
@@ -109,29 +127,9 @@ const getExpensivesSum = async (req, res) => {
   res.status(200).json(sales);
 };
 
-const getExpensives = async (req, res) => {
-  const year = req.params.year;
-  console.log(year);
-  const sales = await ExpensivesModel.aggregate([
-    {
-      $match: {
-        $and: [
-          { $expr: { $eq: [{ $year: "$date" }, Number(req.params.year)] } },
-          {
-            $expr: { $eq: [{ $month: "$date" }, 10] },
-          },
-        ],
-      },
-    },
-    { $group: { _id: null, sum: { $sum: "$price" } } },
-  ]);
-  res.status(200).json(sales);
-};
-
 export {
   getSalesStats,
   getBuyingStats,
   getExpensivesStats,
-  getExpensivesSum,
-  getExpensives,
+  getSums
 };

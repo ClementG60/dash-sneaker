@@ -23,13 +23,15 @@ const Home = () => {
       url: `${process.env.REACT_APP_URL_API}statistics/get-sums/expensives/month/${currentYear}/${currentMonth}`,
     }).then((res) => {
       setMonthExpensives(res.data[0].sum);
+      console.log(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}statistics/get-sums/expensives/month/${pastYear}/${pastYear}`,
+      url: `${process.env.REACT_APP_URL_API}statistics/get-sums/expensives/month/${pastYear}/${pastMonth}`,
     }).then((res) => {
       setLastMonthExpensives(res.data[0].sum);
+      console.log(res.data[0].sum);
     });
 
     axios({

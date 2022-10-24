@@ -12,6 +12,7 @@ const expensivesSchema = new mongoose.Schema(
         },
         price: {
             type: Number,
+            required: true,
         },
         date: {
             type: Date,

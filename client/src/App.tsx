@@ -11,6 +11,7 @@ import { setResellWebsites } from "./feature/resellWebsitesSlice";
 import { setWebsites } from "./feature/websitesSlice";
 import Expensive from "./page/Expensive";
 import Inventory from "./page/Inventory";
+import { setExpensives } from "./feature/expensiveSlice";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -32,30 +33,34 @@ const App = () => {
       method: "get",
       url: `${process.env.REACT_APP_URL_API}website/get-websites`,
     }).then((res) => dispatch(setWebsites(res.data)));
+
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_URL_API}expensive/get-expensives`,
+    }).then((res) => dispatch(setExpensives(res.data)));
   }, []);
 
   return (
     <div className="bg-slate-100">
-    <div className="flex flex-row min-h-full">
-      <div className={`flex-none ${isOpen ? "w-60" : "w-16"} duration-300`}>
-        <Navigation setIsOpen={setIsOpen} isOpen={isOpen} />
-      </div>
-      <div className="flex-auto">
-        <div className="mt-4">
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/*" element={<Home />} />
-              <Route path="/inventory" element={<Inventory />} />
-              <Route path="/retailer" element={<Retailer />} />
-              <Route path="/reseller" element={<Reseller />} />
-              <Route path="/expensive" element={<Expensive />} />
-            </Routes>
-          </BrowserRouter>
+      <div className="flex flex-row min-h-full">
+        <div className={`flex-none ${isOpen ? "w-60" : "w-16"} duration-300`}>
+          <Navigation setIsOpen={setIsOpen} isOpen={isOpen} />
+        </div>
+        <div className="flex-auto">
+          <div className="mt-4">
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/*" element={<Home />} />
+                <Route path="/inventory" element={<Inventory />} />
+                <Route path="/retailer" element={<Retailer />} />
+                <Route path="/reseller" element={<Reseller />} />
+                <Route path="/expensive" element={<Expensive />} />
+              </Routes>
+            </BrowserRouter>
+          </div>
         </div>
       </div>
-    </div>
-
     </div>
   );
 };

@@ -22,6 +22,7 @@ export interface ISneaker {
 
 export interface IModal {
   setOpenModal: (value: boolean) => void;
+  type: string;
 }
 export interface INavigation {
   setIsOpen: (value: boolean) => void;
@@ -51,6 +52,7 @@ export interface IExpensive {
   name: string;
   type: string;
   price: number;
+  date: string;
 }
 
 export interface IExpensiveState {

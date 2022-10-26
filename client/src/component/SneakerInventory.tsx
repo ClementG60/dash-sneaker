@@ -151,7 +151,7 @@ const SneakerInventory = () => {
             })}
           </tbody>
         </table>
-        {openFormAddSneaker && <Modal setOpenModal={setOpenFormAddSneaker} />}
+        {openFormAddSneaker && <Modal setOpenModal={setOpenFormAddSneaker} type={"sneakers"}/>}
       </div>
     </>
   );

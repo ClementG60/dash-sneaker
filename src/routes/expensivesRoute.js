@@ -3,7 +3,7 @@ import { addExpensive, deleteExpensive, getExpensives } from "../controllers/exp
 const router = express.Router();
 
 router.get("/get-expensives", getExpensives);
-router.post("/add-expensive", addExpensive);
-router.delete("/delete-expensive/:id", deleteExpensive);
+router.post("/add", addExpensive);
+router.delete("/delete/:id", deleteExpensive);
 
 export default router;

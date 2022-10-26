@@ -5,7 +5,7 @@ import { addSneaker, setSneakers } from "../../feature/sneakersSlice";
 import moment from "moment";
 import { IFormSneaker } from "../../interface/Interface";
 
-const FormSneaker = ({ update }: IFormSneaker) => {
+const FormSneaker = () => {
   const inputName = useRef<HTMLInputElement | null>(null);
   const selectSize = useRef<HTMLSelectElement | null>(null);
   const inputBuyingPrice = useRef<HTMLInputElement | null>(null);

@@ -21,7 +21,7 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
     },
   ];
   return (
-    <div className="bg-indigo-500 min-h-screen text-white relative rounded-r-xl">
+    <aside className="bg-indigo-500 min-h-screen text-white relative rounded-r-xl">
       <div
         className="absolute text-2xl -right-4 top-20 rounded-full bg-white text-indigo-500 drop-shadow-lg p-1" 
         onClick={() => setIsOpen(!isOpen)}
@@ -58,7 +58,7 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
           );
         })}
       </ul>
-    </div>
+    </aside>
   );
 };
 

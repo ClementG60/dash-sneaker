@@ -108,7 +108,7 @@ const FormExpensive = () => {
           ref={inputDate}
         />
       </div>
-      <div className="flex mx-auto">
+      <div className="flex mx-auto ">
       <input
         type="submit"
         value="Ajouter"

@@ -50,8 +50,8 @@ const App = () => {
           <div className="mt-4">
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/*" element={<Home />} />
+                <Route path="/" element={<Home isOpen={isOpen} />} />
+                <Route path="/*" element={<Home isOpen={isOpen}/>} />
                 <Route path="/inventory" element={<Inventory />} />
                 <Route path="/retailer" element={<Retailer />} />
                 <Route path="/reseller" element={<Reseller />} />

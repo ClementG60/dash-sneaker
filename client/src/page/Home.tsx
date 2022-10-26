@@ -2,8 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Statistics from "../component/Card/CardStatistics";
 import moment from "moment";
+import { IHome } from "../interface/Interface";
 
-const Home = () => {
+const Home = ({ isOpen }: IHome) => {
   const [monthExpensives, setMonthExpensives] = useState<number>();
   const [lastMonthExpensives, setLastMonthExpensives] = useState<number>();
   const [monthBuys, setMonthBuys] = useState<number>();
@@ -46,7 +47,6 @@ const Home = () => {
       url: `${process.env.REACT_APP_URL_API}statistics/get-sums/sneakersBuying/month/${pastYear}/${pastMonth}`,
     }).then((res) => {
       setLastMonthBuys(res.data[0].sum);
-  
     });
 
     axios({
@@ -61,7 +61,6 @@ const Home = () => {
       url: `${process.env.REACT_APP_URL_API}statistics/get-sums/sneakersSelling/month/${pastYear}/${pastMonth}`,
     }).then((res) => {
       setLastMonthSells(res.data[0].sum);
-
     });
   }, []);
   return (
@@ -75,6 +74,7 @@ const Home = () => {
             sum={monthExpensives}
             title={"Dépenses du mois"}
             lastSumMonth={lastMonthExpensives}
+            isOpen={isOpen}
           />
         </div>
       )}
@@ -83,6 +83,7 @@ const Home = () => {
           sum={monthBuys}
           title={"Achat du mois"}
           lastSumMonth={lastMonthBuys}
+          isOpen={isOpen}
         />
       )}
       {monthSells && lastMonthSells && (
@@ -90,6 +91,7 @@ const Home = () => {
           sum={monthSells}
           title={"Vente du mois"}
           lastSumMonth={lastMonthSells}
+          isOpen={isOpen}
         />
       )}
     </div>

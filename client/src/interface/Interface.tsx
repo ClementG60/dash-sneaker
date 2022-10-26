@@ -29,10 +29,15 @@ export interface INavigation {
   isOpen: boolean;
 }
 
+export interface IHome {
+  isOpen: boolean;
+}
+
 export interface ICardBooking {
-  title: string,
-  sum: number,
-  lastSumMonth: number,
+  title: string;
+  sum: number;
+  lastSumMonth: number;
+  isOpen: boolean;
 }
 
 export interface IFormSneaker {
@@ -68,4 +73,4 @@ export interface InputGroupProps {
   onFocus?: () => void;
   error?: boolean;
   errorDetails?: string;
-};
+}

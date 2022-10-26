@@ -32,7 +32,7 @@ const SneakerInventory = () => {
     "Site de vente",
     "Prix de vente",
     "Date de vente",
-    "Actions",
+    "",
   ];
 
   const handleDeleteSneaker = (id: string) => {
@@ -54,7 +54,7 @@ const SneakerInventory = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error("La paire n'a pas été supprimé.", {
+        toast.error("Une erreur est survenue. Veuillez recommencez.", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -108,7 +108,7 @@ const SneakerInventory = () => {
           <tbody>
             {sneakers.map((sneaker: ISneaker, index: number) => {
               return (
-                <tr key={index} className="border-b text-sm text-indigo-900 font-medium">
+                <tr key={index} className="border-b text-xs text-indigo-900 font-medium">
                   <td className="py-4">{sneaker.name}</td>
                   <td>{sneaker.size}</td>
                   <td>
@@ -131,13 +131,7 @@ const SneakerInventory = () => {
                   <td>{sneaker.sold ? sneaker.resellPrice : ""}</td>
                   <td>{sneaker.sold ? dateParser(sneaker.sellingDate) : ""}</td>
                   <td className="flex justify-around py-4">
-                    <div
-                      className="cursor-pointer text-lg"
-                      onClick={() => setUpdateSneaker(!updateSneaker)}
-                    >
-                      <FaPen />
-                      <ToastContainer />
-                    </div>
+                    
                     <div
                       className="cursor-pointer text-lg"
                       onClick={() => handleDeleteSneaker(sneaker._id)}

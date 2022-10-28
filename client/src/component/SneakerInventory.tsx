@@ -5,13 +5,19 @@ import DriveFileRenameOutlineTwoToneIcon from "@mui/icons-material/DriveFileRena
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { deleteSneaker } from "../feature/sneakersSlice";
-import { useState } from "react";
+import { deleteSneaker, setSneakers } from "../feature/sneakersSlice";
+import { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "./Modal";
 import { FaTrash } from "react-icons/fa";
 import { FaPen } from "react-icons/fa";
+import moment from "moment";
+import "moment/dist/locale/fr";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+
 const SneakerInventory = () => {
+  moment.locale("fr");
   const sneakers = useAppSelector((state) => state.sneakers.sneakers);
   const websites = useAppSelector((state) => state.websites.websites);
   const resellWebsites = useAppSelector(
@@ -21,6 +27,7 @@ const SneakerInventory = () => {
 
   const [openFormAddSneaker, setOpenFormAddSneaker] = useState<boolean>(false);
   const [updateSneaker, setUpdateSneaker] = useState<boolean>(false);
+  const [date, setDate] = useState(moment());
 
   const ths: Array<string> = [
     "Paire",
@@ -79,6 +86,16 @@ const SneakerInventory = () => {
 
   const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {};
 
+  const year = moment(date).format("YYYY");
+  const month = moment(date).format("MM");
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_URL_API}sneaker/get-sneakers-by-month/${month}/${year}`,
+    }).then((res) => dispatch(setSneakers(res.data)));
+  }, [month, year]);
+
   return (
     <>
       <div className="mx-12 mb-5 flex justify-between">
@@ -86,29 +103,45 @@ const SneakerInventory = () => {
           className="flex bg-indigo-500 text-white font-bold rounded my-auto hover:rotate-180 duration-300 cursor-pointer"
           onClick={() => setOpenFormAddSneaker(!openFormAddSneaker)}
         >
-          <AddIcon/>
+          <AddIcon />
         </button>
-        <input
-          type="text"
-          name="searchBar"
-          id="searchBar"
-          placeholder="Rechercher"
-          onChange={(e) => handleSearchTerm(e)}
-        />
+        <div className="flex w-1/6 items-center justify-around">
+          <div className="flex mr-4 text-lg">
+            <span className="rounded hover:bg-slate-300 hover:scale-110">
+              <MdOutlineKeyboardArrowLeft
+                onClick={() => setDate(moment(date).subtract(1, "months"))}
+              />
+            </span>
+            <span
+              className="rounded hover:bg-slate-300 hover:scale-110 duration-300"
+              onClick={() => setDate(moment(date).add(1, "months"))}
+            >
+              <MdOutlineKeyboardArrowRight />
+            </span>
+          </div>
+          <p className="w-10/12">{date.format("MMMM YYYY")}</p>
+        </div>
       </div>
       <div>
         <table className="border-collapse table-auto w-11/12 text-center mx-auto">
           <thead className="bg-slate-200 rounded-lg uppercase text-xs tracking-wide">
             <tr>
               {ths.map((th: string, index: number) => {
-                return <th key={index} className="py-4 text-slate-400">{th}</th>;
+                return (
+                  <th key={index} className="py-4 text-slate-400">
+                    {th}
+                  </th>
+                );
               })}
             </tr>
           </thead>
           <tbody>
             {sneakers.map((sneaker: ISneaker, index: number) => {
               return (
-                <tr key={index} className="border-b text-xs text-indigo-900 font-medium">
+                <tr
+                  key={index}
+                  className="border-b text-xs text-indigo-900 font-medium"
+                >
                   <td className="py-4">{sneaker.name}</td>
                   <td>{sneaker.size}</td>
                   <td>
@@ -131,7 +164,6 @@ const SneakerInventory = () => {
                   <td>{sneaker.sold ? sneaker.resellPrice : ""}</td>
                   <td>{sneaker.sold ? dateParser(sneaker.sellingDate) : ""}</td>
                   <td className="flex justify-around py-4">
-                    
                     <div
                       className="cursor-pointer text-lg"
                       onClick={() => handleDeleteSneaker(sneaker._id)}
@@ -145,7 +177,9 @@ const SneakerInventory = () => {
             })}
           </tbody>
         </table>
-        {openFormAddSneaker && <Modal setOpenModal={setOpenFormAddSneaker} type={"sneakers"}/>}
+        {openFormAddSneaker && (
+          <Modal setOpenModal={setOpenFormAddSneaker} type={"sneakers"} />
+        )}
       </div>
     </>
   );

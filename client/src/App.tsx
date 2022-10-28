@@ -21,11 +21,6 @@ const App = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}sneaker/get-sneakers`,
-    }).then((res) => dispatch(setSneakers(res.data)));
-
-    axios({
-      method: "get",
       url: `${process.env.REACT_APP_URL_API}website/get-resell-websites`,
     }).then((res) => dispatch(setResellWebsites(res.data)));
 

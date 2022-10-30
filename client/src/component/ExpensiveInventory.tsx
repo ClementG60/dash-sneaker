@@ -12,6 +12,7 @@ import moment from "moment";
 import { setExpensives } from "../feature/expensiveSlice";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+import DateSelector from "./DateSelector";
 
 const ExpensiveInventory = () => {
   const expensives = useAppSelector((state) => state.expensives.expensives);
@@ -70,22 +71,7 @@ const ExpensiveInventory = () => {
         >
           <AddIcon />
         </button>
-        <div className="flex w-1/6 items-center justify-around">
-          <div className="flex mr-4 text-lg">
-            <span className="rounded hover:bg-slate-300 hover:scale-110 cursor-pointer">
-              <MdOutlineKeyboardArrowLeft
-                onClick={() => setDate(moment(date).subtract(1, "months"))}
-              />
-            </span>
-            <span
-              className="rounded hover:bg-slate-300 hover:scale-110 duration-300 cursor-pointer"
-              onClick={() => setDate(moment(date).add(1, "months"))}
-            >
-              <MdOutlineKeyboardArrowRight />
-            </span>
-          </div>
-          <p className="w-10/12">{date.format("MMMM YYYY")}</p>
-        </div>
+        <DateSelector date={date} setDate={setDate} />
       </div>
       <div>
         <table className="border-collapse table-auto w-10/12 text-center mx-auto">

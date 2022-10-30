@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export interface ISite {
   _id: string;
   name: string;
@@ -73,4 +75,9 @@ export interface InputGroupProps {
   onFocus?: () => void;
   error?: boolean;
   errorDetails?: string;
+}
+
+export interface IDateSelector {
+  date: moment.Moment;
+  setDate: React.Dispatch<React.SetStateAction<moment.Moment>>;
 }

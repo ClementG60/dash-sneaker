@@ -11,9 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "./Modal";
 import { FaTrash } from "react-icons/fa";
 import moment from "moment";
-import "moment/dist/locale/fr";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+import DateSelector from "./DateSelector";
 
 const SneakerInventory = () => {
   moment.locale("fr");
@@ -26,7 +24,7 @@ const SneakerInventory = () => {
 
   const [openFormAddSneaker, setOpenFormAddSneaker] = useState<boolean>(false);
   const [updateSneaker, setUpdateSneaker] = useState<boolean>(false);
-  const [date, setDate] = useState(moment());
+  const [date, setDate] = useState<moment.Moment>(moment());
 
   const ths: Array<string> = [
     "Paire",
@@ -102,22 +100,7 @@ const SneakerInventory = () => {
         >
           <AddIcon />
         </button>
-        <div className="flex w-1/6 items-center justify-around">
-          <div className="flex mr-4 text-lg">
-            <span className="rounded hover:bg-slate-300 hover:scale-110 cursor-pointer">
-              <MdOutlineKeyboardArrowLeft
-                onClick={() => setDate(moment(date).subtract(1, "months"))}
-              />
-            </span>
-            <span
-              className="rounded hover:bg-slate-300 hover:scale-110 duration-300 cursor-pointer"
-              onClick={() => setDate(moment(date).add(1, "months"))}
-            >
-              <MdOutlineKeyboardArrowRight />
-            </span>
-          </div>
-          <p className="w-10/12">{date.format("MMMM YYYY")}</p>
-        </div>
+        <DateSelector date={date} setDate={setDate} />
       </div>
       <div>
         <table className="border-collapse table-auto w-11/12 text-center mx-auto">

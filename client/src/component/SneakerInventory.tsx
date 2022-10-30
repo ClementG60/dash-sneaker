@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "./Modal";
 import { FaTrash } from "react-icons/fa";
-import { FaPen } from "react-icons/fa";
 import moment from "moment";
 import "moment/dist/locale/fr";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
@@ -84,8 +83,6 @@ const SneakerInventory = () => {
       progress: undefined,
     });*/
 
-  const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {};
-
   const year = moment(date).format("YYYY");
   const month = moment(date).format("MM");
 
@@ -107,13 +104,13 @@ const SneakerInventory = () => {
         </button>
         <div className="flex w-1/6 items-center justify-around">
           <div className="flex mr-4 text-lg">
-            <span className="rounded hover:bg-slate-300 hover:scale-110">
+            <span className="rounded hover:bg-slate-300 hover:scale-110 cursor-pointer">
               <MdOutlineKeyboardArrowLeft
                 onClick={() => setDate(moment(date).subtract(1, "months"))}
               />
             </span>
             <span
-              className="rounded hover:bg-slate-300 hover:scale-110 duration-300"
+              className="rounded hover:bg-slate-300 hover:scale-110 duration-300 cursor-pointer"
               onClick={() => setDate(moment(date).add(1, "months"))}
             >
               <MdOutlineKeyboardArrowRight />

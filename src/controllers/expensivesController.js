@@ -23,6 +23,18 @@ const getExpensives = async (req, res) => {
   res.status(200).json(expensives);
 };
 
+const getExpensivesByMonth = async (req, res) => {
+  const expensives = await ExpensivesModel.find({
+    $and: [
+      { $expr: { $eq: [{ $year: "$date" }, req.params.year] } },
+      {
+        $expr: { $eq: [{ $month: "$date" }, req.params.month] },
+      },
+    ],
+  }).select();
+  res.status(200).json(expensives);
+};
+
 const deleteExpensive = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).send("ID unknown");
@@ -34,4 +46,4 @@ const deleteExpensive = async (req, res) => {
   });
 };
 
-export { addExpensive, deleteExpensive, getExpensives };
+export { addExpensive, deleteExpensive, getExpensives, getExpensivesByMonth };

@@ -13,6 +13,7 @@ import Expensive from "./page/Expensive";
 import Inventory from "./page/Inventory";
 import { setExpensives } from "./feature/expensiveSlice";
 
+
 const App = () => {
   const dispatch = useAppDispatch();
 
@@ -28,11 +29,6 @@ const App = () => {
       method: "get",
       url: `${process.env.REACT_APP_URL_API}website/get-websites`,
     }).then((res) => dispatch(setWebsites(res.data)));
-
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_URL_API}expensive/get-expensives`,
-    }).then((res) => dispatch(setExpensives(res.data)));
   }, []);
 
   return (

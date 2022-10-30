@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import Modal from "./Modal";
@@ -8,10 +8,15 @@ import { IExpensive } from "../interface/Interface";
 import { dateParser } from "./Utils";
 import axios from "axios";
 import { deleteSneaker } from "../feature/sneakersSlice";
+import moment from "moment";
+import { setExpensives } from "../feature/expensiveSlice";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 
 const ExpensiveInventory = () => {
   const expensives = useAppSelector((state) => state.expensives.expensives);
   const [openFormExpensive, setOpenFormExpensive] = useState<boolean>(false);
+  const [date, setDate] = useState(moment());
   const dispatch = useAppDispatch();
 
   const ths: Array<string> = ["Nom", "Type", "Date", "Prix", ""];
@@ -46,6 +51,16 @@ const ExpensiveInventory = () => {
         });
       });
   };
+
+  const year = moment(date).format("YYYY");
+  const month = moment(date).format("MM");
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_URL_API}expensive/get-by-month/${month}/${year}`,
+    }).then((res) => dispatch(setExpensives(res.data)));
+  }, [month, year]);
   return (
     <>
       <div className="mx-12 mb-5 flex justify-between">
@@ -55,6 +70,22 @@ const ExpensiveInventory = () => {
         >
           <AddIcon />
         </button>
+        <div className="flex w-1/6 items-center justify-around">
+          <div className="flex mr-4 text-lg">
+            <span className="rounded hover:bg-slate-300 hover:scale-110 cursor-pointer">
+              <MdOutlineKeyboardArrowLeft
+                onClick={() => setDate(moment(date).subtract(1, "months"))}
+              />
+            </span>
+            <span
+              className="rounded hover:bg-slate-300 hover:scale-110 duration-300 cursor-pointer"
+              onClick={() => setDate(moment(date).add(1, "months"))}
+            >
+              <MdOutlineKeyboardArrowRight />
+            </span>
+          </div>
+          <p className="w-10/12">{date.format("MMMM YYYY")}</p>
+        </div>
       </div>
       <div>
         <table className="border-collapse table-auto w-10/12 text-center mx-auto">

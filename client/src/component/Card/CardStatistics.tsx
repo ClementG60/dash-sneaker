@@ -4,9 +4,10 @@ import { ICardBooking } from "../../interface/Interface";
 const CardStatistics = ({ sum, title, lastSumMonth, isOpen }: ICardBooking) => {
   return (
     <div
-      className={`bg-white rounded-[16px] w-6/12 md:${
-        isOpen ? "w-10/12" : "w-8/12"
-      } mx-auto mt-2 p-6 h-30 drop-shadow-xl hover:drop-shadow-2xl duration-300`}
+      className={`bg-white rounded-[16px] ${
+        isOpen ? "w-full" : "w-10/12"
+      } lg:${isOpen ? "w-10/12" : "w-8/12"} xl:w-8/12  
+      mx-auto mt-2 p-6 h-30 drop-shadow-xl hover:drop-shadow-2xl duration-300`}
     >
       <p className="text-lg font-bold">{title}</p>
       <div className="flex items-center mt-3">

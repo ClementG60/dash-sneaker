@@ -5,6 +5,11 @@ export interface ISite {
   name: string;
 }
 
+export interface IBrand {
+  _id: string;
+  name: string;
+}
+
 export interface IGetSites {
   type: string;
 }
@@ -52,6 +57,10 @@ export interface ISneakerState {
 
 export interface IWebsiteState {
   websites: Array<ISite>;
+}
+
+export interface IBrandState {
+  brands: Array<IBrand>;
 }
 
 export interface IExpensive {

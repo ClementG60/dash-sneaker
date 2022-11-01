@@ -6,13 +6,12 @@ import Home from "./page/Home";
 import { useAppDispatch } from "./app/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { setSneakers } from "./feature/sneakersSlice";
 import { setResellWebsites } from "./feature/resellWebsitesSlice";
 import { setWebsites } from "./feature/websitesSlice";
 import Expensive from "./page/Expensive";
 import Inventory from "./page/Inventory";
-import { setExpensives } from "./feature/expensiveSlice";
 import Brand from "./page/Brand";
+import { setBrands } from "./feature/brandsSlice";
 
 
 const App = () => {
@@ -30,6 +29,11 @@ const App = () => {
       method: "get",
       url: `${process.env.REACT_APP_URL_API}website/get-websites`,
     }).then((res) => dispatch(setWebsites(res.data)));
+
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_URL_API}brand/get`,
+    }).then((res) => dispatch(setBrands(res.data)));
   }, []);
 
   return (

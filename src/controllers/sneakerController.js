@@ -4,7 +4,9 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const addSneaker = async (req, res) => {
   const newSneaker = new SneakerModel({
-    name: req.body.name,
+    brandId: req.body.brandId,
+    model: req.body.model,
+    colorway: req.body.colorway,
     size: req.body.size,
     buyingPrice: req.body.buyingPrice,
     buyingDate: req.body.buyingDate,
@@ -47,7 +49,9 @@ const updateSneaker = async (req, res) => {
   }
 
   const updateSneaker = {
-    name: req.body.name,
+    brandId: req.body.brandId,
+    model: req.body.model,
+    colorway: req.body.colorway,
     size: req.body.size,
     buyingPrice: req.body.buyingPrice,
     buyingDate: req.body.buyingDate,

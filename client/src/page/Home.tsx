@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Statistics from "../component/Card/CardStatistics";
+import CardStatistics from "../component/Card/CardStatistics";
 import moment from "moment";
 import { IHome } from "../interface/Interface";
 
@@ -64,13 +64,13 @@ const Home = ({ isOpen }: IHome) => {
     });
   }, []);
   return (
-    <div className="grid grid-cols-3 gap-4 p-3">
+    <div className="grid grid-cols-3 gap-4 p-5">
       <h2 className="col-start-1 col-end-2 w-8/12 mx-auto font-bold text-xl">
         Récapitulatif du mois
       </h2>
       {monthExpensives && lastMonthExpensives && (
         <div className="col-start-1">
-          <Statistics
+          <CardStatistics
             sum={monthExpensives}
             title={"Dépenses du mois"}
             lastSumMonth={lastMonthExpensives}
@@ -79,7 +79,7 @@ const Home = ({ isOpen }: IHome) => {
         </div>
       )}
       {monthBuys && lastMonthBuys && (
-        <Statistics
+        <CardStatistics
           sum={monthBuys}
           title={"Achat du mois"}
           lastSumMonth={lastMonthBuys}
@@ -87,7 +87,7 @@ const Home = ({ isOpen }: IHome) => {
         />
       )}
       {monthSells && lastMonthSells && (
-        <Statistics
+        <CardStatistics
           sum={monthSells}
           title={"Vente du mois"}
           lastSumMonth={lastMonthSells}

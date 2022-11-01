@@ -5,7 +5,7 @@ import moment from "moment";
 
 const DateSelector = ({ date, setDate }: IDateSelector) => {
   return (
-    <div className="flex w-1/6 items-center justify-around">
+    <div className="flex w-3/12 items-center justify-end text-center">
       <div className="flex mr-4 text-lg">
         <span className="rounded hover:bg-slate-300 hover:scale-110 cursor-pointer">
           <MdOutlineKeyboardArrowLeft
@@ -19,7 +19,7 @@ const DateSelector = ({ date, setDate }: IDateSelector) => {
           <MdOutlineKeyboardArrowRight />
         </span>
       </div>
-      <p className="w-10/12">{date.format("MMMM YYYY")}</p>
+      <p className="w-6/12">{date.format("MMMM YYYY")}</p>
     </div>
   );
 };

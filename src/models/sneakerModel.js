@@ -2,7 +2,15 @@ import mongoose from "mongoose";
 
 const sneakerSchema = new mongoose.Schema(
     {
-        name: {
+        brandId: {
+            type: String,
+            required: true
+        },
+        model: {
+            type: String,
+            required: true
+        },
+        colorway: {
             type: String,
             required: true
         },

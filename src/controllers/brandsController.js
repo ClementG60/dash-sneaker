@@ -16,7 +16,7 @@ const addBrand = async (req, res) => {
 };
 
 const getBrands = async (req, res) => {
-  const brands = await BrandsModel.find().select();
+  const brands = await BrandsModel.find().sort({"name": 1}).select();
   res.status(200).json(brands);
 };
 

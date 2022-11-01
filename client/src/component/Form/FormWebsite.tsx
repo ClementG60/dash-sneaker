@@ -37,6 +37,7 @@ const AddWebsite = ({ type }: IGetSites) => {
             url: `${process.env.REACT_APP_URL_API}website/get-resell-websites`,
           }).then((res) => dispatch(setResellWebsites(res.data)));
         }
+        setWebsite("");
       })
       .catch((err) => console.log(err));
   };

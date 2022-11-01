@@ -16,7 +16,9 @@ export interface IGetSites {
 
 export interface ISneaker {
   _id: string;
-  name: string;
+  brandId: string;
+  model: string;
+  colorway: string;
   size: string;
   buyingPrice: string;
   buyingDate: string;

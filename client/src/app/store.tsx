@@ -3,13 +3,15 @@ import websitesReducer from "../feature/websitesSlice";
 import resellWebsitesReducer from "../feature/resellWebsitesSlice";
 import sneakersReducer from "../feature/sneakersSlice";
 import expensivesReducer from "../feature/expensiveSlice";
+import brandsReducer from "../feature/brandsSlice";
 
 const store = configureStore({
     reducer: {
         websites: websitesReducer,
         resellWebsites: resellWebsitesReducer,
         sneakers: sneakersReducer,
-        expensives: expensivesReducer
+        expensives: expensivesReducer,
+        brands: brandsReducer
     }
 })
 

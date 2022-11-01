@@ -3,20 +3,14 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import axios from "axios";
 import { addSneaker, setSneakers } from "../../feature/sneakersSlice";
 import moment from "moment";
-import { IFormSneaker } from "../../interface/Interface";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ISneaker } from "../../interface/Interface";
 
 const FormSneaker = () => {
-  const inputName = useRef<HTMLInputElement | null>(null);
-  const selectSize = useRef<HTMLSelectElement | null>(null);
-  const inputBuyingPrice = useRef<HTMLInputElement | null>(null);
-  const inputBuyingDate = useRef<HTMLInputElement | null>(null);
-  const selectWebsiteId = useRef<HTMLSelectElement | null>(null);
-  const selectSold = useRef<HTMLSelectElement | null>(null);
-  const inputSellingDate = useRef<HTMLInputElement | null>(null);
-  const inputResellPrice = useRef<HTMLInputElement | null>(null);
-  const selectResellWebsiteId = useRef<HTMLSelectElement | null>(null);
-  const [sold, setSold] = useState<string>();
   const websites = useAppSelector((state) => state.websites.websites);
+  const brands = useAppSelector((state) => state.brands.brands);
   const resellWebsites = useAppSelector(
     (state) => state.resellWebsites.websites
   );
@@ -53,61 +47,125 @@ const FormSneaker = () => {
     "51 EU",
   ];
 
-  const handleSneaker = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const validationSchema = yup.object({
+    brand: yup.string().required("Merci de remplir la marque."),
+    model: yup.string().required("Merci de remplir le modèle."),
+    colorway: yup.string().required("Merci de remplir la couleur."),
+    size: yup.string().required("Merci de remplir la taille."),
+    buyingPrice: yup.number().required("Merci de remplir le prix d'achat."),
+    buyingDate: yup.date().required("Merci de remplir la date d'achat."),
+    websiteId: yup.string().required("Merci de remplir le site d'achat."),
+    sold: yup
+      .boolean()
+      .required("Merci de remplir si la paire est vendu ou non."),
+    sellingDate: yup.date().when("sold", {
+      is: "true",
+      then:  yup.date().required("Merci de remplir la date de vente.")
+    }),
+    resellPrice:  yup.number().when("sold", {
+      is: "true",
+      then:   yup.number().required("Merci de remplir le prix de vente.")
+    }),
+    resellWebsiteId: yup
+      .string()
+      .when("sold", {
+        is: "true",
+        then:  yup.string().required("Merci de remplir le site de vente.")
+      })
+  });
 
-    const data = {
-      name: inputName.current?.value,
-      size: selectSize.current?.value,
-      buyingPrice: inputBuyingPrice.current?.value,
-      buyingDate: inputBuyingDate.current?.value,
-      websiteId: selectWebsiteId.current?.value,
-      sold: selectSold.current?.value,
-      sellingDate: inputSellingDate.current?.value,
-      resellPrice: inputResellPrice.current?.value,
-      resellWebsiteId: selectResellWebsiteId.current?.value,
-    };
-
+  const handleSneaker = (data: ISneaker) => {
     axios
-      .post(`${process.env.REACT_APP_URL_API}sneaker/add-sneaker`, data)
+      .post(`${process.env.REACT_APP_URL_API}sneaker/add`, data)
       .then((res) => {
         dispatch(addSneaker(data));
         axios({
           method: "get",
-          url: `${process.env.REACT_APP_URL_API}sneaker/get-sneakers`,
+          url: `${process.env.REACT_APP_URL_API}sneaker/get`,
         }).then((res) => dispatch(setSneakers(res.data)));
       })
       .catch((err) => console.log(err));
   };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ISneaker>({
+    resolver: yupResolver(validationSchema),
+  });
+
   return (
     <form
       action=""
       className="grid grid-cols-3 gap-6 text-center"
-      onSubmit={(e) => handleSneaker(e)}
+      onSubmit={handleSubmit(handleSneaker)}
     >
       <div className="flex items-center w-full">
-        <label htmlFor="name" className="text-indigo-500 font-medium pr-4 w-1/3">
-          Paire
+        <label
+          htmlFor="brand"
+          className="text-indigo-500 font-medium pr-4 w-1/3"
+        >
+          Marque
+        </label>
+        <select
+          id="brand"
+          className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
+          defaultValue=""
+          {...register("brandId")}
+        >
+          <option disabled value=""></option>
+          {brands &&
+            brands.map((brand, index) => {
+              return (
+                <option key={index} value={brand._id}>
+                  {brand.name}
+                </option>
+              );
+            })}
+        </select>
+      </div>
+      <div className="flex items-center w-full">
+        <label
+          htmlFor="name"
+          className="text-indigo-500 font-medium pr-4 w-1/3"
+        >
+          Modèle
         </label>
         <input
           type="text"
-          name="name"
           id="name"
           className="bg-gray-200 text-gray-700 appearance-none rounded border-2 border-gray-200 w-2/3 h-full py-2 px-4 leading-tight focus:border-indigo-500 focus:outline-none focus:bg-white"
-          ref={inputName}
+          {...register("model")}
         />
       </div>
       <div className="flex items-center w-full">
-        <label htmlFor="size" className="text-indigo-500 font-medium pr-4 w-1/3">
+        <label
+          htmlFor="name"
+          className="text-indigo-500 font-medium pr-4 w-1/3"
+        >
+          Couleur
+        </label>
+        <input
+          type="text"
+          id="name"
+          className="bg-gray-200 text-gray-700 appearance-none rounded border-2 border-gray-200 w-2/3 h-full py-2 px-4 leading-tight focus:border-indigo-500 focus:outline-none focus:bg-white"
+          {...register("colorway")}
+        />
+      </div>
+      <div className="flex items-center w-full">
+        <label
+          htmlFor="size"
+          className="text-indigo-500 font-medium pr-4 w-1/3"
+        >
           Taille
         </label>
         <select
-          name="size"
           id="size"
           className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
           defaultValue=""
-          ref={selectSize}
+          {...register("size")}
         >
           <option disabled value=""></option>
           {sizes.map((size, index) => {
@@ -128,10 +186,9 @@ const FormSneaker = () => {
         </label>
         <input
           type="text"
-          name="buyingPrice"
           id="buyingPrice"
           className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          ref={inputBuyingPrice}
+          {...register("buyingPrice")}
         />
       </div>
       <div className="flex items-center w-full">
@@ -143,11 +200,10 @@ const FormSneaker = () => {
         </label>
         <input
           type="date"
-          name="buyingDate"
           id="buyingDate"
           className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
           defaultValue={moment().format("YYYY-MM-DD")}
-          ref={inputBuyingDate}
+          {...register("buyingDate")}
         />
       </div>
       <div className="flex items-center w-full">
@@ -158,11 +214,10 @@ const FormSneaker = () => {
           Site
         </label>
         <select
-          name="website"
           id="website"
-          className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
+          className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
           defaultValue=""
-          ref={selectWebsiteId}
+          {...register("websiteId")}
         >
           <option disabled value=""></option>
           {websites &&
@@ -176,23 +231,24 @@ const FormSneaker = () => {
         </select>
       </div>
       <div className="flex items-center w-full">
-        <label htmlFor="sold" className="text-indigo-500 font-medium pr-4 w-1/3">
+        <label
+          htmlFor="sold"
+          className="text-indigo-500 font-medium pr-4 w-1/3"
+        >
           Vendu ?
         </label>
         <select
-          name="sold"
           id="sold"
           className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          onChange={(e) => setSold(e.target.value)}
           defaultValue=""
-          ref={selectSold}
+          {...register("sold")}
         >
           <option disabled value=""></option>
           <option value="true">Oui</option>
           <option value="false">Non</option>
         </select>
       </div>
-      {sold === "true" && (
+      {(
         <>
           <div className="flex items-center w-full">
             <label
@@ -203,10 +259,9 @@ const FormSneaker = () => {
             </label>
             <input
               type="text"
-              name="sellingPrice"
               id="sellingPrice"
               className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-              ref={inputResellPrice}
+              {...register("resellPrice")}
             />
           </div>
           <div className="flex items-center w-full">
@@ -218,10 +273,9 @@ const FormSneaker = () => {
             </label>
             <input
               type="date"
-              name="sellingDate"
               id="sellingDate"
               className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-              ref={inputSellingDate}
+              {...register("sellingDate")}
             />
           </div>
           <div className="flex items-center w-full">
@@ -232,11 +286,12 @@ const FormSneaker = () => {
               Site
             </label>
             <select
-              name="resellWebsite"
               id="resellWebsite"
-              className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-              ref={selectResellWebsiteId}
+              className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
+              {...register("resellWebsiteId")}
+              defaultValue=""
             >
+               <option disabled value=""></option>
               {resellWebsites &&
                 resellWebsites.map((website, index) => {
                   return (

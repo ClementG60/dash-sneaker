@@ -27,7 +27,9 @@ const SneakerInventory = () => {
   const [date, setDate] = useState<moment.Moment>(moment());
 
   const ths: Array<string> = [
-    "Paire",
+    "Marque",
+    "Modèle",
+    "Couleur",
     "Taille",
     "Site d'achat",
     "Prix d'achat",
@@ -87,7 +89,7 @@ const SneakerInventory = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}sneaker/get-sneakers-by-month/${month}/${year}`,
+      url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${month}/${year}`,
     }).then((res) => dispatch(setSneakers(res.data)));
   }, [month, year]);
 
@@ -122,7 +124,9 @@ const SneakerInventory = () => {
                   key={index}
                   className="border-b text-xs text-indigo-900 font-medium"
                 >
-                  <td className="py-4">{sneaker.name}</td>
+                  <td className="py-4">{sneaker.brandId}</td>
+                  <td className="py-4">{sneaker.model}</td>
+                  <td className="py-4">{sneaker.colorway}</td>
                   <td>{sneaker.size}</td>
                   <td>
                     {websites?.map((website: ISite) => {

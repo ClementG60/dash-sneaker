@@ -1,12 +1,12 @@
 import React from "react";
+import FormBrand from "../component/Form/FormBrand";
+import GetBrands from "../component/GetBrands";
 
 const Brand = () => {
   return (
     <>
-      <div>
-        <p>Brand</p>
-      </div>
-      <div>Test</div>
+        <GetBrands />
+        <FormBrand />
     </>
   );
 };

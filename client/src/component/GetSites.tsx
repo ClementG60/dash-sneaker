@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
 import { IGetSites, ISite } from "../interface/Interface";
-import axios from "axios";
 import { useAppSelector } from "../app/hooks";
-import CloseIcon from "@mui/icons-material/Close";
 
 const GetSites = ({ type }: IGetSites) => {
   const websites = useAppSelector((state) => state.websites.websites);

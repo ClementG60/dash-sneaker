@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ISite, ISneaker } from "../interface/Interface";
+import { IBrand, ISite, ISneaker } from "../interface/Interface";
 import { dateParser } from "./Utils";
 import DriveFileRenameOutlineTwoToneIcon from "@mui/icons-material/DriveFileRenameOutlineTwoTone";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +16,7 @@ import DateSelector from "./DateSelector";
 const SneakerInventory = () => {
   moment.locale("fr");
   const sneakers = useAppSelector((state) => state.sneakers.sneakers);
+  const brands = useAppSelector((state) => state.brands.brands);
   const websites = useAppSelector((state) => state.websites.websites);
   const resellWebsites = useAppSelector(
     (state) => state.resellWebsites.websites
@@ -124,7 +125,10 @@ const SneakerInventory = () => {
                   key={index}
                   className="border-b text-xs text-indigo-900 font-medium"
                 >
-                  <td className="py-4">{sneaker.brandId}</td>
+                  <td className="py-4">{brands?.map((brand: IBrand) => {
+                      if (sneaker.brandId === brand._id)
+                        return brand.name;
+                    })}</td>
                   <td className="py-4">{sneaker.model}</td>
                   <td className="py-4">{sneaker.colorway}</td>
                   <td>{sneaker.size}</td>

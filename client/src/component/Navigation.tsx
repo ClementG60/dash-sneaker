@@ -2,31 +2,37 @@ import { INavigation } from "../interface/Interface";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { MdSpaceDashboard } from "react-icons/md";
-import { MdOutlineInventory2 } from "react-icons/md";
+import { MdInventory2 } from "react-icons/md";
 import { SiWebcomponentsdotorg } from "react-icons/si";
 import { SiNike } from "react-icons/si";
 import { MdPointOfSale } from "react-icons/md";
-import { FiHome } from "react-icons/fi";
+import { MdSell } from "react-icons/md";
+import { ImHome3 } from "react-icons/im";
 
 const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
   const menus = [
-    { name: "Accueil", link: "/", icon: <FiHome /> },
-    { name: "Inventaire", link: "/inventory", icon: <MdOutlineInventory2 /> },
+    { name: "Accueil", link: "/", icon: <ImHome3 /> },
+    { name: "Inventaire", link: "/inventory", icon: <MdInventory2 /> },
     { name: "Dépenses", link: "/expensive", icon: <MdPointOfSale /> },
-    { name: "Retailers", link: "/retailer", icon: <SiNike /> },
+    { name: "Retailers", link: "/retailer", icon: <SiWebcomponentsdotorg /> },
     {
-      name: "Sites resellers",
+      name: "Resellers",
       link: "/reseller",
-      icon: <SiWebcomponentsdotorg />,
+      icon: <MdSell />,
     },
+    { name: "Marques", link: "/brand", icon: <SiNike /> },
   ];
   return (
     <aside className="bg-indigo-500 min-h-screen text-white relative rounded-r-xl">
       <div
-        className="absolute text-2xl -right-4 top-20 rounded-full bg-white text-indigo-500 drop-shadow-lg p-1" 
+        className="absolute text-2xl -right-4 top-20 rounded-full bg-white text-indigo-500 drop-shadow-lg p-1"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? <MdOutlineKeyboardArrowLeft /> : <MdOutlineKeyboardArrowRight />}
+        {isOpen ? (
+          <MdOutlineKeyboardArrowLeft />
+        ) : (
+          <MdOutlineKeyboardArrowRight />
+        )}
       </div>
       <div className="flex items-center p-5 pt-8">
         <span className="text-2xl">

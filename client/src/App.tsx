@@ -12,6 +12,7 @@ import { setWebsites } from "./feature/websitesSlice";
 import Expensive from "./page/Expensive";
 import Inventory from "./page/Inventory";
 import { setExpensives } from "./feature/expensiveSlice";
+import Brand from "./page/Brand";
 
 
 const App = () => {
@@ -44,6 +45,7 @@ const App = () => {
                 <Route path="/" element={<Home isOpen={isOpen} />} />
                 <Route path="/*" element={<Home isOpen={isOpen}/>} />
                 <Route path="/inventory" element={<Inventory />} />
+                <Route path="/brand" element={<Brand />} />
                 <Route path="/retailer" element={<Retailer />} />
                 <Route path="/reseller" element={<Reseller />} />
                 <Route path="/expensive" element={<Expensive />} />

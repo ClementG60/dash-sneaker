@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import axios from "axios";
 import { addSneaker, setSneakers } from "../../feature/sneakersSlice";
@@ -6,15 +6,23 @@ import moment from "moment";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ISneaker } from "../../interface/Interface";
+import { IForm, ISneaker } from "../../interface/Interface";
+import InputGroup from "./InputGroup";
 
-const FormSneaker = () => {
+const FormSneaker = ({ id }: IForm) => {
   const websites = useAppSelector((state) => state.websites.websites);
   const brands = useAppSelector((state) => state.brands.brands);
   const resellWebsites = useAppSelector(
     (state) => state.resellWebsites.websites
   );
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (id !== "none") {
+      axios.get(`${process.env.REACT_APP_URL_API}sneaker/get-by-id/${id}`)
+      .then()
+    }
+  }, []);
 
   const sizes: Array<string> = [
     "33 EU",
@@ -60,18 +68,16 @@ const FormSneaker = () => {
       .required("Merci de remplir si la paire est vendu ou non."),
     sellingDate: yup.date().when("sold", {
       is: "true",
-      then:  yup.date().required("Merci de remplir la date de vente.")
+      then: yup.date().required("Merci de remplir la date de vente."),
     }),
-    resellPrice:  yup.number().when("sold", {
+    resellPrice: yup.number().when("sold", {
       is: "true",
-      then:   yup.number().required("Merci de remplir le prix de vente.")
+      then: yup.number().required("Merci de remplir le prix de vente."),
     }),
-    resellWebsiteId: yup
-      .string()
-      .when("sold", {
-        is: "true",
-        then:  yup.string().required("Merci de remplir le site de vente.")
-      })
+    resellWebsiteId: yup.string().when("sold", {
+      is: "true",
+      then: yup.string().required("Merci de remplir le site de vente."),
+    }),
   });
 
   const handleSneaker = (data: ISneaker) => {
@@ -138,20 +144,6 @@ const FormSneaker = () => {
           id="name"
           className="bg-gray-200 text-gray-700 appearance-none rounded border-2 border-gray-200 w-2/3 h-full py-2 px-4 leading-tight focus:border-indigo-500 focus:outline-none focus:bg-white"
           {...register("model")}
-        />
-      </div>
-      <div className="flex items-center w-full">
-        <label
-          htmlFor="name"
-          className="text-indigo-500 font-medium pr-4 w-1/3"
-        >
-          Couleur
-        </label>
-        <input
-          type="text"
-          id="name"
-          className="bg-gray-200 text-gray-700 appearance-none rounded border-2 border-gray-200 w-2/3 h-full py-2 px-4 leading-tight focus:border-indigo-500 focus:outline-none focus:bg-white"
-          {...register("colorway")}
         />
       </div>
       <div className="flex items-center w-full">
@@ -248,7 +240,7 @@ const FormSneaker = () => {
           <option value="false">Non</option>
         </select>
       </div>
-      {(
+      {
         <>
           <div className="flex items-center w-full">
             <label
@@ -291,7 +283,7 @@ const FormSneaker = () => {
               {...register("resellWebsiteId")}
               defaultValue=""
             >
-               <option disabled value=""></option>
+              <option disabled value=""></option>
               {resellWebsites &&
                 resellWebsites.map((website, index) => {
                   return (
@@ -303,7 +295,7 @@ const FormSneaker = () => {
             </select>
           </div>
         </>
-      )}
+      }
       <input
         type="submit"
         value="Ajouter"

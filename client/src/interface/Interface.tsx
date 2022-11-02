@@ -14,6 +14,10 @@ export interface IGetSites {
   type: string;
 }
 
+export interface IForm {
+  id: string;
+}
+
 export interface ISneaker {
   _id: string;
   brandId: string;
@@ -32,6 +36,7 @@ export interface ISneaker {
 export interface IModal {
   setOpenModal: (value: boolean) => void;
   type: string;
+  id: string;
 }
 export interface INavigation {
   setIsOpen: (value: boolean) => void;

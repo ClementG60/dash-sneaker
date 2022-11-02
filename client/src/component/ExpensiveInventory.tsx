@@ -10,8 +10,6 @@ import axios from "axios";
 import { deleteSneaker } from "../feature/sneakersSlice";
 import moment from "moment";
 import { setExpensives } from "../feature/expensiveSlice";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import DateSelector from "./DateSelector";
 
 const ExpensiveInventory = () => {
@@ -112,7 +110,11 @@ const ExpensiveInventory = () => {
           </tbody>
         </table>
         {openFormExpensive && (
-          <Modal setOpenModal={setOpenFormExpensive} type={"expensives"} />
+          <Modal
+            setOpenModal={setOpenFormExpensive}
+            type={"expensives"}
+            id={"none"}
+          />
         )}
       </div>
     </>

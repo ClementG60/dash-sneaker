@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "./Modal";
 import { FaTrash } from "react-icons/fa";
+import { BsFillPenFill } from "react-icons/bs";
 import moment from "moment";
 import DateSelector from "./DateSelector";
 
@@ -26,6 +27,7 @@ const SneakerInventory = () => {
   const [openFormAddSneaker, setOpenFormAddSneaker] = useState<boolean>(false);
   const [updateSneaker, setUpdateSneaker] = useState<boolean>(false);
   const [date, setDate] = useState<moment.Moment>(moment());
+  const [id, setId] = useState<string>();
 
   const ths: Array<string> = [
     "Marque",
@@ -71,6 +73,11 @@ const SneakerInventory = () => {
           progress: undefined,
         });
       });
+  };
+
+  const handleUpdate = (id: string) => {
+    setUpdateSneaker(!updateSneaker);
+    setId(id);
   };
 
   /*
@@ -125,10 +132,11 @@ const SneakerInventory = () => {
                   key={index}
                   className="border-b text-xs text-indigo-900 font-medium"
                 >
-                  <td className="py-4">{brands?.map((brand: IBrand) => {
-                      if (sneaker.brandId === brand._id)
-                        return brand.name;
-                    })}</td>
+                  <td className="py-4">
+                    {brands?.map((brand: IBrand) => {
+                      if (sneaker.brandId === brand._id) return brand.name;
+                    })}
+                  </td>
                   <td className="py-4">{sneaker.model}</td>
                   <td className="py-4">{sneaker.colorway}</td>
                   <td>{sneaker.size}</td>
@@ -154,6 +162,13 @@ const SneakerInventory = () => {
                   <td className="flex justify-around py-4">
                     <div
                       className="cursor-pointer text-lg"
+                      onClick={() => handleUpdate(sneaker._id)}
+                    >
+                      <BsFillPenFill />
+                      <ToastContainer />
+                    </div>
+                    <div
+                      className="cursor-pointer text-lg"
                       onClick={() => handleDeleteSneaker(sneaker._id)}
                     >
                       <FaTrash />
@@ -166,7 +181,18 @@ const SneakerInventory = () => {
           </tbody>
         </table>
         {openFormAddSneaker && (
-          <Modal setOpenModal={setOpenFormAddSneaker} type={"sneakers"} />
+          <Modal
+            setOpenModal={setOpenFormAddSneaker}
+            type={"sneakers"}
+            id={"none"}
+          />
+        )}
+        {updateSneaker && id && (
+          <Modal
+            setOpenModal={setUpdateSneaker}
+            type={"sneakers"}
+            id={id}
+          />
         )}
       </div>
     </>

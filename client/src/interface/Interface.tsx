@@ -19,7 +19,7 @@ export interface IForm {
 }
 
 export interface ISneaker {
-  _id: string;
+  _id?: string;
   brandId: string;
   model: string;
   colorway: string;

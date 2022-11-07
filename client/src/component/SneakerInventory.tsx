@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "./Modal";
 import { FaTrash } from "react-icons/fa";
-import { BsFillPenFill } from "react-icons/bs";
+import { BsFillPencilFill } from "react-icons/bs";
 import moment from "moment";
 import DateSelector from "./DateSelector";
 
@@ -24,8 +24,7 @@ const SneakerInventory = () => {
   );
   const dispatch = useAppDispatch();
 
-  const [openFormAddSneaker, setOpenFormAddSneaker] = useState<boolean>(false);
-  const [updateSneaker, setUpdateSneaker] = useState<boolean>(false);
+  const [openFormSneaker, setOpenFormSneaker] = useState<boolean>(false);
   const [date, setDate] = useState<moment.Moment>(moment());
   const [id, setId] = useState<string>();
 
@@ -76,7 +75,7 @@ const SneakerInventory = () => {
   };
 
   const handleUpdate = (id: string) => {
-    setUpdateSneaker(!updateSneaker);
+    setOpenFormSneaker(!openFormSneaker);
     setId(id);
   };
 
@@ -106,7 +105,10 @@ const SneakerInventory = () => {
       <div className="mx-12 mb-5 flex justify-between">
         <button
           className="flex bg-indigo-500 text-white font-bold rounded my-auto hover:rotate-180 duration-300 cursor-pointer"
-          onClick={() => setOpenFormAddSneaker(!openFormAddSneaker)}
+          onClick={() => {
+            setOpenFormSneaker(!openFormSneaker);
+            setId("none");
+          }}
         >
           <AddIcon />
         </button>
@@ -162,14 +164,14 @@ const SneakerInventory = () => {
                   <td className="flex justify-around py-4">
                     <div
                       className="cursor-pointer text-lg"
-                      onClick={() => handleUpdate(sneaker._id)}
+                      onClick={() => sneaker._id && handleUpdate(sneaker._id)}
                     >
-                      <BsFillPenFill />
+                      <BsFillPencilFill />
                       <ToastContainer />
                     </div>
                     <div
                       className="cursor-pointer text-lg"
-                      onClick={() => handleDeleteSneaker(sneaker._id)}
+                      onClick={() => sneaker._id && handleDeleteSneaker(sneaker._id)}
                     >
                       <FaTrash />
                       <ToastContainer />
@@ -180,16 +182,9 @@ const SneakerInventory = () => {
             })}
           </tbody>
         </table>
-        {openFormAddSneaker && (
+        {openFormSneaker && id && (
           <Modal
-            setOpenModal={setOpenFormAddSneaker}
-            type={"sneakers"}
-            id={"none"}
-          />
-        )}
-        {updateSneaker && id && (
-          <Modal
-            setOpenModal={setUpdateSneaker}
+            setOpenModal={setOpenFormSneaker}
             type={"sneakers"}
             id={id}
           />

@@ -30,6 +30,21 @@ const getSneakers = async (req, res) => {
   res.status(200).json(sneakers);
 };
 
+const getSneakerById = async (req, res) => {
+  //permet de vérifier si l'id de la paire à supprimer existe
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).send("ID unknown");
+  }
+
+  SneakerModel.findById(req.params.id, (err, docs) => {
+    if (!err) {
+      res.send(docs);
+    } else {
+      console.log("Id unknown : " + err);
+    }
+  }).select();
+};
+
 const getSneakersByMonth = async (req, res) => {
   const sneakers = await SneakerModel.find({
     $and: [
@@ -88,4 +103,11 @@ const deleteSneaker = async (req, res) => {
   });
 };
 
-export { addSneaker, updateSneaker, getSneakers, deleteSneaker, getSneakersByMonth };
+export {
+  addSneaker,
+  updateSneaker,
+  getSneakers,
+  deleteSneaker,
+  getSneakersByMonth,
+  getSneakerById
+};

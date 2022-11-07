@@ -5,10 +5,12 @@ import {
   getSneakers,
   updateSneaker,
   getSneakersByMonth,
+  getSneakerById,
 } from "../controllers/sneakerController.js";
 const router = express.Router();
 
 router.get("/get", getSneakers);
+router.get("/get-by-id/:id", getSneakerById);
 router.get("/get-by-month/:month/:year", getSneakersByMonth);
 router.post("/add", addSneaker);
 router.patch("/update/:id", updateSneaker);

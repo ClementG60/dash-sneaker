@@ -1,13 +1,13 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import axios from "axios";
 import { addSneaker, setSneakers } from "../../feature/sneakersSlice";
-import moment from "moment";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IForm, ISneaker } from "../../interface/Interface";
 import InputGroup from "./InputGroup";
+import SelectGroup from "./SelectGroup";
 
 const FormSneaker = ({ id }: IForm) => {
   const websites = useAppSelector((state) => state.websites.websites);
@@ -16,11 +16,13 @@ const FormSneaker = ({ id }: IForm) => {
     (state) => state.resellWebsites.websites
   );
   const dispatch = useAppDispatch();
+  const [sneaker, setSneaker] = useState<ISneaker>();
 
   useEffect(() => {
     if (id !== "none") {
-      axios.get(`${process.env.REACT_APP_URL_API}sneaker/get-by-id/${id}`)
-      .then()
+      axios
+        .get(`${process.env.REACT_APP_URL_API}sneaker/get-by-id/${id}`)
+        .then((res) => setSneaker(res.data));
     }
   }, []);
 
@@ -55,7 +57,7 @@ const FormSneaker = ({ id }: IForm) => {
     "51 EU",
   ];
 
-  const validationSchema = yup.object({
+  const validationSchema = yup.object().shape({
     brand: yup.string().required("Merci de remplir la marque."),
     model: yup.string().required("Merci de remplir le modèle."),
     colorway: yup.string().required("Merci de remplir la couleur."),
@@ -67,241 +69,165 @@ const FormSneaker = ({ id }: IForm) => {
       .boolean()
       .required("Merci de remplir si la paire est vendu ou non."),
     sellingDate: yup.date().when("sold", {
-      is: "true",
+      is: true,
       then: yup.date().required("Merci de remplir la date de vente."),
     }),
     resellPrice: yup.number().when("sold", {
-      is: "true",
+      is: true,
       then: yup.number().required("Merci de remplir le prix de vente."),
     }),
     resellWebsiteId: yup.string().when("sold", {
-      is: "true",
+      is: true,
       then: yup.string().required("Merci de remplir le site de vente."),
     }),
   });
 
-  const handleSneaker = (data: ISneaker) => {
-    axios
-      .post(`${process.env.REACT_APP_URL_API}sneaker/add`, data)
-      .then((res) => {
-        dispatch(addSneaker(data));
-        axios({
-          method: "get",
-          url: `${process.env.REACT_APP_URL_API}sneaker/get`,
-        }).then((res) => dispatch(setSneakers(res.data)));
-      })
-      .catch((err) => console.log(err));
-  };
-
+  const methods = useForm<ISneaker>({
+    resolver: yupResolver(validationSchema),
+  });
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<ISneaker>({
-    resolver: yupResolver(validationSchema),
-  });
+  } = methods;
 
+  const handleSneaker = (data: ISneaker) => {
+    {
+      id === "none" &&
+        axios
+          .post(`${process.env.REACT_APP_URL_API}sneaker/add`, data)
+          .then((res) => {
+            dispatch(addSneaker(data));
+            axios({
+              method: "get",
+              url: `${process.env.REACT_APP_URL_API}sneaker/get`,
+            }).then((res) => dispatch(setSneakers(res.data)));
+          })
+          .catch((err) => console.log(err));
+    }
+  };
+
+  console.log(errors);
   return (
-    <form
-      action=""
-      className="grid grid-cols-3 gap-6 text-center"
-      onSubmit={handleSubmit(handleSneaker)}
-    >
-      <div className="flex items-center w-full">
-        <label
-          htmlFor="brand"
-          className="text-indigo-500 font-medium pr-4 w-1/3"
-        >
-          Marque
-        </label>
-        <select
-          id="brand"
-          className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          defaultValue=""
-          {...register("brandId")}
-        >
-          <option disabled value=""></option>
-          {brands &&
-            brands.map((brand, index) => {
-              return (
-                <option key={index} value={brand._id}>
-                  {brand.name}
-                </option>
-              );
-            })}
-        </select>
-      </div>
-      <div className="flex items-center w-full">
-        <label
-          htmlFor="name"
-          className="text-indigo-500 font-medium pr-4 w-1/3"
-        >
-          Modèle
-        </label>
-        <input
+    <FormProvider {...methods}>
+      <form
+        action=""
+        className="grid grid-cols-3 gap-6 text-center"
+        onSubmit={handleSubmit(handleSneaker)}
+      >
+        <SelectGroup
+          label="Marque"
+          id="brandId"
+          data={brands}
+          error={errors.brandId}
+        />
+        <InputGroup
+          label="Modèle"
+          id="model"
           type="text"
-          id="name"
-          className="bg-gray-200 text-gray-700 appearance-none rounded border-2 border-gray-200 w-2/3 h-full py-2 px-4 leading-tight focus:border-indigo-500 focus:outline-none focus:bg-white"
-          {...register("model")}
+          error={errors.model}
         />
-      </div>
-      <div className="flex items-center w-full">
-        <label
-          htmlFor="size"
-          className="text-indigo-500 font-medium pr-4 w-1/3"
-        >
-          Taille
-        </label>
-        <select
-          id="size"
-          className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          defaultValue=""
-          {...register("size")}
-        >
-          <option disabled value=""></option>
-          {sizes.map((size, index) => {
-            return (
-              <option key={index} value={size}>
-                {size}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <div className="flex items-center w-full">
-        <label
-          htmlFor="buyingPrice"
-          className="text-indigo-500 font-medium pr-4 w-1/3"
-        >
-          Prix d'achat
-        </label>
-        <input
+        <InputGroup
+          label="Couleur"
+          id="colorway"
           type="text"
-          id="buyingPrice"
-          className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          {...register("buyingPrice")}
+          error={errors.colorway}
         />
-      </div>
-      <div className="flex items-center w-full">
-        <label
-          htmlFor="buyingDate"
-          className="text-indigo-500 font-medium pr-4 w-1/3"
-        >
-          Date d'achat
-        </label>
-        <input
-          type="date"
-          id="buyingDate"
-          className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          defaultValue={moment().format("YYYY-MM-DD")}
-          {...register("buyingDate")}
-        />
-      </div>
-      <div className="flex items-center w-full">
-        <label
-          htmlFor="website"
-          className="text-indigo-500 font-medium pr-4 w-1/3"
-        >
-          Site
-        </label>
-        <select
-          id="website"
-          className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          defaultValue=""
-          {...register("websiteId")}
-        >
-          <option disabled value=""></option>
-          {websites &&
-            websites.map((website, index) => {
-              return (
-                <option key={index} value={website._id}>
-                  {website.name}
-                </option>
-              );
-            })}
-        </select>
-      </div>
-      <div className="flex items-center w-full">
-        <label
-          htmlFor="sold"
-          className="text-indigo-500 font-medium pr-4 w-1/3"
-        >
-          Vendu ?
-        </label>
-        <select
-          id="sold"
-          className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          defaultValue=""
-          {...register("sold")}
-        >
-          <option disabled value=""></option>
-          <option value="true">Oui</option>
-          <option value="false">Non</option>
-        </select>
-      </div>
-      {
-        <>
-          <div className="flex items-center w-full">
+        <div className="w-full">
+          <div className="flex items-center">
             <label
-              htmlFor="sellingPrice"
+              htmlFor="size"
               className="text-indigo-500 font-medium pr-4 w-1/3"
             >
-              Prix de vente
-            </label>
-            <input
-              type="text"
-              id="sellingPrice"
-              className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-              {...register("resellPrice")}
-            />
-          </div>
-          <div className="flex items-center w-full">
-            <label
-              htmlFor="sellingDate"
-              className="text-indigo-500 font-medium pr-4 w-1/3"
-            >
-              Date de vente
-            </label>
-            <input
-              type="date"
-              id="sellingDate"
-              className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-              {...register("sellingDate")}
-            />
-          </div>
-          <div className="flex items-center w-full">
-            <label
-              htmlFor="resellWebsite"
-              className="w-1/3 text-indigo-500 font-medium pr-4"
-            >
-              Site
+              Taille
             </label>
             <select
-              id="resellWebsite"
+              id="size"
               className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-              {...register("resellWebsiteId")}
               defaultValue=""
+              {...register("size")}
             >
               <option disabled value=""></option>
-              {resellWebsites &&
-                resellWebsites.map((website, index) => {
-                  return (
-                    <option key={index} value={website._id}>
-                      {website.name}
-                    </option>
-                  );
-                })}
+              {sizes.map((size, index) => {
+                return (
+                  <option key={index} value={size}>
+                    {size}
+                  </option>
+                );
+              })}
             </select>
           </div>
-        </>
-      }
-      <input
-        type="submit"
-        value="Ajouter"
-        className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md hover:bg-indigo-400"
-      />
-    </form>
+          {errors.size ? <p>{errors.size.message}</p> : null}
+        </div>
+        <InputGroup
+          label="Prix d'achat"
+          id="buyingPrice"
+          type="number"
+          error={errors.buyingPrice}
+        />
+        <InputGroup
+          label="Date d'achat"
+          id="buyingDate"
+          type="date"
+          error={errors.buyingDate}
+        />
+        <SelectGroup
+          label="Site"
+          id="website"
+          data={websites}
+          error={errors.model}
+        />
+        <div className="w-full">
+          <div className="flex items-center">
+            <label
+              htmlFor="sold"
+              className="text-indigo-500 font-medium pr-4 w-1/3"
+            >
+              Vendu ?
+            </label>
+            <select
+              id="sold"
+              className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
+              defaultValue=""
+              {...register("sold")}
+            >
+              <option disabled value=""></option>
+              <option value="true">Oui</option>
+              <option value="false">Non</option>
+            </select>
+          </div>
+          {errors.sold ? <p>{errors.sold.message}</p> : null}
+        </div>
+        {
+          <>
+            <InputGroup
+              label="Prix de vente"
+              id="sellingPrice"
+              type="number"
+              error={errors.resellPrice}
+            />
+            <InputGroup
+              label="Date de vente"
+              id="sellingDate"
+              type="date"
+              error={errors.sellingDate}
+            />
+            <SelectGroup
+              label="Site de revente"
+              id="resellWebsiteId"
+              data={resellWebsites}
+              error={errors.resellWebsiteId}
+            />
+          </>
+        }
+        <input
+          type="submit"
+          value="Ajouter"
+          className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md hover:bg-indigo-400"
+        />
+      </form>
+    </FormProvider>
   );
 };
 

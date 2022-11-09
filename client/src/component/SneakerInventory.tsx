@@ -15,7 +15,12 @@ import moment from "moment";
 import DateSelector from "./DateSelector";
 
 const SneakerInventory = () => {
-  moment.locale("fr");
+  moment.locale("fr", {
+    months: "Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre".split(
+      "_"
+    ),
+  });
+  
   const sneakers = useAppSelector((state) => state.sneakers.sneakers);
   const brands = useAppSelector((state) => state.brands.brands);
   const websites = useAppSelector((state) => state.websites.websites);
@@ -171,7 +176,9 @@ const SneakerInventory = () => {
                     </div>
                     <div
                       className="cursor-pointer text-lg"
-                      onClick={() => sneaker._id && handleDeleteSneaker(sneaker._id)}
+                      onClick={() =>
+                        sneaker._id && handleDeleteSneaker(sneaker._id)
+                      }
                     >
                       <FaTrash />
                       <ToastContainer />
@@ -183,11 +190,7 @@ const SneakerInventory = () => {
           </tbody>
         </table>
         {openFormSneaker && id && (
-          <Modal
-            setOpenModal={setOpenFormSneaker}
-            type={"sneakers"}
-            id={id}
-          />
+          <Modal setOpenModal={setOpenFormSneaker} type={"sneakers"} id={id} />
         )}
       </div>
     </>

@@ -46,7 +46,7 @@ const SelectGroup = ({
             })}
         </select>
       </div>
-      {error ? <p>{error.message}</p> : null}
+      {error ? <p className="text-red-700 text-xs mt-2 text-left">{error.message}</p> : null}
     </div>
   );
 };

@@ -58,23 +58,36 @@ const FormSneaker = ({ id }: IForm) => {
   ];
 
   const validationSchema = yup.object().shape({
-    brand: yup.string().required("Merci de remplir la marque."),
+    brandId: yup.string().required("Merci de remplir la marque."),
     model: yup.string().required("Merci de remplir le modèle."),
     colorway: yup.string().required("Merci de remplir la couleur."),
     size: yup.string().required("Merci de remplir la taille."),
-    buyingPrice: yup.number().required("Merci de remplir le prix d'achat."),
-    buyingDate: yup.date().required("Merci de remplir la date d'achat."),
+    buyingPrice: yup
+      .number()
+      .typeError("Un nombre doit être spécifié.")
+      .required("Merci de remplir le prix d'achat."),
+    buyingDate: yup
+      .date()
+      .typeError("Une date doit être spécifié.")
+      .required("Merci de remplir la date d'achat."),
     websiteId: yup.string().required("Merci de remplir le site d'achat."),
     sold: yup
       .boolean()
+      .typeError("Veuillez choisir une valeur.")
       .required("Merci de remplir si la paire est vendu ou non."),
-    sellingDate: yup.date().when("sold", {
+    sellingDate: yup.string().when("sold", {
       is: true,
-      then: yup.date().required("Merci de remplir la date de vente."),
+      then: yup
+        .date()
+        .typeError("Une date doit être spécifié.")
+        .required("Merci de remplir la date de vente."),
     }),
     resellPrice: yup.number().when("sold", {
       is: true,
-      then: yup.number().required("Merci de remplir le prix de vente."),
+      then: yup
+        .number()
+        .typeError("Un nombre doit être spécifié.")
+        .required("Merci de remplir le prix de vente."),
     }),
     resellWebsiteId: yup.string().when("sold", {
       is: true,
@@ -158,7 +171,11 @@ const FormSneaker = ({ id }: IForm) => {
               })}
             </select>
           </div>
-          {errors.size ? <p>{errors.size.message}</p> : null}
+          {errors.size ? (
+            <p className="text-red-700 text-xs mt-2 text-left">
+              {errors.size.message}
+            </p>
+          ) : null}
         </div>
         <InputGroup
           label="Prix d'achat"
@@ -197,7 +214,11 @@ const FormSneaker = ({ id }: IForm) => {
               <option value="false">Non</option>
             </select>
           </div>
-          {errors.sold ? <p>{errors.sold.message}</p> : null}
+          {errors.sold ? (
+            <p className="text-red-700 text-xs mt-2 text-left">
+              {errors.sold.message}
+            </p>
+          ) : null}
         </div>
         {
           <>

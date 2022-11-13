@@ -9,31 +9,36 @@ type Data = {
 
 type SelectGroup = {
   label: string;
-  id: string;
-  value?: ISneaker;
+  nameId: string;
+  value?: string;
   data: Array<Data>;
   error?: FieldError;
 };
 
 const SelectGroup = ({
   label,
-  id,
+  nameId,
   error,
   value,
   data,
 }: SelectGroup) => {
   const { register } = useFormContext();
+  const { onChange, onBlur, name, ref } = register(nameId); 
+  console.log(value);
+  
   return (
     <div className="w-full">
       <div className="flex items-center">
-        <label htmlFor={id} className="text-indigo-500 font-medium pr-4 w-1/3">
+        <label htmlFor={nameId} className="text-indigo-500 font-medium pr-4 w-1/3">
           {label}
         </label>
         <select
-          id={id}
-          defaultValue=""
+          id={nameId}
+          defaultValue="tessssst"
           className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          {...register(id)}
+          onChange={onChange}
+          name={name}
+          ref={ref}
         >
           <option disabled value=""></option>
           {data &&

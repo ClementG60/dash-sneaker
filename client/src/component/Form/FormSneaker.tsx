@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IForm, ISneaker } from "../../interface/Interface";
 import InputGroup from "./InputGroup";
 import SelectGroup from "./SelectGroup";
+import moment from "moment";
 
 const FormSneaker = ({ id }: IForm) => {
   const websites = useAppSelector((state) => state.websites.websites);
@@ -120,8 +121,6 @@ const FormSneaker = ({ id }: IForm) => {
           .catch((err) => console.log(err));
     }
   };
-
-  console.log(errors);
   return (
     <FormProvider {...methods}>
       <form
@@ -131,20 +130,23 @@ const FormSneaker = ({ id }: IForm) => {
       >
         <SelectGroup
           label="Marque"
-          id="brandId"
+          nameId="brandId"
+          value={sneaker?.brandId ? sneaker?.brandId : ""}
           data={brands}
           error={errors.brandId}
         />
         <InputGroup
           label="Modèle"
-          id="model"
+          nameId="model"
           type="text"
+          value={sneaker?.model}
           error={errors.model}
         />
         <InputGroup
           label="Couleur"
-          id="colorway"
+          nameId="colorway"
           type="text"
+          value={sneaker?.colorway}
           error={errors.colorway}
         />
         <div className="w-full">
@@ -179,20 +181,23 @@ const FormSneaker = ({ id }: IForm) => {
         </div>
         <InputGroup
           label="Prix d'achat"
-          id="buyingPrice"
+          nameId="buyingPrice"
           type="number"
+          value={sneaker?.buyingPrice}
           error={errors.buyingPrice}
         />
         <InputGroup
           label="Date d'achat"
-          id="buyingDate"
+          nameId="buyingDate"
           type="date"
+          value={moment(sneaker?.buyingDate).format("YYYY-MM-DD")}
           error={errors.buyingDate}
         />
         <SelectGroup
           label="Site"
-          id="website"
+          nameId="websiteId"
           data={websites}
+          value={sneaker?.websiteId ? sneaker.websiteId : ""}
           error={errors.model}
         />
         <div className="w-full">
@@ -206,7 +211,6 @@ const FormSneaker = ({ id }: IForm) => {
             <select
               id="sold"
               className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-              defaultValue=""
               {...register("sold")}
             >
               <option disabled value=""></option>
@@ -224,27 +228,30 @@ const FormSneaker = ({ id }: IForm) => {
           <>
             <InputGroup
               label="Prix de vente"
-              id="sellingPrice"
+              nameId="sellingPrice"
               type="number"
+              value={sneaker?.resellPrice}
               error={errors.resellPrice}
             />
             <InputGroup
               label="Date de vente"
-              id="sellingDate"
+              nameId="sellingDate"
               type="date"
+              value={moment(sneaker?.sellingDate).format("YYYY-MM-DD")}
               error={errors.sellingDate}
             />
             <SelectGroup
               label="Site de revente"
-              id="resellWebsiteId"
+              nameId="resellWebsiteId"
               data={resellWebsites}
+              value={sneaker?.resellWebsiteId ? sneaker.resellWebsiteId : ""}
               error={errors.resellWebsiteId}
             />
           </>
         }
         <input
           type="submit"
-          value="Ajouter"
+          value={id === "none" ? "Ajouter" : "Mettre à jour"}
           className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md hover:bg-indigo-400"
         />
       </form>

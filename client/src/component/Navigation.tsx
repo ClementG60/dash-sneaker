@@ -8,6 +8,7 @@ import { SiNike } from "react-icons/si";
 import { MdPointOfSale } from "react-icons/md";
 import { MdSell } from "react-icons/md";
 import { ImHome3 } from "react-icons/im";
+import { NavLink } from "react-router-dom";
 
 const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
   const menus = [
@@ -50,17 +51,16 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
       <ul className="flex flex-col justify-around gap-y-4 p-3 cursor-pointer mt-6">
         {menus.map((menu, index) => {
           return (
-            <li
-              key={index}
-              className="flex text-gray-300 text-sm p-2 cursor-pointer gap-x-4 rounded-md mt-2 hover:bg-indigo-400"
-            >
-              <a href={menu.link} className="flex items-center gap-x-5">
-                <span className="text-2xl">{menu.icon}</span>
-                <span className={`${!isOpen && "hidden"} flex-none`}>
-                  {menu.name}
-                </span>
-              </a>
-            </li>
+            <NavLink to={menu.link} key={index}>
+              <li className="flex text-gray-300 text-sm p-2 cursor-pointer gap-x-4 rounded-md mt-2 hover:bg-indigo-400">
+                <div className="flex items-center gap-x-5">
+                  <span className="text-2xl">{menu.icon}</span>
+                  <span className={`${!isOpen && "hidden"} flex-none`}>
+                    {menu.name}
+                  </span>
+                </div>
+              </li>
+            </NavLink>
           );
         })}
       </ul>

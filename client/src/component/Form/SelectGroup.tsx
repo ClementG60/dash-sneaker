@@ -1,6 +1,4 @@
-import React from "react";
-import { FieldError, FieldErrorsImpl, FieldValues, useFormContext, UseFormRegister } from "react-hook-form";
-import { ISneaker } from "../../interface/Interface";
+import { FieldError, useFormContext } from "react-hook-form";
 
 type Data = {
   _id: string;
@@ -23,9 +21,7 @@ const SelectGroup = ({
   data,
 }: SelectGroup) => {
   const { register } = useFormContext();
-  const { onChange, onBlur, name, ref } = register(nameId); 
-  console.log(value);
-  
+  const { onChange, onBlur, name, ref } = register(nameId);   
   return (
     <div className="w-full">
       <div className="flex items-center">
@@ -34,7 +30,7 @@ const SelectGroup = ({
         </label>
         <select
           id={nameId}
-          defaultValue="tessssst"
+          defaultValue={value}
           className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
           onChange={onChange}
           name={name}

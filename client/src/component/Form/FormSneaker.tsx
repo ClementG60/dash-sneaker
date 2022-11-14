@@ -18,12 +18,17 @@ const FormSneaker = ({ id }: IForm) => {
   );
   const dispatch = useAppDispatch();
   const [sneaker, setSneaker] = useState<ISneaker>();
+  const [loadingForm, setLoadingForm] = useState<boolean>(false);
 
   useEffect(() => {
     if (id !== "none") {
       axios
         .get(`${process.env.REACT_APP_URL_API}sneaker/get-by-id/${id}`)
-        .then((res) => setSneaker(res.data));
+        .then((res) => {
+          setSneaker(res.data);
+        });
+    } else {
+      setLoadingForm(true);
     }
   }, []);
 
@@ -121,7 +126,7 @@ const FormSneaker = ({ id }: IForm) => {
           .catch((err) => console.log(err));
     }
   };
-  return (
+  return (loadingForm || sneaker) ? (
     <FormProvider {...methods}>
       <form
         action=""
@@ -160,7 +165,7 @@ const FormSneaker = ({ id }: IForm) => {
             <select
               id="size"
               className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-              defaultValue=""
+              defaultValue={sneaker?.size ? sneaker.size : ""}
               {...register("size")}
             >
               <option disabled value=""></option>
@@ -244,7 +249,9 @@ const FormSneaker = ({ id }: IForm) => {
               label="Site de revente"
               nameId="resellWebsiteId"
               data={resellWebsites}
-              value={sneaker?.resellWebsiteId ? sneaker.resellWebsiteId : ""}
+              value={
+                sneaker?.resellWebsiteId ? sneaker.resellWebsiteId : ""
+              }
               error={errors.resellWebsiteId}
             />
           </>
@@ -256,6 +263,10 @@ const FormSneaker = ({ id }: IForm) => {
         />
       </form>
     </FormProvider>
+  ) : (
+    <div>
+      <i className="fas fa-spinner fa-spin"></i>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import axios from "axios";
-import { addSneaker, setSneakers } from "../../feature/sneakersSlice";
+import { addSneaker, setSneakers, updateSneaker } from "../../feature/sneakersSlice";
 import * as yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,6 +9,7 @@ import { IForm, ISneaker } from "../../interface/Interface";
 import InputGroup from "./InputGroup";
 import SelectGroup from "./SelectGroup";
 import moment from "moment";
+import { isEmpty } from "../Utils";
 
 const FormSneaker = ({ id }: IForm) => {
   const websites = useAppSelector((state) => state.websites.websites);
@@ -81,7 +82,7 @@ const FormSneaker = ({ id }: IForm) => {
       .boolean()
       .typeError("Veuillez choisir une valeur.")
       .required("Merci de remplir si la paire est vendu ou non."),
-    sellingDate: yup.string().when("sold", {
+    sellingDate: yup.date().when("sold", {
       is: true,
       then: yup
         .date()
@@ -107,13 +108,13 @@ const FormSneaker = ({ id }: IForm) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    reset,
+    formState: { errors }
   } = methods;
+console.log(errors);
 
   const handleSneaker = (data: ISneaker) => {
     {
-      id === "none" &&
+      id === "none" ? (
         axios
           .post(`${process.env.REACT_APP_URL_API}sneaker/add`, data)
           .then((res) => {
@@ -123,9 +124,23 @@ const FormSneaker = ({ id }: IForm) => {
               url: `${process.env.REACT_APP_URL_API}sneaker/get`,
             }).then((res) => dispatch(setSneakers(res.data)));
           })
-          .catch((err) => console.log(err));
+          .catch((err) => console.log(err))
+      ) : (
+        axios
+        .patch(`${process.env.REACT_APP_URL_API}sneaker/update/${id}`, data)
+        .then((res) => {
+          dispatch(updateSneaker(data));
+          axios({
+            method: "get",
+            url: `${process.env.REACT_APP_URL_API}sneaker/get`,
+          }).then((res) => dispatch(setSneakers(res.data)));
+        })
+        .catch((err) => console.log(err))
+      )
     }
   };
+  console.log(typeof(sneaker?.sold))
+  console.log(typeof(sneaker?.sold.toString()))
   return (loadingForm || sneaker) ? (
     <FormProvider {...methods}>
       <form
@@ -217,6 +232,7 @@ const FormSneaker = ({ id }: IForm) => {
               id="sold"
               className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
               {...register("sold")}
+              defaultValue={sneaker?.sold === true ? "true" : (sneaker?.sold === false ? "false" : "")}
             >
               <option disabled value=""></option>
               <option value="true">Oui</option>
@@ -235,7 +251,7 @@ const FormSneaker = ({ id }: IForm) => {
               label="Prix de vente"
               nameId="sellingPrice"
               type="number"
-              value={sneaker?.resellPrice}
+              value={sneaker?.resellPrice ? sneaker.resellPrice : 0}
               error={errors.resellPrice}
             />
             <InputGroup
@@ -250,7 +266,7 @@ const FormSneaker = ({ id }: IForm) => {
               nameId="resellWebsiteId"
               data={resellWebsites}
               value={
-                sneaker?.resellWebsiteId ? sneaker.resellWebsiteId : ""
+                sneaker?.resellWebsiteId && isEmpty(sneaker?.resellWebsiteId) ? sneaker.resellWebsiteId : ""
               }
               error={errors.resellWebsiteId}
             />

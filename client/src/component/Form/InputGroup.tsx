@@ -6,13 +6,14 @@ type InputGroup = {
   label: string;
   type: string;
   nameId: string;
-  value?: string;
+  value?: string | number;
   error?: FieldError
 };
 
 const InputGroup = ({ label, type, nameId, value, error }: InputGroup) => {
   const { register } = useFormContext();
-  const { onChange, onBlur, name, ref } = register(nameId); 
+  const { onChange, onBlur, name, ref } = register(nameId);
+  
   return (
     <div className="w-full">
         <div className="flex items-center ">

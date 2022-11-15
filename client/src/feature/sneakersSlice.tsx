@@ -18,11 +18,15 @@ export const sneakersSlice = createSlice({
         addSneaker: (state, { payload }) => {
             state.sneakers.push(payload)
         },
+        updateSneaker: (state, { payload }) => {
+            console.log(payload);
+            
+        },
         deleteSneaker: (state, { payload }) => {
             state.sneakers = state.sneakers.filter((sneaker) => sneaker._id !== payload)
         }
     }
 });
 
-export const { setSneakers, addSneaker, deleteSneaker } = sneakersSlice.actions;
+export const { setSneakers, addSneaker, deleteSneaker, updateSneaker } = sneakersSlice.actions;
 export default sneakersSlice.reducer;

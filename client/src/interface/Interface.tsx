@@ -24,12 +24,12 @@ export interface ISneaker {
   model: string;
   colorway: string;
   size: string;
-  buyingPrice: string;
+  buyingPrice: number;
   buyingDate: string;
   websiteId: string;
   sold: boolean;
   sellingDate: string;
-  resellPrice: string;
+  resellPrice: number;
   resellWebsiteId: string;
 }
 

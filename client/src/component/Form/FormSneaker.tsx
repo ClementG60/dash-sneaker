@@ -139,8 +139,6 @@ console.log(errors);
       )
     }
   };
-  console.log(typeof(sneaker?.sold))
-  console.log(typeof(sneaker?.sold.toString()))
   return (loadingForm || sneaker) ? (
     <FormProvider {...methods}>
       <form
@@ -249,7 +247,7 @@ console.log(errors);
           <>
             <InputGroup
               label="Prix de vente"
-              nameId="sellingPrice"
+              nameId="resellPrice"
               type="number"
               value={sneaker?.resellPrice ? sneaker.resellPrice : 0}
               error={errors.resellPrice}

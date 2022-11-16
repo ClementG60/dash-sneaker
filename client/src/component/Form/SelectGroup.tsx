@@ -10,7 +10,7 @@ type Data = {
 type SelectGroup = {
   label: string;
   nameId: string;
-  value: string;
+  value: string | number;
   data: Array<Data>;
   error?: FieldError;
 };
@@ -19,7 +19,8 @@ const SelectGroup = ({ label, nameId, error, value, data }: SelectGroup) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { register } = useFormContext();
   const { onChange, onBlur, name, ref } = register(nameId);
-
+  console.log(value);
+  
   return (
     <div className="w-full">
       <div className="flex items-center">

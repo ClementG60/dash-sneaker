@@ -164,7 +164,7 @@ const SneakerInventory = () => {
                         })
                       : ""}
                   </td>
-                  <td>{sneaker.sold ? sneaker.resellPrice : ""}</td>
+                  <td>{sneaker.sold ? sneaker.resellPrice + " €" : ""}</td>
                   <td>{sneaker.sold ? dateParser(sneaker.sellingDate) : ""}</td>
                   <td className="flex justify-around py-4">
                     <div

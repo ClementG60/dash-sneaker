@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import axios from "axios";
-import { addSneaker, setSneakers, updateSneaker } from "../../feature/sneakersSlice";
+import {
+  addSneaker,
+  setSneakers,
+  updateSneaker,
+} from "../../feature/sneakersSlice";
 import * as yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,12 +25,16 @@ const FormSneaker = ({ id }: IForm) => {
   const [sneaker, setSneaker] = useState<ISneaker>();
   const [loadingForm, setLoadingForm] = useState<boolean>(false);
 
+  const year = moment(moment()).format("YYYY");
+  const month = moment(moment()).format("MM");
+
   useEffect(() => {
     if (id !== "none") {
       axios
         .get(`${process.env.REACT_APP_URL_API}sneaker/get-by-id/${id}`)
         .then((res) => {
           setSneaker(res.data);
+          console.log(sneaker);
         });
     } else {
       setLoadingForm(true);
@@ -82,24 +90,42 @@ const FormSneaker = ({ id }: IForm) => {
       .boolean()
       .typeError("Veuillez choisir une valeur.")
       .required("Merci de remplir si la paire est vendu ou non."),
-    sellingDate: yup.date().when("sold", {
-      is: true,
-      then: yup
-        .date()
-        .typeError("Une date doit être spécifié.")
-        .required("Merci de remplir la date de vente."),
-    }),
-    resellPrice: yup.number().when("sold", {
-      is: true,
-      then: yup
-        .number()
-        .typeError("Un nombre doit être spécifié.")
-        .required("Merci de remplir le prix de vente."),
-    }),
-    resellWebsiteId: yup.string().when("sold", {
-      is: true,
-      then: yup.string().required("Merci de remplir le site de vente."),
-    }),
+    sellingDate: yup
+      .date()
+      .when("sold", {
+        is: true,
+        then: yup
+          .date()
+          .typeError("Une date doit être spécifié.")
+          .required("Merci de remplir la date de vente."),
+      })
+      .when("sold", {
+        is: false,
+        then: yup.number().nullable(),
+      }),
+    resellPrice: yup
+      .number()
+      .when("sold", {
+        is: true,
+        then: yup
+          .number()
+          .typeError("Un nombre doit être spécifié.")
+          .required("Merci de remplir le prix de vente."),
+      })
+      .when("sold", {
+        is: false,
+        then: yup.number().nullable(),
+      }),
+    resellWebsiteId: yup
+      .string()
+      .when("sold", {
+        is: true,
+        then: yup.string().required("Merci de remplir le site de vente."),
+      })
+      .when("sold", {
+        is: false,
+        then: yup.number().nullable(),
+      }),
   });
 
   const methods = useForm<ISneaker>({
@@ -108,38 +134,36 @@ const FormSneaker = ({ id }: IForm) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = methods;
-console.log(errors);
+  console.log(validationSchema);
 
   const handleSneaker = (data: ISneaker) => {
     {
-      id === "none" ? (
-        axios
-          .post(`${process.env.REACT_APP_URL_API}sneaker/add`, data)
-          .then((res) => {
-            dispatch(addSneaker(data));
-            axios({
-              method: "get",
-              url: `${process.env.REACT_APP_URL_API}sneaker/get`,
-            }).then((res) => dispatch(setSneakers(res.data)));
-          })
-          .catch((err) => console.log(err))
-      ) : (
-        axios
-        .patch(`${process.env.REACT_APP_URL_API}sneaker/update/${id}`, data)
-        .then((res) => {
-          dispatch(updateSneaker(data));
-          axios({
-            method: "get",
-            url: `${process.env.REACT_APP_URL_API}sneaker/get`,
-          }).then((res) => dispatch(setSneakers(res.data)));
-        })
-        .catch((err) => console.log(err))
-      )
+      id === "none"
+        ? axios
+            .post(`${process.env.REACT_APP_URL_API}sneaker/add`, data)
+            .then((res) => {
+              dispatch(addSneaker(data));
+              axios({
+                method: "get",
+                url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${month}/${year}`,
+              }).then((res) => dispatch(setSneakers(res.data)));
+            })
+            .catch((err) => console.log(err))
+        : axios
+            .patch(`${process.env.REACT_APP_URL_API}sneaker/update/${id}`, data)
+            .then((res) => {
+              dispatch(updateSneaker([id, res.data]));
+              axios({
+                method: "get",
+                url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${month}/${year}`,
+              }).then((res) => dispatch(setSneakers(res.data)));
+            })
+            .catch((err) => console.log(err));
     }
   };
-  return (loadingForm || sneaker) ? (
+  return loadingForm || sneaker ? (
     <FormProvider {...methods}>
       <form
         action=""
@@ -230,7 +254,13 @@ console.log(errors);
               id="sold"
               className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
               {...register("sold")}
-              defaultValue={sneaker?.sold === true ? "true" : (sneaker?.sold === false ? "false" : "")}
+              defaultValue={
+                sneaker?.sold === true
+                  ? "true"
+                  : sneaker?.sold === false
+                  ? "false"
+                  : ""
+              }
             >
               <option disabled value=""></option>
               <option value="true">Oui</option>
@@ -249,14 +279,18 @@ console.log(errors);
               label="Prix de vente"
               nameId="resellPrice"
               type="number"
-              value={sneaker?.resellPrice ? sneaker.resellPrice : 0}
+              value={sneaker?.resellPrice ? sneaker.resellPrice : ""}
               error={errors.resellPrice}
             />
             <InputGroup
               label="Date de vente"
               nameId="sellingDate"
               type="date"
-              value={moment(sneaker?.sellingDate).format("YYYY-MM-DD")}
+              value={
+                sneaker?.sellingDate
+                  ? moment(sneaker?.sellingDate).format("YYYY-MM-DD")
+                  : ""
+              }
               error={errors.sellingDate}
             />
             <SelectGroup
@@ -264,7 +298,9 @@ console.log(errors);
               nameId="resellWebsiteId"
               data={resellWebsites}
               value={
-                sneaker?.resellWebsiteId && isEmpty(sneaker?.resellWebsiteId) ? sneaker.resellWebsiteId : ""
+                sneaker?.resellWebsiteId && !isEmpty(sneaker?.resellWebsiteId)
+                  ? sneaker.resellWebsiteId
+                  : ""
               }
               error={errors.resellWebsiteId}
             />

@@ -65,7 +65,7 @@ const Home = ({ isOpen }: IHome) => {
   }, []);
   return (
     <div className="grid grid-cols-3 gap-4 p-5">
-      <h2 className="col-start-1 col-end-2 text-indigo-900 w-8/12 mx-auto font-bold text-xl">
+      <h2 className="col-start-1 col-end-4 text-indigo-900 w-8/12 mx-auto font-bold text-xl">
         Récapitulatif du mois
       </h2>
       {monthExpensives && lastMonthExpensives && (

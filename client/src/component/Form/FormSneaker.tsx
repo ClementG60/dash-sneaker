@@ -98,34 +98,24 @@ const FormSneaker = ({ id }: IForm) => {
           .date()
           .typeError("Une date doit être spécifié.")
           .required("Merci de remplir la date de vente."),
+        otherwise: yup.date().transform((value) =>
+        isEmpty(value) ? null : value
+      ).nullable(),
       })
-      .when("sold", {
-        is: false,
-        then: yup.number().nullable(),
-      }),
-    resellPrice: yup
-      .number()
-      .when("sold", {
-        is: true,
-        then: yup
-          .number()
-          .typeError("Un nombre doit être spécifié.")
-          .required("Merci de remplir le prix de vente."),
-      })
-      .when("sold", {
-        is: false,
-        then: yup.number().nullable(),
-      }),
-    resellWebsiteId: yup
-      .string()
-      .when("sold", {
-        is: true,
-        then: yup.string().required("Merci de remplir le site de vente."),
-      })
-      .when("sold", {
-        is: false,
-        then: yup.number().nullable(),
-      }),
+      .nullable(true),
+    resellPrice: yup.number().when("sold", {
+      is: true,
+      then: yup
+        .number()
+        .typeError("Un nombre doit être spécifié.")
+        .required("Merci de remplir le prix de vente."),
+      otherwise: yup.number().transform((value) => (isNaN(value) ? 0 : value)),
+    }),
+    resellWebsiteId: yup.string().when("sold", {
+      is: true,
+      then: yup.string().required("Merci de remplir le site de vente."),
+      otherwise: yup.string().nullable(),
+    }),
   });
 
   const methods = useForm<ISneaker>({
@@ -279,7 +269,7 @@ const FormSneaker = ({ id }: IForm) => {
               label="Prix de vente"
               nameId="resellPrice"
               type="number"
-              value={sneaker?.resellPrice ? sneaker.resellPrice : ""}
+              value={sneaker?.resellPrice ? sneaker.resellPrice : undefined}
               error={errors.resellPrice}
             />
             <InputGroup
@@ -289,7 +279,7 @@ const FormSneaker = ({ id }: IForm) => {
               value={
                 sneaker?.sellingDate
                   ? moment(sneaker?.sellingDate).format("YYYY-MM-DD")
-                  : ""
+                  : undefined
               }
               error={errors.sellingDate}
             />

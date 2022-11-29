@@ -16,11 +16,12 @@ import DateSelector from "./DateSelector";
 
 const SneakerInventory = () => {
   moment.locale("fr", {
-    months: "Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre".split(
-      "_"
-    ),
+    months:
+      "Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre".split(
+        "_"
+      ),
   });
-  
+
   const sneakers = useAppSelector((state) => state.sneakers.sneakers);
   const brands = useAppSelector((state) => state.brands.brands);
   const websites = useAppSelector((state) => state.websites.websites);
@@ -154,14 +155,15 @@ const SneakerInventory = () => {
                       : ""}
                   </td>
                   <td>{sneaker?.sold ? sneaker?.resellPrice + " €" : ""}</td>
-                  <td>{sneaker?.sold ? dateParser(sneaker?.sellingDate) : ""}</td>
+                  <td>
+                    {sneaker?.sold ? dateParser(sneaker?.sellingDate) : ""}
+                  </td>
                   <td className="flex justify-around py-4">
                     <div
                       className="cursor-pointer text-lg px-1"
                       onClick={() => sneaker._id && handleUpdate(sneaker._id)}
                     >
                       <BsFillPencilFill />
-                      <ToastContainer />
                     </div>
                     <div
                       className="cursor-pointer text-lg px-1"
@@ -170,7 +172,6 @@ const SneakerInventory = () => {
                       }
                     >
                       <FaTrash />
-                      <ToastContainer />
                     </div>
                   </td>
                 </tr>
@@ -178,6 +179,7 @@ const SneakerInventory = () => {
             })}
           </tbody>
         </table>
+        <ToastContainer />
         {openFormSneaker && id && (
           <Modal setOpenModal={setOpenFormSneaker} type={"sneakers"} id={id} />
         )}

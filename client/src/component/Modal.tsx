@@ -17,7 +17,7 @@ const Modal = ({ setOpenModal, type, id }: IModal) => {
             <CloseIcon className="" />
           </span>
         </div>
-        {type === "sneakers" && <FormSneaker id={id}/>}
+        {type === "sneakers" && <FormSneaker id={id} setOpenModal={setOpenModal}/>}
         {type === "expensives" && <FormExpensive />}
       </div>
     </div>

@@ -84,17 +84,6 @@ const SneakerInventory = () => {
     setId(id);
   };
 
-  /*
-    toast.success("La paire a bien été mise à jour.", {
-      position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });*/
-
   const year = moment(date).format("YYYY");
   const month = moment(date).format("MM");
 
@@ -141,41 +130,41 @@ const SneakerInventory = () => {
                 >
                   <td className="py-4">
                     {brands?.map((brand: IBrand) => {
-                      if (sneaker.brandId === brand._id) return brand.name;
+                      if (sneaker?.brandId === brand._id) return brand.name;
                     })}
                   </td>
-                  <td className="py-4">{sneaker.model}</td>
-                  <td className="py-4">{sneaker.colorway}</td>
-                  <td>{sneaker.size}</td>
+                  <td className="py-4">{sneaker?.model}</td>
+                  <td className="py-4">{sneaker?.colorway}</td>
+                  <td>{sneaker?.size}</td>
                   <td>
                     {websites?.map((website: ISite) => {
-                      if (sneaker.websiteId === website._id)
+                      if (sneaker?.websiteId === website._id)
                         return website.name;
                     })}
                   </td>
-                  <td>{sneaker.buyingPrice} €</td>
-                  <td>{dateParser(sneaker.buyingDate)}</td>
-                  <td>{sneaker.sold ? "Oui" : "Non"}</td>
+                  <td>{sneaker?.buyingPrice} €</td>
+                  <td>{dateParser(sneaker?.buyingDate)}</td>
+                  <td>{sneaker?.sold ? "Oui" : "Non"}</td>
                   <td>
-                    {sneaker.sold
+                    {sneaker?.sold
                       ? resellWebsites?.map((resellWebsite: ISite) => {
                           if (sneaker.resellWebsiteId === resellWebsite._id)
                             return resellWebsite.name;
                         })
                       : ""}
                   </td>
-                  <td>{sneaker.sold ? sneaker.resellPrice + " €" : ""}</td>
-                  <td>{sneaker.sold ? dateParser(sneaker.sellingDate) : ""}</td>
+                  <td>{sneaker?.sold ? sneaker?.resellPrice + " €" : ""}</td>
+                  <td>{sneaker?.sold ? dateParser(sneaker?.sellingDate) : ""}</td>
                   <td className="flex justify-around py-4">
                     <div
-                      className="cursor-pointer text-lg"
+                      className="cursor-pointer text-lg px-1"
                       onClick={() => sneaker._id && handleUpdate(sneaker._id)}
                     >
                       <BsFillPencilFill />
                       <ToastContainer />
                     </div>
                     <div
-                      className="cursor-pointer text-lg"
+                      className="cursor-pointer text-lg px-1"
                       onClick={() =>
                         sneaker._id && handleDeleteSneaker(sneaker._id)
                       }

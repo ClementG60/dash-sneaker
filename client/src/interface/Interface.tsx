@@ -16,6 +16,7 @@ export interface IGetSites {
 
 export interface IForm {
   id: string;
+  setOpenModal: (value: boolean) => void;
 }
 
 export interface ISneaker {

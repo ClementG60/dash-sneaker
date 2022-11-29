@@ -14,8 +14,9 @@ import InputGroup from "./InputGroup";
 import SelectGroup from "./SelectGroup";
 import moment from "moment";
 import { isEmpty } from "../Utils";
+import { toast } from "react-toastify";
 
-const FormSneaker = ({ id }: IForm) => {
+const FormSneaker = ({ id, setOpenModal }: IForm) => {
   const websites = useAppSelector((state) => state.websites.websites);
   const brands = useAppSelector((state) => state.brands.brands);
   const resellWebsites = useAppSelector(
@@ -98,9 +99,10 @@ const FormSneaker = ({ id }: IForm) => {
           .date()
           .typeError("Une date doit être spécifié.")
           .required("Merci de remplir la date de vente."),
-        otherwise: yup.date().transform((value) =>
-        isEmpty(value) ? null : value
-      ).nullable(),
+        otherwise: yup
+          .date()
+          .transform((value) => (isEmpty(value) ? null : value))
+          .nullable(),
       })
       .nullable(true),
     resellPrice: yup.number().when("sold", {
@@ -126,7 +128,6 @@ const FormSneaker = ({ id }: IForm) => {
     handleSubmit,
     formState: { errors },
   } = methods;
-  console.log(validationSchema);
 
   const handleSneaker = (data: ISneaker) => {
     {
@@ -144,11 +145,25 @@ const FormSneaker = ({ id }: IForm) => {
         : axios
             .patch(`${process.env.REACT_APP_URL_API}sneaker/update/${id}`, data)
             .then((res) => {
+              console.log(data);
+
               dispatch(updateSneaker([id, res.data]));
+              toast.success("La paire a bien été mise à jour.", {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+              setOpenModal(false);
               axios({
                 method: "get",
                 url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${month}/${year}`,
-              }).then((res) => dispatch(setSneakers(res.data)));
+              }).then((res) => {
+                dispatch(setSneakers(res.data));
+              });
             })
             .catch((err) => console.log(err));
     }

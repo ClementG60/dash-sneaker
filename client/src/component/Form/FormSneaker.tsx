@@ -26,9 +26,6 @@ const FormSneaker = ({ id, setOpenModal }: IForm) => {
   const [sneaker, setSneaker] = useState<ISneaker>();
   const [loadingForm, setLoadingForm] = useState<boolean>(false);
 
-  const year = moment(moment()).format("YYYY");
-  const month = moment(moment()).format("MM");
-
   useEffect(() => {
     if (id !== "none") {
       axios
@@ -138,7 +135,7 @@ const FormSneaker = ({ id, setOpenModal }: IForm) => {
               dispatch(addSneaker(data));
               axios({
                 method: "get",
-                url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${month}/${year}`,
+                url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${moment(data.buyingDate).format("MM")}/${moment(data.buyingDate).format("YYYY")}`,
               }).then((res) => dispatch(setSneakers(res.data)));
             })
             .catch((err) => console.log(err))
@@ -160,7 +157,7 @@ const FormSneaker = ({ id, setOpenModal }: IForm) => {
               setOpenModal(false);
               axios({
                 method: "get",
-                url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${month}/${year}`,
+                url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${moment(data.buyingDate).format("MM")}/${moment(data.buyingDate).format("YYYY")}`,
               }).then((res) => {
                 dispatch(setSneakers(res.data));
               });

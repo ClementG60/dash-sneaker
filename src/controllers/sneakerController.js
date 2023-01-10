@@ -46,14 +46,33 @@ const getSneakerById = async (req, res) => {
 };
 
 const getSneakersByMonth = async (req, res) => {
-  const sneakers = await SneakerModel.find({
-    $and: [
-      { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
-      {
-        $expr: { $eq: [{ $month: "$buyingDate" }, req.params.month] },
-      },
-    ],
-  }).select();
+  const sneakers = await SneakerModel
+    .find({
+      sold: (req.params.type === "buying" ? "0" : "1"),
+      $and: [
+        { $expr: { $eq: [{ $year: (req.params.type === "buying" ? "$buyingDate" : "$sellingDate") }, req.params.year] } },
+        {
+          $expr: { $eq: [{ $month: (req.params.type === "buying" ? "$buyingDate" : "$sellingDate") }, req.params.month] },
+        },
+      ],
+    })
+    .sort({ buyingDate: 1 })
+    .select();
+  res.status(200).json(sneakers);
+};
+
+const getSneakersSalesByMonth = async (req, res) => {
+  const sneakers = await SneakerModel
+    .find({
+      $and: [
+        { $expr: { $eq: [{ $year: "$sellingDate" }, req.params.year] } },
+        {
+          $expr: { $eq: [{ $month: "$sellingDate" }, req.params.month] },
+        },
+      ],
+    })
+    .sort({ buyingDate: 1 })
+    .select();
   res.status(200).json(sneakers);
 };
 
@@ -109,5 +128,5 @@ export {
   getSneakers,
   deleteSneaker,
   getSneakersByMonth,
-  getSneakerById
+  getSneakerById,
 };

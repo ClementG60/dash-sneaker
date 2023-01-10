@@ -34,7 +34,7 @@ const SneakerInventory = () => {
   const [id, setId] = useState<string>();
   const [typeSelected, setTypeSelected] = useState<string>("buying");
 
-  const ths: Array<string> = [
+  const thsBuying: Array<string> = [
     "Marque",
     "Modèle",
     "Coloris",
@@ -42,7 +42,14 @@ const SneakerInventory = () => {
     "Site d'achat",
     "Prix d'achat",
     "Date d'achat",
-    "Vendu ?",
+    "",
+  ];
+
+  const thsSales: Array<string> = [
+    "Marque",
+    "Modèle",
+    "Coloris",
+    "Taille",
     "Site de vente",
     "Prix de vente",
     "Date de vente",
@@ -91,9 +98,9 @@ const SneakerInventory = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${month}/${year}`,
+      url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${typeSelected}/${month}/${year}`,
     }).then((res) => dispatch(setSneakers(res.data)));
-  }, [month, year]);
+  }, [month, year, typeSelected]);
 
   return (
     <>
@@ -101,7 +108,8 @@ const SneakerInventory = () => {
         <ul className="flex mx-auto w-4/12 justify-around text-indigo-900 font-medium">
           <li
             className={`w-1/2 cursor-pointer text-center border rounded-l-lg text-sm pt-1 pb-1 ${
-              typeSelected === "buying" && "bg-indigo-500 border-indigo-500 text-white font-bold"
+              typeSelected === "buying" &&
+              "bg-indigo-500 border-indigo-500 text-white font-bold"
             } duration-300 ease-in-out`}
             onClick={() => setTypeSelected("buying")}
           >
@@ -109,7 +117,8 @@ const SneakerInventory = () => {
           </li>
           <li
             className={`w-1/2 cursor-pointer text-center border rounded-r-lg text-sm pt-1 pb-1 ${
-              typeSelected === "sales" && "bg-indigo-500 border-indigo-500 text-white font-bold"
+              typeSelected === "sales" &&
+              "bg-indigo-500 border-indigo-500 text-white font-bold"
             } duration-300 ease-in-out`}
             onClick={() => setTypeSelected("sales")}
           >
@@ -133,13 +142,15 @@ const SneakerInventory = () => {
         <table className="border-collapse table-auto w-11/12 text-center mx-auto">
           <thead className="bg-slate-200 rounded-lg uppercase text-xs tracking-wide">
             <tr>
-              {ths.map((th: string, index: number) => {
-                return (
-                  <th key={index} className="py-4 text-slate-400">
-                    {th}
-                  </th>
-                );
-              })}
+              {(typeSelected === "buying" ? thsBuying : thsSales).map(
+                (th: string, index: number) => {
+                  return (
+                    <th key={index} className="py-4 text-slate-400">
+                      {th}
+                    </th>
+                  );
+                }
+              )}
             </tr>
           </thead>
           <tbody>
@@ -158,25 +169,27 @@ const SneakerInventory = () => {
                   <td className="py-4">{sneaker?.colorway}</td>
                   <td>{sneaker?.size}</td>
                   <td>
-                    {websites?.map((website: ISite) => {
-                      if (sneaker?.websiteId === website._id)
-                        return website.name;
-                    })}
-                  </td>
-                  <td>{sneaker?.buyingPrice} €</td>
-                  <td>{dateParser(sneaker?.buyingDate)}</td>
-                  <td>{sneaker?.sold ? "Oui" : "Non"}</td>
-                  <td>
-                    {sneaker?.sold
-                      ? resellWebsites?.map((resellWebsite: ISite) => {
+                    {typeSelected === "buying"
+                      ? websites?.map((website: ISite) => {
+                          if (sneaker?.websiteId === website._id)
+                            return website.name;
+                        })
+                      : resellWebsites?.map((resellWebsite: ISite) => {
                           if (sneaker.resellWebsiteId === resellWebsite._id)
                             return resellWebsite.name;
-                        })
-                      : ""}
+                        })}
+                    {}
                   </td>
-                  <td>{sneaker?.sold ? sneaker?.resellPrice + " €" : ""}</td>
                   <td>
-                    {sneaker?.sold ? dateParser(sneaker?.sellingDate) : ""}
+                    {typeSelected === "buying"
+                      ? sneaker?.buyingPrice
+                      : sneaker?.resellPrice}{" "}
+                    €
+                  </td>
+                  <td>
+                    {typeSelected === "buying"
+                      ? dateParser(sneaker?.buyingDate)
+                      : dateParser(sneaker?.sellingDate)}
                   </td>
                   <td className="flex justify-around py-4">
                     <div

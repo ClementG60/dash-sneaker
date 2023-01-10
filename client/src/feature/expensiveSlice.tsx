@@ -15,8 +15,13 @@ export const expensivesSlice = createSlice({
     addExpensive: (state, { payload }) => {
       state.expensives.push(payload);
     },
+    deleteExpensive: (state, { payload }) => {
+      state.expensives = state.expensives.filter(
+        (expensive) => expensive._id !== payload
+      );
+    },
   },
 });
 
-export const { setExpensives, addExpensive } = expensivesSlice.actions;
+export const { setExpensives, addExpensive, deleteExpensive } = expensivesSlice.actions;
 export default expensivesSlice.reducer;

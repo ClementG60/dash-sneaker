@@ -61,21 +61,6 @@ const getSneakersByMonth = async (req, res) => {
   res.status(200).json(sneakers);
 };
 
-const getSneakersSalesByMonth = async (req, res) => {
-  const sneakers = await SneakerModel
-    .find({
-      $and: [
-        { $expr: { $eq: [{ $year: "$sellingDate" }, req.params.year] } },
-        {
-          $expr: { $eq: [{ $month: "$sellingDate" }, req.params.month] },
-        },
-      ],
-    })
-    .sort({ buyingDate: 1 })
-    .select();
-  res.status(200).json(sneakers);
-};
-
 const updateSneaker = async (req, res) => {
   //permet de vérifier si l'id de la paire à supprimer existe
   if (!ObjectId.isValid(req.params.id)) {

@@ -14,13 +14,6 @@ import moment from "moment";
 import DateSelector from "./DateSelector";
 
 const SneakerInventory = () => {
-  moment.locale("fr", {
-    months:
-      "Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre".split(
-        "_"
-      ),
-  });
-
   const sneakers = useAppSelector((state) => state.sneakers.sneakers);
   const brands = useAppSelector((state) => state.brands.brands);
   const websites = useAppSelector((state) => state.websites.websites);

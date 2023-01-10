@@ -12,8 +12,15 @@ import Expensive from "./page/Expensive";
 import Inventory from "./page/Inventory";
 import Brand from "./page/Brand";
 import { setBrands } from "./feature/brandsSlice";
+import moment from "moment";
 
 const App = () => {
+  moment.locale("fr", {
+    months:
+      "Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre".split(
+        "_"
+      ),
+  });
   const dispatch = useAppDispatch();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);

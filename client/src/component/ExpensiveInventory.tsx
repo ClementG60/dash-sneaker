@@ -9,7 +9,7 @@ import { dateParser } from "./Utils";
 import axios from "axios";
 import { deleteSneaker } from "../feature/sneakersSlice";
 import moment from "moment";
-import { setExpensives } from "../feature/expensiveSlice";
+import { setExpensives, deleteExpensive } from "../feature/expensiveSlice";
 import DateSelector from "./DateSelector";
 
 const ExpensiveInventory = () => {
@@ -26,7 +26,7 @@ const ExpensiveInventory = () => {
       url: `${process.env.REACT_APP_URL_API}expensive/delete/${id}`,
     })
       .then((res) => {
-        dispatch(deleteSneaker(id));
+        dispatch(deleteExpensive(id));
         toast.success("La dépense a bien été supprimée.", {
           position: "bottom-right",
           autoClose: 5000,

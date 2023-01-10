@@ -187,7 +187,7 @@ const FormSneaker = ({ id, setOpenModal }: IForm) => {
           error={errors.model}
         />
         <InputGroup
-          label="Couleur"
+          label="Coloris"
           nameId="colorway"
           type="text"
           value={sneaker?.colorway}

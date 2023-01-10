@@ -1,7 +1,6 @@
 import axios from "axios";
 import { IBrand, ISite, ISneaker } from "../interface/Interface";
 import { dateParser } from "./Utils";
-import DriveFileRenameOutlineTwoToneIcon from "@mui/icons-material/DriveFileRenameOutlineTwoTone";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
@@ -33,7 +32,7 @@ const SneakerInventory = () => {
   const [openFormSneaker, setOpenFormSneaker] = useState<boolean>(false);
   const [date, setDate] = useState<moment.Moment>(moment());
   const [id, setId] = useState<string>();
-  const [typeSelected, setTypeSelected] = useState<string>();
+  const [typeSelected, setTypeSelected] = useState<string>("buying");
 
   const ths: Array<string> = [
     "Marque",
@@ -99,10 +98,10 @@ const SneakerInventory = () => {
   return (
     <>
       <div className="w-full mb-3">
-        <ul className="flex mx-auto w-4/12 justify-around text-indigo-900">
+        <ul className="flex mx-auto w-4/12 justify-around text-indigo-900 font-medium">
           <li
             className={`w-1/2 cursor-pointer text-center border rounded-l-lg text-sm pt-1 pb-1 ${
-              typeSelected === "buying" && "bg-indigo-500 text-white"
+              typeSelected === "buying" && "bg-indigo-500 text-white font-bold"
             } duration-300 ease-in-out`}
             onClick={() => setTypeSelected("buying")}
           >
@@ -110,7 +109,7 @@ const SneakerInventory = () => {
           </li>
           <li
             className={`w-1/2 cursor-pointer text-center border rounded-r-lg text-sm pt-1 pb-1 ${
-              typeSelected === "sales" && "bg-indigo-500 text-white"
+              typeSelected === "sales" && "bg-indigo-500 text-white font-bold"
             } duration-300 ease-in-out`}
             onClick={() => setTypeSelected("sales")}
           >

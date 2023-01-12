@@ -207,7 +207,7 @@ const SneakerInventory = () => {
         </table>
         <ToastContainer />
         {openFormSneaker && id && (
-          <Modal setOpenModal={setOpenFormSneaker} type={"sneakers"} id={id} />
+          <Modal setOpenModal={setOpenFormSneaker} model={"sneakers"} id={id} typeSelected={typeSelected} />
         )}
       </div>
     </>

@@ -112,7 +112,7 @@ const ExpensiveInventory = () => {
         {openFormExpensive && (
           <Modal
             setOpenModal={setOpenFormExpensive}
-            type={"expensives"}
+            model={"expensives"}
             id={"none"}
           />
         )}

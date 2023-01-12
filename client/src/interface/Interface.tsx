@@ -17,6 +17,7 @@ export interface IGetSites {
 export interface IForm {
   id: string;
   setOpenModal: (value: boolean) => void;
+  typeSelected?: string;
 }
 
 export interface ISneaker {
@@ -36,8 +37,9 @@ export interface ISneaker {
 
 export interface IModal {
   setOpenModal: (value: boolean) => void;
-  type: string;
+  model: string;
   id: string;
+  typeSelected?: string;
 }
 export interface INavigation {
   setIsOpen: (value: boolean) => void;

@@ -16,7 +16,7 @@ import moment from "moment";
 import { isEmpty } from "../Utils";
 import { toast } from "react-toastify";
 
-const FormSneaker = ({ id, setOpenModal }: IForm) => {
+const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
   const websites = useAppSelector((state) => state.websites.websites);
   const brands = useAppSelector((state) => state.brands.brands);
   const resellWebsites = useAppSelector(
@@ -32,7 +32,6 @@ const FormSneaker = ({ id, setOpenModal }: IForm) => {
         .get(`${process.env.REACT_APP_URL_API}sneaker/get-by-id/${id}`)
         .then((res) => {
           setSneaker(res.data);
-          console.log(sneaker);
         });
     } else {
       setLoadingForm(true);
@@ -135,15 +134,17 @@ const FormSneaker = ({ id, setOpenModal }: IForm) => {
               dispatch(addSneaker(data));
               axios({
                 method: "get",
-                url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${moment(data.buyingDate).format("MM")}/${moment(data.buyingDate).format("YYYY")}`,
+                url: `${
+                  process.env.REACT_APP_URL_API
+                }sneaker/get-by-month/${moment(data.buyingDate).format(
+                  "MM"
+                )}/${moment(data.buyingDate).format("YYYY")}`,
               }).then((res) => dispatch(setSneakers(res.data)));
             })
             .catch((err) => console.log(err))
         : axios
             .patch(`${process.env.REACT_APP_URL_API}sneaker/update/${id}`, data)
             .then((res) => {
-              console.log(data);
-
               dispatch(updateSneaker([id, res.data]));
               toast.success("La paire a bien été mise à jour.", {
                 position: "bottom-right",
@@ -157,8 +158,15 @@ const FormSneaker = ({ id, setOpenModal }: IForm) => {
               setOpenModal(false);
               axios({
                 method: "get",
-                url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${moment(data.buyingDate).format("MM")}/${moment(data.buyingDate).format("YYYY")}`,
+                url: `${
+                  process.env.REACT_APP_URL_API
+                }sneaker/get-by-month/${typeSelected}/${moment(
+                  typeSelected === "buying" ? data.buyingDate : data.sellingDate
+                ).format("MM")}/${moment(
+                  typeSelected === "buying" ? data.buyingDate : data.sellingDate
+                ).format("YYYY")}`,
               }).then((res) => {
+                console.log(res.data);
                 dispatch(setSneakers(res.data));
               });
             })

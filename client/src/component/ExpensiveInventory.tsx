@@ -3,7 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import Modal from "./Modal";
 import { FaTrash } from "react-icons/fa";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { IExpensive } from "../interface/Interface";
 import { dateParser } from "./Utils";
 import axios from "axios";
@@ -38,7 +38,6 @@ const ExpensiveInventory = () => {
         });
       })
       .catch((err) => {
-        console.log(err);
         toast.error("Une erreur est survenue. Veuillez recommencez.", {
           position: "bottom-right",
           autoClose: 5000,
@@ -101,7 +100,6 @@ const ExpensiveInventory = () => {
                       onClick={() => handleDeleteExpensive(expensive._id)}
                     >
                       <FaTrash />
-                      <ToastContainer />
                     </div>
                   </td>
                 </tr>

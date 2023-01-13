@@ -2,7 +2,7 @@ import axios from "axios";
 import { IBrand, ISite, ISneaker } from "../interface/Interface";
 import { dateParser } from "./Utils";
 import "react-toastify/dist/ReactToastify.css";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { deleteSneaker, setSneakers } from "../feature/sneakersSlice";
 import { useState, useEffect } from "react";
@@ -205,7 +205,6 @@ const SneakerInventory = () => {
             })}
           </tbody>
         </table>
-        <ToastContainer />
         {openFormSneaker && id && (
           <Modal setOpenModal={setOpenFormSneaker} model={"sneakers"} id={id} typeSelected={typeSelected} />
         )}

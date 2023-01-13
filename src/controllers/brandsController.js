@@ -11,12 +11,14 @@ const addBrand = async (req, res) => {
     const brand = await newBrand.save();
     return res.status(201).json(brand);
   } catch (err) {
-    return res.status(400).send(err);
+    if (err.code === 11000)
+      return res.status(400).send({ message: "La marque existe déjà." });
+    else res.status(400).send(err);
   }
 };
 
 const getBrands = async (req, res) => {
-  const brands = await BrandsModel.find().sort({"name": 1}).select();
+  const brands = await BrandsModel.find().sort({ name: 1 }).select();
   res.status(200).json(brands);
 };
 

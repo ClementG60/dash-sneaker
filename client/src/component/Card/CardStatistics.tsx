@@ -1,7 +1,7 @@
 import React from "react";
-import { ICardBooking } from "../../interface/Interface";
+import { ICardStatistics } from "../../interface/Interface";
 
-const CardStatistics = ({ sum, title, lastSumMonth, isOpen }: ICardBooking) => {
+const CardStatistics = ({ sum, title, lastSumMonth, isOpen }: ICardStatistics) => {
   return (
     <div
       className={`bg-white rounded-[16px] ${

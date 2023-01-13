@@ -13,6 +13,7 @@ import Inventory from "./page/Inventory";
 import Brand from "./page/Brand";
 import { setBrands } from "./feature/brandsSlice";
 import moment from "moment";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   moment.locale("fr", {
@@ -64,6 +65,7 @@ const App = () => {
           </div>
         </div>
       </BrowserRouter>
+      <ToastContainer />
     </div>
   );
 };

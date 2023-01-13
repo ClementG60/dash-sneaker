@@ -33,7 +33,7 @@ const InputGroup = ({ label, type, nameId, value, error }: InputGroup) => {
             defaultValue={value}
           />
         </div>
-        {error ? <p className="text-red-700 text-xs mt-2 text-left">{error.message}</p> : null}
+        {error && <p className="text-red-700 text-xs mt-2 text-left">{error.message}</p>}
       </div>
   );
 };

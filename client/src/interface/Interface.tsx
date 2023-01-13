@@ -50,11 +50,19 @@ export interface IHome {
   isOpen: boolean;
 }
 
-export interface ICardBooking {
+export interface ICardStatistics {
   title: string;
   sum: number;
   lastSumMonth: number;
   isOpen: boolean;
+}
+
+export interface ICardChart {
+  data: Array<IChartData>;
+  isOpen: boolean;
+  type: string;
+  labelTitle: string;
+  title: string;
 }
 
 export interface IFormSneaker {
@@ -100,3 +108,9 @@ export interface IDateSelector {
   date: moment.Moment;
   setDate: React.Dispatch<React.SetStateAction<moment.Moment>>;
 }
+
+export interface IChartData {
+  _id: string;
+  count: number;
+}
+

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useRef } from "react";
+import { toast } from "react-toastify";
 import { useAppDispatch } from "../../app/hooks";
 import { addBrand, setBrands } from "../../feature/brandsSlice";
 
@@ -23,8 +24,18 @@ const FormBrand = () => {
           url: `${process.env.REACT_APP_URL_API}brand/get`,
         }).then((res) => dispatch(setBrands(res.data)));
       })
-      .catch((err) => console.log(err));
-      
+      .catch((err) =>
+        toast.error(err.response.data.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      );
+
     if (inputBrand.current) {
       inputBrand.current.value = "";
     }

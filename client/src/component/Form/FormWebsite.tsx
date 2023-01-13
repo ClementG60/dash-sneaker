@@ -8,9 +8,12 @@ import {
   addResellWebsite,
   setResellWebsites,
 } from "../../feature/resellWebsitesSlice";
+import { toast } from "react-toastify";
 
 const AddWebsite = ({ type }: IGetSites) => {
   const [website, setWebsite] = useState<string>();
+  const [error, setError] = useState<string>();
+
   const dispatch = useAppDispatch();
 
   const handleAddWebsite = (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,7 +42,15 @@ const AddWebsite = ({ type }: IGetSites) => {
         }
         setWebsite("");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.response.data.message, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }));
   };
 
   return (
@@ -62,7 +73,7 @@ const AddWebsite = ({ type }: IGetSites) => {
           type="submit"
           value="Ajouter"
           className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md hover:bg-indigo-400"
-          />
+        />
       </form>
     </div>
   );

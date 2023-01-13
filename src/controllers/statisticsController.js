@@ -29,27 +29,58 @@ const getSalesStats = async (req, res) => {
   res.status(200).json(sales);
 };
 
+// const getBuyingStats = async (req, res) => {
+//   const sales = await SneakerModel.find(
+//     req.params.type === "month"
+//       ? {
+//           $and: [
+//             { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
+//             {
+//               $expr: { $eq: [{ $month: "$buyingDate" }, req.params.month] },
+//             },
+//           ],
+//         }
+//       : req.params.type === "year"
+//       ? {
+//           $and: [
+//             { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
+//           ],
+//         }
+//       : {}
+//   )
+//     .sort({ buyingDate: 1 })
+//     .select();
+//   res.status(200).json(sales);
+// };
+
 const getBuyingStats = async (req, res) => {
-  const sales = await SneakerModel.find(
-    req.params.type === "month"
-      ? {
+  const type = "$" + req.params.type;
+  const sales = await SneakerModel.aggregate(
+    [
+      {
+        $match: {
           $and: [
-            { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
             {
-              $expr: { $eq: [{ $month: "$buyingDate" }, req.params.month] },
+              $expr: {
+                $eq: [{ $year: req.params.data === "buys" ? "$buyingDate" : "$sellingDate" }, Number(req.params.year)],
+              },
+            },
+            {
+              $expr: {
+                $eq: [{ $month: req.params.data === "buys" ? "$buyingDate" : "$sellingDate" }, Number(req.params.month)],
+              },
             },
           ],
-        }
-      : req.params.type === "year"
-      ? {
-          $and: [
-            { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
-          ],
-        }
-      : {}
-  )
-    .sort({ buyingDate: 1 })
-    .select();
+        },
+      },
+      { $group: { _id: type, count: { $sum: 1 } } },
+    ]
+    // req.params.dateType === "year" && [{
+    //     $and: [
+    //       { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
+    //     ],
+    //   }]
+  );
   res.status(200).json(sales);
 };
 
@@ -87,11 +118,12 @@ const getSums = async (req, res) => {
       ? "$sellingDate"
       : "$date";
 
-  const price =  req.params.data === "sneakersBuying"
-  ? "$buyingPrice"
-  : req.params.data === "sneakersSelling"
-  ? "$resellPrice"
-  : "$price";
+  const price =
+    req.params.data === "sneakersBuying"
+      ? "$buyingPrice"
+      : req.params.data === "sneakersSelling"
+      ? "$resellPrice"
+      : "$price";
   const sales = await model.aggregate(
     req.params.type === "month"
       ? [
@@ -127,9 +159,4 @@ const getSums = async (req, res) => {
   res.status(200).json(sales);
 };
 
-export {
-  getSalesStats,
-  getBuyingStats,
-  getExpensivesStats,
-  getSums
-};
+export { getSalesStats, getBuyingStats, getExpensivesStats, getSums };

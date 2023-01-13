@@ -48,7 +48,6 @@ const getSneakerById = async (req, res) => {
 const getSneakersByMonth = async (req, res) => {
   const sneakers = await SneakerModel
     .find({
-      sold: (req.params.type === "buying" ? "0" : "1"),
       $and: [
         { $expr: { $eq: [{ $year: (req.params.type === "buying" ? "$buyingDate" : "$sellingDate") }, req.params.year] } },
         {

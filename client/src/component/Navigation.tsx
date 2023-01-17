@@ -4,9 +4,8 @@ import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { MdSpaceDashboard } from "react-icons/md";
 import { MdInventory2 } from "react-icons/md";
 import { SiWebcomponentsdotorg } from "react-icons/si";
-import { SiNike } from "react-icons/si";
 import { MdPointOfSale } from "react-icons/md";
-import { MdSell } from "react-icons/md";
+import { FaTruckLoading } from "react-icons/fa";
 import { ImHome3 } from "react-icons/im";
 import { NavLink } from "react-router-dom";
 
@@ -15,16 +14,11 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
     { name: "Accueil", link: "/", icon: <ImHome3 /> },
     { name: "Inventaire", link: "/inventory", icon: <MdInventory2 /> },
     { name: "Dépenses", link: "/expensive", icon: <MdPointOfSale /> },
-    { name: "Retailers", link: "/retailer", icon: <SiWebcomponentsdotorg /> },
-    {
-      name: "Resellers",
-      link: "/reseller",
-      icon: <MdSell />,
-    },
-    { name: "Marques", link: "/brand", icon: <SiNike /> },
+    { name: "Retailers", link: "/website", icon: <SiWebcomponentsdotorg /> },
+    { name: "Suivi de commandes", link: "/tracking", icon: <FaTruckLoading /> },
   ];
   return (
-    <aside className="bg-indigo-500 min-h-screen text-white relative rounded-r-xl">
+    <aside className="bg-indigo-500 h-screen text-white sticky top-0 rounded-r-xl">
       <div
         className="absolute text-2xl -right-4 top-20 rounded-full bg-white text-indigo-500 drop-shadow-lg p-1"
         onClick={() => setIsOpen(!isOpen)}

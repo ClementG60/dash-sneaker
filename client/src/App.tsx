@@ -1,7 +1,6 @@
 import Navigation from "./component/Navigation";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Reseller from "./page/Reseller";
-import Retailer from "./page/Retailer";
+import Website from "./page/Website";
 import Home from "./page/Home";
 import { useAppDispatch } from "./app/hooks";
 import { useEffect, useState } from "react";
@@ -10,10 +9,10 @@ import { setResellWebsites } from "./feature/resellWebsitesSlice";
 import { setWebsites } from "./feature/websitesSlice";
 import Expensive from "./page/Expensive";
 import Inventory from "./page/Inventory";
-import Brand from "./page/Brand";
 import { setBrands } from "./feature/brandsSlice";
 import moment from "moment";
 import { ToastContainer } from "react-toastify";
+import TrackingOrder from "./page/TrackingOrder";
 
 const App = () => {
   moment.locale("fr", {
@@ -56,10 +55,9 @@ const App = () => {
                 <Route path="/" element={<Home isOpen={isOpen} />} />
                 <Route path="/*" element={<Home isOpen={isOpen} />} />
                 <Route path="/inventory" element={<Inventory />} />
-                <Route path="/brand" element={<Brand />} />
-                <Route path="/retailer" element={<Retailer />} />
-                <Route path="/reseller" element={<Reseller />} />
+                <Route path="/website" element={<Website />} />
                 <Route path="/expensive" element={<Expensive />} />
+                <Route path="/tracking" element={<TrackingOrder />} />
               </Routes>
             </div>
           </div>

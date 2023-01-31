@@ -173,6 +173,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
             .catch((err) => console.log(err));
     }
   };
+
   return loadingForm || sneaker ? (
     <FormProvider {...methods}>
       <form

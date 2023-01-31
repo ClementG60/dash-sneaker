@@ -22,7 +22,7 @@ const App = () => {
       "Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre".split(
         "_"
       ),
-  });  
+  });
   const dispatch = useAppDispatch();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);

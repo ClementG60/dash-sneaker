@@ -62,7 +62,7 @@ const ExpensiveInventory = () => {
     <>
       <div className="mx-12 mb-5 flex justify-between">
         <button
-          className="flex bg-indigo-500 text-white font-bold rounded my-auto hover:rotate-180 duration-300 cursor-pointer"
+          className="flex bg-indigo-500 text-white font-bold rounded my-auto hover:rotate-90 hover:scale-110 duration-300 cursor-pointer"
           onClick={() => setOpenFormExpensive(!openFormExpensive)}
         >
           <AddIcon />

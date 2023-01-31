@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FieldError, FieldValues, useFormContext, UseFormRegister } from "react-hook-form";
 import { ISneaker } from "../../interface/Interface";
 

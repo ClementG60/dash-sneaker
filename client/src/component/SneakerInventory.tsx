@@ -10,6 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "./Modal";
 import { FaTrash } from "react-icons/fa";
 import { BsFillPencilFill } from "react-icons/bs";
+import { GoCheck, GoX } from "react-icons/go";
 import moment from "moment";
 import DateSelector from "./DateSelector";
 
@@ -35,7 +36,8 @@ const SneakerInventory = () => {
     "Site d'achat",
     "Prix d'achat",
     "Date d'achat",
-    "",
+    "Vendu",
+    "Actions",
   ];
 
   const thsSales: Array<string> = [
@@ -46,7 +48,7 @@ const SneakerInventory = () => {
     "Site de vente",
     "Prix de vente",
     "Date de vente",
-    "",
+    "Actions",
   ];
 
   const handleDeleteSneaker = (id: string) => {
@@ -183,6 +185,17 @@ const SneakerInventory = () => {
                       ? dateParser(sneaker?.buyingDate)
                       : dateParser(sneaker?.sellingDate)}
                   </td>
+                  {typeSelected === "buying" && (
+                    <td className="py-4">
+                      <div
+                        className={`flex text-lg justify-center ${
+                          sneaker?.sold ? "text-green-500" : "text-red-500"
+                        }`}
+                      >
+                        {sneaker?.sold ? <GoCheck /> : <GoX />}
+                      </div>
+                    </td>
+                  )}
                   <td className="flex justify-around py-4">
                     <div
                       className="cursor-pointer text-lg px-1"
@@ -205,7 +218,12 @@ const SneakerInventory = () => {
           </tbody>
         </table>
         {openFormSneaker && id && (
-          <Modal setOpenModal={setOpenFormSneaker} model={"sneakers"} id={id} typeSelected={typeSelected} />
+          <Modal
+            setOpenModal={setOpenFormSneaker}
+            model={"sneakers"}
+            id={id}
+            typeSelected={typeSelected}
+          />
         )}
       </div>
     </>

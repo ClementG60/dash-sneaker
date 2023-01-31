@@ -7,9 +7,11 @@ import { SiWebcomponentsdotorg } from "react-icons/si";
 import { MdPointOfSale } from "react-icons/md";
 import { FaTruckLoading } from "react-icons/fa";
 import { ImHome3 } from "react-icons/im";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useMatch } from "react-router-dom";
 
 const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
+  const location = useLocation();
+
   const menus = [
     { name: "Accueil", link: "/", icon: <ImHome3 /> },
     { name: "Inventaire", link: "/inventory", icon: <MdInventory2 /> },
@@ -46,7 +48,7 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
         {menus.map((menu, index) => {
           return (
             <NavLink to={menu.link} key={index}>
-              <li className="flex text-gray-300 text-sm p-2 cursor-pointer gap-x-4 rounded-md mt-2 hover:bg-indigo-400">
+              <li className={`flex text-gray-300 text-sm p-2 cursor-pointer gap-x-4 rounded-md mt-2 hover:bg-indigo-400 ${location.pathname === menu.link && "bg-indigo-600"}`}>
                 <div className="flex items-center gap-x-5">
                   <span className="text-2xl">{menu.icon}</span>
                   <span className={`${!isOpen && "hidden"} flex-none`}>

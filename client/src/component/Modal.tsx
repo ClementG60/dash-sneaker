@@ -2,6 +2,7 @@ import { IModal } from "../interface/Interface";
 import CloseIcon from "@mui/icons-material/Close";
 import FormSneaker from "./Form/FormSneaker";
 import FormExpensive from "./Form/FormExpensive";
+import FormTracking from "./Form/FormTracking";
 
 const Modal = ({ setOpenModal, model, id, typeSelected }: IModal) => {
   return (
@@ -19,6 +20,7 @@ const Modal = ({ setOpenModal, model, id, typeSelected }: IModal) => {
         </div>
         {model === "sneakers" && <FormSneaker id={id} setOpenModal={setOpenModal} typeSelected={typeSelected}/>}
         {model === "expensives" && <FormExpensive />}
+        {model === "tracking" && <FormTracking />}
       </div>
     </div>
   );

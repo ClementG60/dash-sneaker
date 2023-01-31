@@ -3,7 +3,7 @@ import { FieldError, useFormContext } from "react-hook-form";
 import { isEmpty } from "../Utils";
 
 type Data = {
-  _id: string;
+  _id?: string;
   name: string;
 };
 

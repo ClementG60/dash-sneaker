@@ -4,6 +4,7 @@ import resellWebsitesReducer from "../feature/resellWebsitesSlice";
 import sneakersReducer from "../feature/sneakersSlice";
 import expensivesReducer from "../feature/expensiveSlice";
 import brandsReducer from "../feature/brandsSlice";
+import trackingsReducer from "../feature/trackingsSlice";
 
 const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
         resellWebsites: resellWebsitesReducer,
         sneakers: sneakersReducer,
         expensives: expensivesReducer,
-        brands: brandsReducer
+        brands: brandsReducer,
+        trackings: trackingsReducer,
     }
 })
 

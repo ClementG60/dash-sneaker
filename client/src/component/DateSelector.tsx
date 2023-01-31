@@ -19,7 +19,7 @@ const DateSelector = ({ date, setDate }: IDateSelector) => {
           <MdOutlineKeyboardArrowRight />
         </span>
       </div>
-      <p className="w-6/12 font-semibold">{date.format("MMMM YYYY")}</p>
+      <p className="w-6/12 font-semibold cursor-default">{date.format("MMMM YYYY")}</p>
     </div>
   );
 };

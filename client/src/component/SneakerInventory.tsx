@@ -52,7 +52,7 @@ const SneakerInventory = () => {
   const handleDeleteSneaker = (id: string) => {
     axios({
       method: "delete",
-      url: `${process.env.REACT_APP_URL_API}sneaker/delete/${id}`,
+      url: `${process.env.REACT_APP_URL_API}api/sneaker/delete/${id}`,
     })
       .then((res) => {
         dispatch(deleteSneaker(id));
@@ -67,7 +67,6 @@ const SneakerInventory = () => {
         });
       })
       .catch((err) => {
-        console.log(err);
         toast.error("Une erreur est survenue. Veuillez recommencez.", {
           position: "bottom-right",
           autoClose: 5000,
@@ -91,7 +90,7 @@ const SneakerInventory = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}sneaker/get-by-month/${typeSelected}/${month}/${year}`,
+      url: `${process.env.REACT_APP_URL_API}api/sneaker/get-by-month/${typeSelected}/${month}/${year}`,
     }).then((res) => dispatch(setSneakers(res.data)));
   }, [month, year, typeSelected]);
 
@@ -121,7 +120,7 @@ const SneakerInventory = () => {
       </div>
       <div className="mx-12 mb-5 flex justify-between">
         <button
-          className="flex bg-indigo-500 text-white font-bold rounded my-auto hover:rotate-180 duration-300 cursor-pointer"
+          className="flex bg-indigo-500 text-white font-bold rounded my-auto hover:rotate-90 hover:scale-110 duration-300 cursor-pointer"
           onClick={() => {
             setOpenFormSneaker(!openFormSneaker);
             setId("none");
@@ -151,7 +150,7 @@ const SneakerInventory = () => {
               return (
                 <tr
                   key={index}
-                  className="border-b text-xs text-indigo-900 font-medium"
+                  className="border-b text-sm text-indigo-900 font-medium"
                 >
                   <td className="py-4">
                     {brands?.map((brand: IBrand) => {

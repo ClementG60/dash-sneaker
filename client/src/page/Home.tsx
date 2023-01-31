@@ -29,59 +29,59 @@ const Home = ({ isOpen }: IHome) => {
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}statistics/get-sums/expensives/month/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/expensives/month/${currentYear}/${currentMonth}`,
     }).then((res) => {
       setMonthExpensives(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}statistics/get-sums/expensives/month/${pastYear}/${pastMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/expensives/month/${pastYear}/${pastMonth}`,
     }).then((res) => {
       setLastMonthExpensives(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}statistics/get-sums/sneakersBuying/month/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/sneakersBuying/month/${currentYear}/${currentMonth}`,
     }).then((res) => {
       setMonthBuys(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}statistics/get-sums/sneakersBuying/month/${pastYear}/${pastMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/sneakersBuying/month/${pastYear}/${pastMonth}`,
     }).then((res) => {
       setLastMonthBuys(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}statistics/get-sums/sneakersSelling/month/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/sneakersSelling/month/${currentYear}/${currentMonth}`,
     }).then((res) => {
       setMonthSells(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}statistics/get-sums/sneakersSelling/month/${pastYear}/${pastMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/sneakersSelling/month/${pastYear}/${pastMonth}`,
     }).then((res) => {
       setLastMonthSells(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}statistics/get-buying-stats/buys/brandId/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/get-buying-stats/buys/brandId/${currentYear}/${currentMonth}`,
     }).then((res) => setBrandBuyData(res.data));
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}statistics/get-buying-stats/buys/websiteId/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/get-buying-stats/buys/websiteId/${currentYear}/${currentMonth}`,
     }).then((res) => setwebsiteBuyData(res.data));
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}statistics/get-buying-stats/sales/resellWebsiteId/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/get-buying-stats/sales/resellWebsiteId/${currentYear}/${currentMonth}`,
     }).then((res) => setResellWebsiteData(res.data));
   }, []);  
 

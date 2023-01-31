@@ -30,7 +30,7 @@ const FormExpensive = () => {
     };
 
     axios
-      .post(`${process.env.REACT_APP_URL_API}expensive/add`, data)
+      .post(`${process.env.REACT_APP_URL_API}api/expensive/add`, data)
       .then((res) => {
         dispatch(addExpensive(data));
       })

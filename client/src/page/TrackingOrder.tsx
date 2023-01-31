@@ -1,11 +1,7 @@
-import React from "react";
+import TrackingArray from "../component/TrackingArray";
 
 const TrackingOrder = () => {
-  return (
-    <div>
-      <p>Tracking</p>
-    </div>
-  );
+  return <TrackingArray />;
 };
 
 export default TrackingOrder;

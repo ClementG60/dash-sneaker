@@ -1,10 +1,7 @@
-import React from 'react';
-import SneakerInventory from '../component/SneakerInventory';
+import SneakerInventory from "../component/SneakerInventory";
 
 const Inventory = () => {
-    return (
-        <SneakerInventory />
-    );
+  return <SneakerInventory />;
 };
 
 export default Inventory;

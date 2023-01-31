@@ -16,12 +16,12 @@ const FormBrand = () => {
     };
 
     axios
-      .post(`${process.env.REACT_APP_URL_API}brand/add`, data)
+      .post(`${process.env.REACT_APP_URL_API}api/brand/add`, data)
       .then((res) => {
         dispatch(addBrand(data));
         axios({
           method: "get",
-          url: `${process.env.REACT_APP_URL_API}brand/get`,
+          url: `${process.env.REACT_APP_URL_API}api/brand/get`,
         }).then((res) => dispatch(setBrands(res.data)));
       })
       .catch((err) =>

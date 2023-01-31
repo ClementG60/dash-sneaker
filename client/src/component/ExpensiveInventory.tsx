@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { IExpensive } from "../interface/Interface";
 import { dateParser } from "./Utils";
 import axios from "axios";
-import { deleteSneaker } from "../feature/sneakersSlice";
 import moment from "moment";
 import { setExpensives, deleteExpensive } from "../feature/expensiveSlice";
 import DateSelector from "./DateSelector";
@@ -23,7 +22,7 @@ const ExpensiveInventory = () => {
   const handleDeleteExpensive = (id: string) => {
     axios({
       method: "delete",
-      url: `${process.env.REACT_APP_URL_API}expensive/delete/${id}`,
+      url: `${process.env.REACT_APP_URL_API}api/expensive/delete/${id}`,
     })
       .then((res) => {
         dispatch(deleteExpensive(id));
@@ -56,7 +55,7 @@ const ExpensiveInventory = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}expensive/get-by-month/${month}/${year}`,
+      url: `${process.env.REACT_APP_URL_API}api/expensive/get-by-month/${month}/${year}`,
     }).then((res) => dispatch(setExpensives(res.data)));
   }, [month, year]);
   return (
@@ -107,14 +106,14 @@ const ExpensiveInventory = () => {
             })}
           </tbody>
         </table>
-        {openFormExpensive && (
-          <Modal
-            setOpenModal={setOpenFormExpensive}
-            model={"expensives"}
-            id={"none"}
-          />
-        )}
       </div>
+      {openFormExpensive && (
+        <Modal
+          setOpenModal={setOpenFormExpensive}
+          model={"expensives"}
+          id={"none"}
+        />
+      )}
     </>
   );
 };

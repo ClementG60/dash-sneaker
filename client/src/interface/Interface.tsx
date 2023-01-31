@@ -35,6 +35,21 @@ export interface ISneaker {
   resellWebsiteId: string;
 }
 
+export interface ITracking {
+  transporter: string;
+  trackingNumber: string;
+ 
+}
+
+export interface ITrackingArrayLine {
+  setRefresh: (value: boolean) => void
+  refresh: boolean;
+  tracking: {
+    transporter: string;
+    trackingNumber: string;
+  }
+}
+
 export interface IModal {
   setOpenModal: (value: boolean) => void;
   model: string;
@@ -81,6 +96,10 @@ export interface IBrandState {
   brands: Array<IBrand>;
 }
 
+export interface ITrackingState {
+  trackings: Array<ITracking>;
+}
+
 export interface IExpensive {
   _id: string;
   name: string;
@@ -113,4 +132,3 @@ export interface IChartData {
   _id: string;
   count: number;
 }
-

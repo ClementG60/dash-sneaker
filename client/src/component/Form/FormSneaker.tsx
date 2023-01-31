@@ -29,7 +29,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
   useEffect(() => {
     if (id !== "none") {
       axios
-        .get(`${process.env.REACT_APP_URL_API}sneaker/get-by-id/${id}`)
+        .get(`${process.env.REACT_APP_URL_API}api/sneaker/get-by-id/${id}`)
         .then((res) => {
           setSneaker(res.data);
         });
@@ -129,7 +129,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
     {
       id === "none"
         ? axios
-            .post(`${process.env.REACT_APP_URL_API}sneaker/add`, data)
+            .post(`${process.env.REACT_APP_URL_API}api/sneaker/add`, data)
             .then((res) => {
               dispatch(addSneaker(data));
               axios({
@@ -143,7 +143,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
             })
             .catch((err) => console.log(err))
         : axios
-            .patch(`${process.env.REACT_APP_URL_API}sneaker/update/${id}`, data)
+            .patch(`${process.env.REACT_APP_URL_API}api/sneaker/update/${id}`, data)
             .then((res) => {
               dispatch(updateSneaker([id, res.data]));
               toast.success("La paire a bien été mise à jour.", {
@@ -160,7 +160,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
                 method: "get",
                 url: `${
                   process.env.REACT_APP_URL_API
-                }sneaker/get-by-month/${typeSelected}/${moment(
+                }api/sneaker/get-by-month/${typeSelected}/${moment(
                   typeSelected === "buying" ? data.buyingDate : data.sellingDate
                 ).format("MM")}/${moment(
                   typeSelected === "buying" ? data.buyingDate : data.sellingDate
@@ -225,11 +225,11 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
               })}
             </select>
           </div>
-          {errors.size ? (
+          {errors.size && (
             <p className="text-red-700 text-xs mt-2 text-left">
               {errors.size.message}
             </p>
-          ) : null}
+          )}
         </div>
         <InputGroup
           label="Prix d'achat"

@@ -25,19 +25,19 @@ const AddWebsite = ({ type }: IGetSites) => {
     };
 
     axios
-      .post(`${process.env.REACT_APP_URL_API}website/add-${type}`, data)
+      .post(`${process.env.REACT_APP_URL_API}api/website/add-${type}`, data)
       .then((res) => {
         if (type === "website") {
           dispatch(addWebsite(data));
           axios({
             method: "get",
-            url: `${process.env.REACT_APP_URL_API}website/get-websites`,
+            url: `${process.env.REACT_APP_URL_API}api/website/get-websites`,
           }).then((res) => dispatch(setWebsites(res.data)));
         } else {
           dispatch(addResellWebsite(data));
           axios({
             method: "get",
-            url: `${process.env.REACT_APP_URL_API}website/get-resell-websites`,
+            url: `${process.env.REACT_APP_URL_API}api/website/get-resell-websites`,
           }).then((res) => dispatch(setResellWebsites(res.data)));
         }
         setWebsite("");

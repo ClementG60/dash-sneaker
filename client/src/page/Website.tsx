@@ -1,11 +1,38 @@
-import { useState } from "react";
+import { createRef, useLayoutEffect, useState } from "react";
 import FormBrand from "../component/Form/FormBrand";
-import AddWebsite from "../component/Form/FormWebsite";
+import FormWebsite from "../component/Form/FormWebsite";
 import GetBrands from "../component/GetBrands";
 import GetSites from "../component/GetSites";
+import { FaTrash } from "react-icons/fa";
+import { gsap } from "gsap";
+import { duration } from "moment";
 
 const Websites = () => {
   const [typeSelected, setTypeSelected] = useState<string>("retailers");
+  const [deleteProduct, setDeleteProduct] = useState<boolean>(false);
+
+  const deleteButton = createRef<HTMLButtonElement>();
+
+  useLayoutEffect(() => {
+    let timeline = gsap.timeline({ repeat: -1 });
+    if (deleteProduct) {
+      timeline.to(deleteButton.current, {
+        rotation: 20,
+        duration: 0.1,
+      });
+      timeline.to(deleteButton.current, {
+        rotation: -20,
+        duration: 0.2,
+      });
+    } else {
+      gsap.killTweensOf(deleteButton.current);
+      gsap.to(deleteButton.current, {
+        rotation: 0,
+        duration: 0.1,
+      })
+    }
+  }, [deleteProduct]);
+
   return (
     <>
       <div className="w-full mb-3">
@@ -39,21 +66,43 @@ const Websites = () => {
           </li>
         </ul>
       </div>
+      <div className=" w-11/12 flex justify-end">
+        <button
+          className={`flex ${
+            deleteProduct ? "bg-red-700" : "bg-indigo-500"
+          } text-white rounded my-auto hover:scale-110 duration-300 cursor-pointer p-3`}
+          onClick={() => setDeleteProduct(!deleteProduct)}
+          ref={deleteButton}
+        >
+          <FaTrash />
+        </button>
+      </div>
       {typeSelected === "retailers" && (
         <>
-          <GetSites type={"retailer"} />
-          <AddWebsite type={"website"} />
+          <GetSites
+            type={"retailer"}
+            deleteProduct={deleteProduct}
+            setDeleteProduct={setDeleteProduct}
+          />
+          <FormWebsite type={"website"} />
         </>
       )}
       {typeSelected === "resellWebsites" && (
         <>
-          <GetSites type={"reseller"} />
-          <AddWebsite type={"resell-website"} />
+          <GetSites
+            type={"reseller"}
+            deleteProduct={deleteProduct}
+            setDeleteProduct={setDeleteProduct}
+          />
+          <FormWebsite type={"resell-website"} />
         </>
       )}
       {typeSelected === "brands" && (
         <>
-          <GetBrands />
+          <GetBrands
+            deleteProduct={deleteProduct}
+            setDeleteProduct={setDeleteProduct}
+          />
           <FormBrand />
         </>
       )}

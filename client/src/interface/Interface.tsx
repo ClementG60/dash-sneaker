@@ -5,12 +5,34 @@ export interface ISite {
   name: string;
 }
 
+export interface ISiteMap {
+  deleteProduct: boolean;
+  site: ISite;
+  type: string;
+}
+
 export interface IBrand {
   _id: string;
   name: string;
 }
 
+export interface IBrandMap {
+  deleteProduct: boolean;
+  brand: IBrand;
+}
+
 export interface IGetSites {
+  type: string;
+  deleteProduct: boolean;
+  setDeleteProduct: (value: boolean) => void;
+}
+
+export interface IGetBrands {
+  deleteProduct: boolean;
+  setDeleteProduct: (value: boolean) => void;
+}
+
+export interface IAddSite {
   type: string;
 }
 

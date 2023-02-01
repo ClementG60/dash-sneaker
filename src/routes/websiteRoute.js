@@ -5,12 +5,12 @@ const router = express.Router();
 //retail website
 router.get("/get-websites", getWebsite);
 router.post("/add-website", addWebsite);
-router.delete("/delete-website", deleteWebsite);
+router.delete("/delete-website/:id", deleteWebsite);
 
 
 //resell website
 router.get("/get-resell-websites", getResellWebsite);
 router.post("/add-resell-website", addResellWebsite);
-router.delete("/delete-resell-website", deleteResellWebsite);
+router.delete("/delete-resell-website/:id", deleteResellWebsite);
 
 export default router;

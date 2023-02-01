@@ -1,7 +1,9 @@
 import { IGetSites, ISite } from "../interface/Interface";
 import { useAppSelector } from "../app/hooks";
 
-const GetSites = ({ type }: IGetSites) => {
+import Sites from "./Sites";
+
+const GetSites = ({ type, deleteProduct, setDeleteProduct }: IGetSites) => {
   const websites = useAppSelector((state) => state.websites.websites);
   const resellWebsites = useAppSelector(
     (state) => state.resellWebsites.websites
@@ -12,14 +14,7 @@ const GetSites = ({ type }: IGetSites) => {
       <ul className="grid grid-cols-6 gap-4 text-center">
         {(type === "retailer" ? websites : resellWebsites).map(
           (site: ISite, index: number) => {
-            return (
-              <li
-                key={index}
-                className="p-3 bg-gradient-to-r from-indigo-500 to-indigo-400 font-bold text-slate-50 rounded-br-lg rounded-tl-lg transition ease-in-out hover:scale-110 duration-300"
-              >
-                {site.name}
-              </li>
-            );
+            return <Sites key={index} site={site} deleteProduct={deleteProduct} type={type}/>;
           }
         )}
       </ul>

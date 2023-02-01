@@ -14,9 +14,14 @@ export const brandsSlice = createSlice({
         },
         addBrand: (state, { payload }) => {
             state.brands.push(payload)
-        }
+        },
+        deleteBrand: (state, { payload }) => {
+            state.brands = state.brands.filter(
+              (brand) => brand._id !== payload
+            );
+          },
     }
 });
 
-export const { setBrands, addBrand } = brandsSlice.actions;
+export const { setBrands, addBrand, deleteBrand } = brandsSlice.actions;
 export default brandsSlice.reducer;

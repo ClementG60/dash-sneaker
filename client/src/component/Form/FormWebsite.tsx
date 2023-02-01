@@ -1,6 +1,5 @@
-import { IGetSites } from "../../interface/Interface";
+import { IAddSite } from "../../interface/Interface";
 import { useState } from "react";
-import { AxiosError, AxiosResponse } from "axios";
 import axios from "axios";
 import { useAppDispatch } from "../../app/hooks";
 import { addWebsite, setWebsites } from "../../feature/websitesSlice";
@@ -10,7 +9,7 @@ import {
 } from "../../feature/resellWebsitesSlice";
 import { toast } from "react-toastify";
 
-const AddWebsite = ({ type }: IGetSites) => {
+const FormWebsite = ({ type }: IAddSite) => {
   const [website, setWebsite] = useState<string>();
   const [error, setError] = useState<string>();
 
@@ -79,4 +78,4 @@ const AddWebsite = ({ type }: IGetSites) => {
   );
 };
 
-export default AddWebsite;
+export default FormWebsite;

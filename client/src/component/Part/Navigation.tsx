@@ -1,4 +1,4 @@
-import { INavigation } from "../interface/Interface";
+import { INavigation } from "../../interface/Interface";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { MdSpaceDashboard } from "react-icons/md";
@@ -16,7 +16,7 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
   const menus = [
     { name: "Accueil", link: "/", icon: <ImHome3 /> },
     { name: "Chaussures", link: "/inventory", icon: <GiRunningShoe /> },
-    { name: "Autres", link: "/inventory", icon: <MdInventory2 /> },
+    { name: "Autres", link: "/others", icon: <MdInventory2 /> },
     { name: "Dépenses", link: "/expensive", icon: <MdPointOfSale /> },
     { name: "Retailers", link: "/website", icon: <SiWebcomponentsdotorg /> },
     { name: "Suivi de commandes", link: "/tracking", icon: <FaTruckLoading /> },

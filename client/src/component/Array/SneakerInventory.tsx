@@ -1,18 +1,18 @@
 import axios from "axios";
-import { IBrand, ISite, ISneaker } from "../interface/Interface";
-import { dateParser } from "./Utils";
+import { IBrand, ISite, ISneaker } from "../../interface/Interface";
+import { dateParser } from "../Utils";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { deleteSneaker, setSneakers } from "../feature/sneakersSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { deleteSneaker, setSneakers } from "../../feature/sneakersSlice";
 import { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import Modal from "./Modal";
+import Modal from "../Modal";
 import { FaTrash } from "react-icons/fa";
 import { BsFillPencilFill } from "react-icons/bs";
 import { GoCheck, GoX } from "react-icons/go";
 import moment from "moment";
-import DateSelector from "./DateSelector";
+import DateSelector from "../Part/DateSelector";
 
 const SneakerInventory = () => {
   const sneakers = useAppSelector((state) => state.sneakers.sneakers);

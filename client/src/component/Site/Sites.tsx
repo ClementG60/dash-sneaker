@@ -1,12 +1,12 @@
 import { createRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
-import { ISiteMap } from "../interface/Interface";
+import { ISiteMap } from "../../interface/Interface";
 import { IoMdClose } from "react-icons/io";
 import axios from "axios";
-import { useAppDispatch } from "../app/hooks";
-import { deleteWebsite } from "../feature/websitesSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { deleteWebsite } from "../../feature/websitesSlice";
 import { toast } from "react-toastify";
-import { deleteResellWebsite } from "../feature/resellWebsitesSlice";
+import { deleteResellWebsite } from "../../feature/resellWebsitesSlice";
 
 const Sites = ({ site, deleteProduct, type }: ISiteMap) => {
   const deleteSites = createRef<HTMLLIElement>();

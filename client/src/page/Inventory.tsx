@@ -1,4 +1,4 @@
-import SneakerInventory from "../component/SneakerInventory";
+import SneakerInventory from "../component/Array/SneakerInventory";
 
 const Inventory = () => {
   return <SneakerInventory />;

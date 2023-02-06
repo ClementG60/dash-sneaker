@@ -1,8 +1,8 @@
 import { createRef, useLayoutEffect, useState } from "react";
 import FormBrand from "../component/Form/FormBrand";
 import FormWebsite from "../component/Form/FormWebsite";
-import GetBrands from "../component/GetBrands";
-import GetSites from "../component/GetSites";
+import GetBrands from "../component/Brand/GetBrands";
+import GetSites from "../component/Site/GetSites";
 import { FaTrash } from "react-icons/fa";
 import { gsap } from "gsap";
 import { duration } from "moment";

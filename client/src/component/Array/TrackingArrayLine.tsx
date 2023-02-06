@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
-import { ITrackingArrayLine } from "../interface/Interface";
+import { ITrackingArrayLine } from "../../interface/Interface";
 
 const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine) => {
   const [status, setStatus] = useState<string>();

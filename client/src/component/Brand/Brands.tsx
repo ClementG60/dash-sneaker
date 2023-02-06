@@ -2,9 +2,9 @@ import axios from "axios";
 import gsap from "gsap";
 import { createRef, useLayoutEffect } from "react";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "../app/hooks";
-import { deleteBrand } from "../feature/brandsSlice";
-import { IBrandMap } from "../interface/Interface";
+import { useAppDispatch } from "../../app/hooks";
+import { deleteBrand } from "../../feature/brandsSlice";
+import { IBrandMap } from "../../interface/Interface";
 import { IoMdClose } from "react-icons/io";
 
 const Brands = ({ brand, deleteProduct }: IBrandMap) => {

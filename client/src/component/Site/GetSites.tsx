@@ -1,5 +1,5 @@
-import { IGetSites, ISite } from "../interface/Interface";
-import { useAppSelector } from "../app/hooks";
+import { IGetSites, ISite } from "../../interface/Interface";
+import { useAppSelector } from "../../app/hooks";
 
 import Sites from "./Sites";
 

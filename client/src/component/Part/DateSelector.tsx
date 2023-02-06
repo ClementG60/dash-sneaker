@@ -1,4 +1,4 @@
-import { IDateSelector } from "../interface/Interface";
+import { IDateSelector } from "../../interface/Interface";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import moment from "moment";

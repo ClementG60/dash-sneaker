@@ -1,4 +1,4 @@
-import TrackingArray from "../component/TrackingArray";
+import TrackingArray from "../component/Array/TrackingArray";
 
 const TrackingOrder = () => {
   return <TrackingArray />;

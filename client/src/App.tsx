@@ -1,4 +1,4 @@
-import Navigation from "./component/Navigation";
+import Navigation from "./component/Part/Navigation";
 import { BrowserRouter } from "react-router-dom";
 import Website from "./page/Website";
 import Home from "./page/Home";

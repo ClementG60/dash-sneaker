@@ -1,5 +1,5 @@
-import { useAppSelector } from "../app/hooks";
-import { IBrand, IGetBrands } from "../interface/Interface";
+import { useAppSelector } from "../../app/hooks";
+import { IBrand, IGetBrands } from "../../interface/Interface";
 import Brands from "./Brands";
 
 const GetBrands = ({ deleteProduct, setDeleteProduct }: IGetBrands) => {

@@ -1,5 +1,5 @@
 import { IAddSite } from "../../interface/Interface";
-import { useState } from "react";
+import { createRef, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { useAppDispatch } from "../../app/hooks";
 import { addWebsite, setWebsites } from "../../feature/websitesSlice";
@@ -8,11 +8,11 @@ import {
   setResellWebsites,
 } from "../../feature/resellWebsitesSlice";
 import { toast } from "react-toastify";
+import gsap from "gsap";
 
 const FormWebsite = ({ type }: IAddSite) => {
   const [website, setWebsite] = useState<string>();
-  const [error, setError] = useState<string>();
-
+  const submitButton = createRef<HTMLInputElement>();
   const dispatch = useAppDispatch();
 
   const handleAddWebsite = (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,15 +41,17 @@ const FormWebsite = ({ type }: IAddSite) => {
         }
         setWebsite("");
       })
-      .catch((err) => toast.error(err.response.data.message, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      }));
+      .catch((err) =>
+        toast.error(err.response.data.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      );
   };
 
   return (
@@ -71,7 +73,8 @@ const FormWebsite = ({ type }: IAddSite) => {
         <input
           type="submit"
           value="Ajouter"
-          className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md hover:bg-indigo-400"
+          className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md"
+          ref={submitButton}
         />
       </form>
     </div>

@@ -69,7 +69,7 @@ const Brands = ({ brand, deleteProduct }: IBrandMap) => {
     <li className="p-3 bg-gradient-to-r from-indigo-500 to-indigo-400 font-bold text-slate-50 rounded-br-lg rounded-tl-lg transition ease-in-out hover:scale-110 duration-300" ref={deleteBrands}>
       {deleteProduct && (
         <span
-          className="absolute -top-2 -left-2 bg-slate-300 rounded-full text-slate-600 p-0.5 opacity-90"
+          className="absolute -top-2 -left-2 bg-slate-300 rounded-full text-slate-600 p-0.5 opacity-90 cursor-pointer"
           onClick={() => handleDelete(brand._id)}
         >
           <IoMdClose />

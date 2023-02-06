@@ -1,4 +1,3 @@
-import React from "react";
 import { ICardStatistics } from "../../interface/Interface";
 
 const CardStatistics = ({ sum, title, lastSumMonth, isOpen }: ICardStatistics) => {

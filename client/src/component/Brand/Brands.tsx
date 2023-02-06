@@ -63,7 +63,7 @@ const Brands = ({ brand, deleteProduct }: IBrandMap) => {
         duration: 0.1,
       });
     }
-  }, [deleteProduct]);
+  }, [deleteProduct, deleteBrands]);
 
   return (
     <li className="p-3 bg-gradient-to-r from-indigo-500 to-indigo-400 font-bold text-slate-50 rounded-br-lg rounded-tl-lg transition ease-in-out hover:scale-110 duration-300" ref={deleteBrands}>

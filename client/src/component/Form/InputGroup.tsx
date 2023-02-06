@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import { FieldError, FieldValues, useFormContext, UseFormRegister } from "react-hook-form";
-import { ISneaker } from "../../interface/Interface";
+import { FieldError, useFormContext } from "react-hook-form";
 
-type InputGroup = {
+type IInputGroup = {
   label: string;
   type: string;
   nameId: string;
@@ -10,9 +8,9 @@ type InputGroup = {
   error?: FieldError
 };
 
-const InputGroup = ({ label, type, nameId, value, error }: InputGroup) => {
+const InputGroup = ({ label, type, nameId, value, error }: IInputGroup) => {
   const { register } = useFormContext();
-  const { onChange, onBlur, name, ref } = register(nameId);
+  const { onChange, name, ref } = register(nameId);
   
   return (
     <div className="w-full">

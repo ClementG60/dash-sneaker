@@ -1,5 +1,3 @@
-import axios from "axios";
-
 //fonction permettant d'afficher une date dans le bon format
 const dateParser = (date: string | undefined) => {
   //const options:object = { hour: "2-digit", minute: "2-digit", weekday: "long", year: "numeric", month: "short", day: "numeric" };
@@ -24,16 +22,5 @@ const isEmpty = (value: any) => {
     (typeof value === "string" && value.trim().length === 0)
   );
 };
-
-const UPSFilter = () => {
-}
-
-const collisimoFilter = () => {
-
-}
-
-const DHLFilter = () => {
-
-}
 
 export { dateParser, isEmpty };

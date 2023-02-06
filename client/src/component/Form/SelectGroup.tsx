@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
 import { FieldError, useFormContext } from "react-hook-form";
-import { isEmpty } from "../Utils";
 
 type Data = {
   _id?: string;
   name: string;
 };
 
-type SelectGroup = {
+type ISelectGroup = {
   label: string;
   nameId: string;
   value: string | number;
@@ -15,10 +13,9 @@ type SelectGroup = {
   error?: FieldError;
 };
 
-const SelectGroup = ({ label, nameId, error, value, data }: SelectGroup) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+const SelectGroup = ({ label, nameId, error, value, data }: ISelectGroup) => {
   const { register } = useFormContext();
-  const { onChange, onBlur, name, ref } = register(nameId);
+  const { onChange, name, ref } = register(nameId);
   
   return (
     <div className="w-full">

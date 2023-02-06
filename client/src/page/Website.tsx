@@ -5,7 +5,6 @@ import GetBrands from "../component/Brand/GetBrands";
 import GetSites from "../component/Site/GetSites";
 import { FaTrash } from "react-icons/fa";
 import { gsap } from "gsap";
-import { duration } from "moment";
 
 const Websites = () => {
   const [typeSelected, setTypeSelected] = useState<string>("retailers");
@@ -31,7 +30,7 @@ const Websites = () => {
         duration: 0.1,
       })
     }
-  }, [deleteProduct]);
+  }, [deleteProduct, deleteButton]);
 
   return (
     <>

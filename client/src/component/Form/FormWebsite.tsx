@@ -1,5 +1,5 @@
 import { IAddSite } from "../../interface/Interface";
-import { createRef, useLayoutEffect, useState } from "react";
+import { createRef, useState } from "react";
 import axios from "axios";
 import { useAppDispatch } from "../../app/hooks";
 import { addWebsite, setWebsites } from "../../feature/websitesSlice";
@@ -8,7 +8,6 @@ import {
   setResellWebsites,
 } from "../../feature/resellWebsitesSlice";
 import { toast } from "react-toastify";
-import gsap from "gsap";
 
 const FormWebsite = ({ type }: IAddSite) => {
   const [website, setWebsite] = useState<string>();

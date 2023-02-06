@@ -13,10 +13,7 @@ const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine
     //   axios({
     //     method: "get",
     //     headers: {
-    //       transId: "1234",
-    //       transactionSrc: "Test",
-    //       Username: "clementglm",
-    //       AccessLicenseNumber: "EDC413CD8D67CEB5",
+    //       AccessLicenseNumber: `${process.env.REACT_APP_UPS_KEY}`,
     //       "Content-Type": "application/json",
     //       Accept: "application/json",
     //     },
@@ -30,7 +27,7 @@ const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine
           method: "get",
           headers: {
             "X-Okapi-Key":
-              "N00v7Z+oyII2QpUYLvk2u+XC0JRDaY1m9Oze+f8olCARJTw3KcgXuaLMNF4c/Pel",
+              `${process.env.REACT_APP_CHRONOPOST_KEY}`,
             Accept: "application/json",
           },
           url: `https://api.laposte.fr/suivi/v2/idships/${tracking.trackingNumber}?lang=fr_FR`,
@@ -45,7 +42,7 @@ const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine
         axios({
           method: "get",
           headers: {
-            "DHL-API-Key": "iGyf9NPdiMED10IQqW7TseS6Y3MAb1CX",
+            "DHL-API-Key": `${process.env.REACT_APP_DHL_KEY}`,
             Accept: "application/json",
           },
           url: `https://api-eu.dhl.com/track/shipments?trackingNumber=9481557304&service=express`,

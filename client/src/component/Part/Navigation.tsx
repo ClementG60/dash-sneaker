@@ -8,7 +8,7 @@ import { SiWebcomponentsdotorg } from "react-icons/si";
 import { MdPointOfSale } from "react-icons/md";
 import { FaTruckLoading } from "react-icons/fa";
 import { ImHome3 } from "react-icons/im";
-import { NavLink, useLocation, useMatch } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
   const location = useLocation();

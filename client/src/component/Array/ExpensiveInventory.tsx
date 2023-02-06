@@ -57,7 +57,7 @@ const ExpensiveInventory = () => {
       method: "get",
       url: `${process.env.REACT_APP_URL_API}api/expensive/get-by-month/${month}/${year}`,
     }).then((res) => dispatch(setExpensives(res.data)));
-  }, [month, year]);
+  }, [month, year, dispatch]);
   return (
     <>
       <div className="mx-12 mb-5 flex justify-between">

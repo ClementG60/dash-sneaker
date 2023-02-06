@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IExpensive, IExpensiveState } from "../interface/Interface";
+import { IExpensiveState } from "../interface/Interface";
 
 const initialState: IExpensiveState = {
   expensives: [],

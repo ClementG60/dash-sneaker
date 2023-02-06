@@ -1,18 +1,13 @@
 import Navigation from "./component/Part/Navigation";
 import { BrowserRouter } from "react-router-dom";
-import Website from "./page/Website";
-import Home from "./page/Home";
 import { useAppDispatch } from "./app/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { setResellWebsites } from "./feature/resellWebsitesSlice";
 import { setWebsites } from "./feature/websitesSlice";
-import Expensive from "./page/Expensive";
-import Inventory from "./page/Inventory";
 import { setBrands } from "./feature/brandsSlice";
 import moment from "moment";
 import { ToastContainer } from "react-toastify";
-import TrackingOrder from "./page/TrackingOrder";
 import { setTrackings } from "./feature/trackingsSlice";
 import AnimatedRoute from "./component/AnimatedRoute";
 
@@ -47,7 +42,7 @@ const App = () => {
       method: "get",
       url: `${process.env.REACT_APP_URL_API}api/trackings/get`,
     }).then((res) => dispatch(setTrackings(res.data)));
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="bg-slate-100">

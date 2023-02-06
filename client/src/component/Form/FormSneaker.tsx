@@ -36,7 +36,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
     } else {
       setLoadingForm(true);
     }
-  }, []);
+  }, [id]);
 
   const sizes: Array<string> = [
     "33 EU",
@@ -126,52 +126,53 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
   } = methods;
 
   const handleSneaker = (data: ISneaker) => {
-    {
-      id === "none"
-        ? axios
-            .post(`${process.env.REACT_APP_URL_API}api/sneaker/add`, data)
-            .then((res) => {
-              dispatch(addSneaker(data));
-              axios({
-                method: "get",
-                url: `${
-                  process.env.REACT_APP_URL_API
-                }sneaker/get-by-month/${moment(data.buyingDate).format(
-                  "MM"
-                )}/${moment(data.buyingDate).format("YYYY")}`,
-              }).then((res) => dispatch(setSneakers(res.data)));
-            })
-            .catch((err) => console.log(err))
-        : axios
-            .patch(`${process.env.REACT_APP_URL_API}api/sneaker/update/${id}`, data)
-            .then((res) => {
-              dispatch(updateSneaker([id, res.data]));
-              toast.success("La paire a bien été mise à jour.", {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
-              setOpenModal(false);
-              axios({
-                method: "get",
-                url: `${
-                  process.env.REACT_APP_URL_API
-                }api/sneaker/get-by-month/${typeSelected}/${moment(
-                  typeSelected === "buying" ? data.buyingDate : data.sellingDate
-                ).format("MM")}/${moment(
-                  typeSelected === "buying" ? data.buyingDate : data.sellingDate
-                ).format("YYYY")}`,
-              }).then((res) => {
-                console.log(res.data);
-                dispatch(setSneakers(res.data));
-              });
-            })
-            .catch((err) => console.log(err));
-    }
+    id === "none"
+      ? axios
+          .post(`${process.env.REACT_APP_URL_API}api/sneaker/add`, data)
+          .then((res) => {
+            dispatch(addSneaker(data));
+            axios({
+              method: "get",
+              url: `${
+                process.env.REACT_APP_URL_API
+              }sneaker/get-by-month/${moment(data.buyingDate).format(
+                "MM"
+              )}/${moment(data.buyingDate).format("YYYY")}`,
+            }).then((res) => dispatch(setSneakers(res.data)));
+          })
+          .catch((err) => console.log(err))
+      : axios
+          .patch(
+            `${process.env.REACT_APP_URL_API}api/sneaker/update/${id}`,
+            data
+          )
+          .then((res) => {
+            dispatch(updateSneaker([id, res.data]));
+            toast.success("La paire a bien été mise à jour.", {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setOpenModal(false);
+            axios({
+              method: "get",
+              url: `${
+                process.env.REACT_APP_URL_API
+              }api/sneaker/get-by-month/${typeSelected}/${moment(
+                typeSelected === "buying" ? data.buyingDate : data.sellingDate
+              ).format("MM")}/${moment(
+                typeSelected === "buying" ? data.buyingDate : data.sellingDate
+              ).format("YYYY")}`,
+            }).then((res) => {
+              console.log(res.data);
+              dispatch(setSneakers(res.data));
+            });
+          })
+          .catch((err) => console.log(err));
   };
 
   return loadingForm || sneaker ? (

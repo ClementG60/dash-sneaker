@@ -66,7 +66,7 @@ const Sites = ({ site, deleteProduct, type }: ISiteMap) => {
         duration: 0.1,
       });
     }
-  }, [deleteProduct]);
+  }, [deleteProduct, deleteSites]);
 
   return (
     <li

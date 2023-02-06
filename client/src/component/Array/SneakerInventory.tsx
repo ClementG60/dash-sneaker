@@ -94,7 +94,7 @@ const SneakerInventory = () => {
       method: "get",
       url: `${process.env.REACT_APP_URL_API}api/sneaker/get-by-month/${typeSelected}/${month}/${year}`,
     }).then((res) => dispatch(setSneakers(res.data)));
-  }, [month, year, typeSelected]);
+  }, [month, year, typeSelected, dispatch]);
 
   return (
     <>

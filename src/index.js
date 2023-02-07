@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import "./config/dbConfig.js";
 import sneakerRoute from "./routes/sneakerRoute.js";
+import stuffRoute from "./routes/stuffRoute.js";
 import websiteRoute from "./routes/websiteRoute.js";
 import expensiveRoute from "./routes/expensivesRoute.js";
 import statisticsRoute from "./routes/statisticsRoute.js";
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/sneaker", sneakerRoute);
+app.use("/api/stuff", stuffRoute);
 app.use("/api/website", websiteRoute);
 app.use("/api/expensive", expensiveRoute);
 app.use("/api/statistics", statisticsRoute);

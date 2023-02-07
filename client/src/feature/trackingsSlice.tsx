@@ -14,9 +14,14 @@ export const trackingsSlice = createSlice({
         },
         addTracking: (state, { payload }) => {
             state.trackings.push(payload)
-        }
+        },
+        deleteTracking: (state, { payload }) => {
+            state.trackings = state.trackings.filter(
+              (tracking) => tracking._id !== payload
+            );
+          },
     }
 });
 
-export const { setTrackings, addTracking } = trackingsSlice.actions;
+export const { setTrackings, addTracking, deleteTracking } = trackingsSlice.actions;
 export default trackingsSlice.reducer;

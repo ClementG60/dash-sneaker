@@ -18,6 +18,7 @@ const TrackingArray = () => {
     "Date",
     "",
   ];
+  
   return (
     <>
       <div className="mx-12 mb-5 flex justify-between">

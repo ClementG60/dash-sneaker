@@ -58,6 +58,7 @@ export interface ISneaker {
 }
 
 export interface ITracking {
+  _id: string;
   transporter: string;
   trackingNumber: string;
  
@@ -67,6 +68,7 @@ export interface ITrackingArrayLine {
   setRefresh: (value: boolean) => void
   refresh: boolean;
   tracking: {
+    _id: string;
     transporter: string;
     trackingNumber: string;
   }

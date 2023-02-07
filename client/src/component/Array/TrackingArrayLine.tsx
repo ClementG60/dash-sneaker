@@ -2,11 +2,46 @@ import axios from "axios";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "../../app/hooks";
+import { deleteTracking } from "../../feature/trackingsSlice";
 import { ITrackingArrayLine } from "../../interface/Interface";
 
 const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine) => {
   const [status, setStatus] = useState<string>();
   const [dateStatus, setDateStatus] = useState<string>();
+
+  const dispatch = useAppDispatch();
+
+  const handleDeleteTracking = (id: string) => {
+    axios({
+      method: "delete",
+      url: `${process.env.REACT_APP_URL_API}api/sneaker/delete/${id}`,
+    })
+      .then((res) => {
+        dispatch(deleteTracking(id));
+        toast.success("Le numéro de suivi a bien été supprimé.", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        toast.error("Une erreur est survenue. Veuillez recommencez.", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
 
   useEffect(() => {
     // tracking.transporter === "UPS" &&
@@ -81,7 +116,7 @@ const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine
         </div>
       </td>
       <td>
-        <div className="cursor-pointer text-lg px-1">
+        <div className="cursor-pointer text-lg px-1" onClick={() => handleDeleteTracking(tracking._id)}>
           <FaTrash />
         </div>
       </td>

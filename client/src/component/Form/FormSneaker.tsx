@@ -279,11 +279,11 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
               <option value="false">Non</option>
             </select>
           </div>
-          {errors.sold ? (
+          {errors.sold && (
             <p className="text-red-700 text-xs mt-2 text-left">
               {errors.sold.message}
             </p>
-          ) : null}
+          )}
         </div>
         {
           <>

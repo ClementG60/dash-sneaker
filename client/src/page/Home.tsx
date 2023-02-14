@@ -5,6 +5,7 @@ import moment from "moment";
 import { IChartData, IHome } from "../interface/Interface";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import CardChart from "../component/Card/CardChart";
+import { log } from "console";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -17,7 +18,8 @@ const Home = ({ isOpen }: IHome) => {
   const [lastMonthSells, setLastMonthSells] = useState<number>();
   const [brandBuyData, setBrandBuyData] = useState<Array<IChartData>>();
   const [websiteBuyData, setwebsiteBuyData] = useState<Array<IChartData>>();
-  const [resellWebsiteData, setResellWebsiteData] = useState<Array<IChartData>>();
+  const [resellWebsiteData, setResellWebsiteData] =
+    useState<Array<IChartData>>();
   // const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -83,48 +85,72 @@ const Home = ({ isOpen }: IHome) => {
       method: "get",
       url: `${process.env.REACT_APP_URL_API}api/statistics/get-buying-stats/sales/resellWebsiteId/${currentYear}/${currentMonth}`,
     }).then((res) => setResellWebsiteData(res.data));
-  }, []);  
+  }, []);
+
+  console.log(resellWebsiteData);
 
   return (
-    <div className="grid grid-cols-3 gap-4 p-5">
-      <h2 className="col-start-1 col-end-4 text-indigo-900 w-11/12 mx-auto font-bold text-xl">
+    <div className="grid grid-cols-1 p-5">
+      <h2 className="text-indigo-900 w-11/12 mx-auto font-bold text-xl">
         Récapitulatif du mois
       </h2>
-      {monthExpensives && lastMonthExpensives && (
-        <div className="col-start-1">
+      <div className="grid grid-cols-3">
+        {monthExpensives && lastMonthExpensives && (
+          <div className="col-start-1">
+            <CardStatistics
+              sum={monthExpensives}
+              title={"Dépenses"}
+              lastSumMonth={lastMonthExpensives}
+              isOpen={isOpen}
+            />
+          </div>
+        )}
+        {monthBuys && lastMonthBuys && (
           <CardStatistics
-            sum={monthExpensives}
-            title={"Dépenses"}
-            lastSumMonth={lastMonthExpensives}
+            sum={monthBuys}
+            title={"Achat"}
+            lastSumMonth={lastMonthBuys}
             isOpen={isOpen}
           />
-        </div>
-      )}
-      {monthBuys && lastMonthBuys && (
-        <CardStatistics
-          sum={monthBuys}
-          title={"Achat"}
-          lastSumMonth={lastMonthBuys}
-          isOpen={isOpen}
-        />
-      )}
-      {monthSells && lastMonthSells && (
-        <CardStatistics
-          sum={monthSells}
-          title={"Vente"}
-          lastSumMonth={lastMonthSells}
-          isOpen={isOpen}
-        />
-      )}
-      {brandBuyData && (
-        <CardChart title="Marques" data={brandBuyData} isOpen={isOpen} labelTitle="Nombre d'achat(s)" type="brand" />
-      )}
-      {websiteBuyData && (
-        <CardChart title="Site d'achat" data={websiteBuyData} isOpen={isOpen} labelTitle="Nombres d'achat(s)" type="website" />
-      )}
-      {resellWebsiteData && (
-        <CardChart title="Site de ventes" data={resellWebsiteData} isOpen={isOpen} labelTitle="Nombre de vente(s)" type="resellWebsite"/>
-      )}
+        )}
+        {monthSells && lastMonthSells && (
+          <CardStatistics
+            sum={monthSells}
+            title={"Vente"}
+            lastSumMonth={lastMonthSells}
+            isOpen={isOpen}
+          />
+        )}
+      </div>
+      <div className="grid grid-cols-3">
+        {brandBuyData && brandBuyData.length > 0 && (
+          <CardChart
+            title="Marques"
+            data={brandBuyData}
+            isOpen={isOpen}
+            labelTitle="Nombre d'achat(s)"
+            type="brand"
+          />
+        )}
+        {websiteBuyData && websiteBuyData.length > 0 && (
+          <CardChart
+            title="Site d'achat"
+            data={websiteBuyData}
+            isOpen={isOpen}
+            labelTitle="Nombres d'achat(s)"
+            type="website"
+          />
+        )}
+        {resellWebsiteData && resellWebsiteData.length > 0 && (
+          <CardChart
+            title="Site de ventes"
+            data={resellWebsiteData}
+            isOpen={isOpen}
+            labelTitle="Nombre de vente(s)"
+            type="resellWebsite"
+          />
+        )}
+      </div>
     </div>
   );
 };

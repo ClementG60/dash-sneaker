@@ -7,15 +7,15 @@ import brandsReducer from "../feature/brandsSlice";
 import trackingsReducer from "../feature/trackingsSlice";
 
 const store = configureStore({
-    reducer: {
-        websites: websitesReducer,
-        resellWebsites: resellWebsitesReducer,
-        sneakers: sneakersReducer,
-        expensives: expensivesReducer,
-        brands: brandsReducer,
-        trackings: trackingsReducer,
-    }
-})
+  reducer: {
+    websites: websitesReducer,
+    resellWebsites: resellWebsitesReducer,
+    sneakers: sneakersReducer,
+    expensives: expensivesReducer,
+    brands: brandsReducer,
+    trackings: trackingsReducer,
+  }
+});
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

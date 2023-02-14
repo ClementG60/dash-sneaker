@@ -3,16 +3,20 @@ import {
   getBuyingStats,
   getSalesStats,
   getExpensivesStats,
+  getSumBuyingStats,
   getSums
 } from "../controllers/statisticsController.js";
 const router = express.Router();
-/*
-router.get("/sales-by-month/:month/:year", getSalesByMonth);
-router.get("/sales-by-year/:year", getSalesByYear);
-router.get("/sales", getAllSales);
-*/
-router.get("/get-sales-stats/:type?/:year?/:month?", getSalesStats);
-router.get("/get-buying-stats/:data/:type/:year/:month", getBuyingStats);
-router.get("/get-expensives-stats/:type?/:year?/:month?", getExpensivesStats);
-router.get("/get-sums/:data/:type?/:year?/:month?", getSums);
+//sales
+router.get("/sales/general/:type?/:year?/:month?", getSalesStats);
+
+//buyings
+router.get("/buyings/general/:type?/:year?/:month?", getBuyingStats);
+
+//expensives
+router.get("/expensives/general/:type?/:year?/:month?", getExpensivesStats);
+
+//sum
+router.get("/sums/price/:data/:type?/:year?/:month?", getSums);
+router.get("/sums/shoe/:data/:type/:year/:month", getSumBuyingStats);
 export default router;

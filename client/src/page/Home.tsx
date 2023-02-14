@@ -5,7 +5,6 @@ import moment from "moment";
 import { IChartData, IHome } from "../interface/Interface";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import CardChart from "../component/Card/CardChart";
-import { log } from "console";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -31,59 +30,59 @@ const Home = ({ isOpen }: IHome) => {
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/expensives/month/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/sums/price/expensives/month/${currentYear}/${currentMonth}`,
     }).then((res) => {
       setMonthExpensives(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/expensives/month/${pastYear}/${pastMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/sums/price/expensives/month/${pastYear}/${pastMonth}`,
     }).then((res) => {
       setLastMonthExpensives(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/sneakersBuying/month/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/sums/price/sneakersBuying/month/${currentYear}/${currentMonth}`,
     }).then((res) => {
       setMonthBuys(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/sneakersBuying/month/${pastYear}/${pastMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/sums/price/sneakersBuying/month/${pastYear}/${pastMonth}`,
     }).then((res) => {
       setLastMonthBuys(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/sneakersSelling/month/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/sums/price/sneakersSelling/month/${currentYear}/${currentMonth}`,
     }).then((res) => {
       setMonthSells(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/statistics/get-sums/sneakersSelling/month/${pastYear}/${pastMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/sums/price/sneakersSelling/month/${pastYear}/${pastMonth}`,
     }).then((res) => {
       setLastMonthSells(res.data[0].sum);
     });
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/statistics/get-buying-stats/buys/brandId/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/sums/shoe/buys/brandId/${currentYear}/${currentMonth}`,
     }).then((res) => setBrandBuyData(res.data));
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/statistics/get-buying-stats/buys/websiteId/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/sums/shoe/buys/websiteId/${currentYear}/${currentMonth}`,
     }).then((res) => setwebsiteBuyData(res.data));
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/statistics/get-buying-stats/sales/resellWebsiteId/${currentYear}/${currentMonth}`,
+      url: `${process.env.REACT_APP_URL_API}api/statistics/sums/shoe/sales/resellWebsiteId/${currentYear}/${currentMonth}`,
     }).then((res) => setResellWebsiteData(res.data));
   }, []);
 
@@ -92,7 +91,7 @@ const Home = ({ isOpen }: IHome) => {
   return (
     <div className="grid grid-cols-1 p-5">
       <h2 className="text-indigo-900 w-11/12 mx-auto font-bold text-xl">
-        Récapitulatif du mois
+        Récapitulatif
       </h2>
       <div className="grid grid-cols-3">
         {monthExpensives && lastMonthExpensives && (

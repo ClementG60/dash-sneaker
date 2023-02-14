@@ -126,6 +126,9 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
   } = methods;
 
   const handleSneaker = (data: ISneaker) => {
+    data.buyingDate = moment(Date.parse(data.buyingDate)).format();
+    data.sellingDate &&
+      (data.sellingDate = moment(Date.parse(data.sellingDate)).format());
     id === "none"
       ? axios
           .post(`${process.env.REACT_APP_URL_API}api/sneaker/add`, data)

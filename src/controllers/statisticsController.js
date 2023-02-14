@@ -29,31 +29,31 @@ const getSalesStats = async (req, res) => {
   res.status(200).json(sales);
 };
 
-// const getBuyingStats = async (req, res) => {
-//   const sales = await SneakerModel.find(
-//     req.params.type === "month"
-//       ? {
-//           $and: [
-//             { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
-//             {
-//               $expr: { $eq: [{ $month: "$buyingDate" }, req.params.month] },
-//             },
-//           ],
-//         }
-//       : req.params.type === "year"
-//       ? {
-//           $and: [
-//             { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
-//           ],
-//         }
-//       : {}
-//   )
-//     .sort({ buyingDate: 1 })
-//     .select();
-//   res.status(200).json(sales);
-// };
-
 const getBuyingStats = async (req, res) => {
+  const buying = await SneakerModel.find(
+    req.params.type === "month"
+      ? {
+          $and: [
+            { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
+            {
+              $expr: { $eq: [{ $month: "$buyingDate" }, req.params.month] },
+            },
+          ],
+        }
+      : req.params.type === "year"
+      ? {
+          $and: [
+            { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
+          ],
+        }
+      : {}
+  )
+    .sort({ buyingDate: 1 })
+    .select();
+  res.status(200).json(buying);
+};
+
+const getSumBuyingStats = async (req, res) => {
   const type = "$" + req.params.type;
   const sales = await SneakerModel.aggregate(
     [
@@ -75,17 +75,12 @@ const getBuyingStats = async (req, res) => {
       },
       { $group: { _id: type, count: { $sum: 1 } } },
     ]
-    // req.params.dateType === "year" && [{
-    //     $and: [
-    //       { $expr: { $eq: [{ $year: "$buyingDate" }, req.params.year] } },
-    //     ],
-    //   }]
   );
   res.status(200).json(sales);
 };
 
 const getExpensivesStats = async (req, res) => {
-  const sales = await ExpensivesModel.find(
+  const expensive = await ExpensivesModel.find(
     req.params.type === "month"
       ? {
           $and: [
@@ -105,7 +100,7 @@ const getExpensivesStats = async (req, res) => {
   )
     .sort({ sellingDate: 1 })
     .select();
-  res.status(200).json(sales);
+  res.status(200).json(expensive);
 };
 
 const getSums = async (req, res) => {
@@ -159,4 +154,4 @@ const getSums = async (req, res) => {
   res.status(200).json(sales);
 };
 
-export { getSalesStats, getBuyingStats, getExpensivesStats, getSums };
+export { getSalesStats, getBuyingStats, getSumBuyingStats, getExpensivesStats, getSums };

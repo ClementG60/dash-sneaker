@@ -1,21 +1,14 @@
 import axios from "axios";
-import moment from "moment";
-import React, { useRef } from "react";
 import { useAppDispatch } from "../../app/hooks";
-import { addExpensive } from "../../feature/expensiveSlice";
+import { addExpensive, setExpensives } from "../../feature/expensiveSlice";
 import * as yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IExpensive } from "../../interface/Interface";
 import InputGroup from "./InputGroup";
-import SelectGroup from "./SelectGroup";
+import moment from "moment";
 
 const FormExpensive = () => {
-  const inputName = useRef<HTMLInputElement | null>(null);
-  const selectType = useRef<HTMLSelectElement | null>(null);
-  const inputPrice = useRef<HTMLInputElement | null>(null);
-  const inputDate = useRef<HTMLInputElement | null>(null);
-
   const dispatch = useAppDispatch();
 
   const types: Array<string> = [
@@ -45,10 +38,19 @@ const FormExpensive = () => {
   } = methods;
 
   const handleExpensive = (data: IExpensive) => {
+    data.date = moment(Date.parse(data.date)).format();
     axios
       .post(`${process.env.REACT_APP_URL_API}api/expensive/add`, data)
       .then((res) => {
         dispatch(addExpensive(data));
+        axios({
+          method: "get",
+          url: `${
+            process.env.REACT_APP_URL_API
+          }sneaker/get-by-month/${moment(data.date).format(
+            "MM"
+          )}/${moment(data.date).format("YYYY")}`,
+        }).then((res) => dispatch(setExpensives(res.data)));
       })
       .catch((err) => console.log(err));
   };

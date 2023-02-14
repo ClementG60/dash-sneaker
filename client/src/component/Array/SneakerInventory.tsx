@@ -48,6 +48,7 @@ const SneakerInventory = () => {
     "Site de vente",
     "Prix de vente",
     "Date de vente",
+    "Profit",
     "Actions",
   ];
 
@@ -185,7 +186,7 @@ const SneakerInventory = () => {
                       ? dateParser(sneaker?.buyingDate)
                       : dateParser(sneaker?.sellingDate)}
                   </td>
-                  {typeSelected === "buying" && (
+                  {typeSelected === "buying" ? (
                     <td className="py-4">
                       <div
                         className={`flex text-lg justify-center ${
@@ -194,6 +195,10 @@ const SneakerInventory = () => {
                       >
                         {sneaker?.sold ? <GoCheck /> : <GoX />}
                       </div>
+                    </td>
+                  ) : (
+                    <td className={`py-4 ${sneaker?.resellPrice - sneaker?.buyingPrice < 0 ? "text-red-500" : (sneaker?.resellPrice - sneaker?.buyingPrice < 20 ? "text-amber-500" : (sneaker?.resellPrice - sneaker?.buyingPrice < 50 ? "text-yellow-500" : "text-green-500"))}`}>
+                      {sneaker?.resellPrice - sneaker?.buyingPrice} €
                     </td>
                   )}
                   <td className="flex justify-around py-4">

@@ -89,10 +89,16 @@ export interface IHome {
   isOpen: boolean;
 }
 
-export interface ICardStatistics {
+export interface ICardSum {
   title: string;
   sum: number;
   lastSumMonth: number;
+  isOpen: boolean;
+}
+
+export interface ICardSingleStat {
+  title: string;
+  data: number;
   isOpen: boolean;
 }
 

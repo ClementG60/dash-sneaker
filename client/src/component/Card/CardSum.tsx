@@ -1,6 +1,6 @@
-import { ICardStatistics } from "../../interface/Interface";
+import { ICardSum } from "../../interface/Interface";
 
-const CardStatistics = ({ sum, title, lastSumMonth, isOpen }: ICardStatistics) => {
+const CardSum = ({ sum, title, lastSumMonth, isOpen }: ICardSum) => {
   return (
     <div
       className={`bg-white rounded-[16px] ${
@@ -19,4 +19,4 @@ const CardStatistics = ({ sum, title, lastSumMonth, isOpen }: ICardStatistics) =
   );
 };
 
-export default CardStatistics;
+export default CardSum;

@@ -3,16 +3,33 @@ import ResellWebsiteModel from "../models/resellWebsiteModel.js";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
+/* fonction permettant d'obtenir toutes les sites d'achats
+@req : requête
+@res: réponse
+@return : liste des sites d'achat
+*/
 const getWebsite = async (req, res) => {
   const websites = await WebsiteModel.find().sort({ name: 1 }).select();
   res.status(200).json(websites);
 };
 
+/* fonction permettant d'obtenir toutes les sites de vente
+@req : requête
+@res: réponse
+@return : liste des sites de vente
+*/
 const getResellWebsite = async (req, res) => {
   const websites = await ResellWebsiteModel.find().sort({ name: 1 }).select();
   res.status(200).json(websites);
 };
 
+/* fonction permettant d'ajouter une marque
+@req : requête
+@res: réponse
+@return : 
+  - site d'achat ajouté
+  - message d'erreur
+*/
 const addWebsite = async (req, res) => {
   const newWebsite = new WebsiteModel({
     name: req.body.name,
@@ -29,6 +46,13 @@ const addWebsite = async (req, res) => {
   }
 };
 
+/* fonction permettant d'ajouter une marque
+@req : requête
+@res: réponse
+@return : 
+  - site de vente ajouté
+  - message d'erreur
+*/
 const addResellWebsite = async (req, res) => {
   const newResellWebsite = new ResellWebsiteModel({
     name: req.body.name,

@@ -11,11 +11,14 @@ import brandsRoute from "./routes/brandsRoute.js";
 import cors from "cors";
 
 const app = express();
+//cors
 app.use(cors());
 
+//middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//routes
 app.use("/api/sneaker", sneakerRoute);
 app.use("/api/stuff", stuffRoute);
 app.use("/api/website", websiteRoute);

@@ -2,6 +2,13 @@ import SneakerModel from "../models/sneakerModel.js";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
+/* fonction permettant d'ajouter une paire
+@req : requête
+@res: réponse
+@return : 
+  - paire ajoutée
+  - message d'erreur
+*/
 const addSneaker = async (req, res) => {
   const newSneaker = new SneakerModel({
     brandId: req.body.brandId,
@@ -25,13 +32,22 @@ const addSneaker = async (req, res) => {
   }
 };
 
+/* fonction permettant d'obtenir toutes les paires
+@req : requête
+@res: réponse
+@return : liste des sneakers
+*/
 const getSneakers = async (req, res) => {
   const sneakers = await SneakerModel.find().select();
   res.status(200).json(sneakers);
 };
 
+/* fonction permettant d'obtenir une paire par id
+@req : requête
+@res: réponse
+@return : donnée de la paire
+*/
 const getSneakerById = async (req, res) => {
-  //permet de vérifier si l'id de la paire à supprimer existe
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).send("ID unknown");
   }
@@ -45,6 +61,11 @@ const getSneakerById = async (req, res) => {
   }).select();
 };
 
+/* fonction permettant d'obtenir toutes les paires par mois
+@req : requête
+@res: réponse
+@return : liste des paires
+*/
 const getSneakersByMonth = async (req, res) => {
   const sneakers = await SneakerModel
     .find({
@@ -60,8 +81,14 @@ const getSneakersByMonth = async (req, res) => {
   res.status(200).json(sneakers);
 };
 
+/* fonction permettant de mettre à jour une paire
+@req : requête
+@res: réponse
+@return : 
+  - paire modifiée
+  - message d'erreur
+*/
 const updateSneaker = async (req, res) => {
-  //permet de vérifier si l'id de la paire à supprimer existe
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).send("ID unknown");
   }
@@ -95,6 +122,13 @@ const updateSneaker = async (req, res) => {
   }
 };
 
+/* fonction permettant de supprimer une paire
+@req : requête
+@res: réponse
+@return : 
+  - message de succès
+  - message d'erreur si l'id est inconnu
+*/
 const deleteSneaker = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).send("ID unknown");

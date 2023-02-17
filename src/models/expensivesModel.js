@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-
+/*
+Modèle de la partie dépenses
+*/
 const expensivesSchema = new mongoose.Schema(
     {
         name: {

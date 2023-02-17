@@ -23,7 +23,7 @@ const Sites = ({ site, deleteProduct, type }: ISiteMap) => {
         );
         toast.success("Le site a bien été supprimé.", {
           position: "bottom-right",
-          autoClose: 5000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -34,7 +34,7 @@ const Sites = ({ site, deleteProduct, type }: ISiteMap) => {
       .catch((err) => {
         toast.error("Une erreur est survenue. Veuillez recommencez.", {
           position: "bottom-right",
-          autoClose: 5000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,

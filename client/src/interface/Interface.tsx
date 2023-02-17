@@ -57,6 +57,21 @@ export interface ISneaker {
   resellWebsiteId: string;
 }
 
+export interface IStuff {
+  _id?: string;
+  description: string;
+  model: string;
+  colorway: string;
+  size: string;
+  buyingPrice: number;
+  buyingDate: string;
+  websiteId: string;
+  sold: boolean;
+  sellingDate: string;
+  resellPrice: number;
+  resellWebsiteId: string;
+}
+
 export interface ITracking {
   _id: string;
   transporter: string;
@@ -118,6 +133,10 @@ export interface ISneakerState {
   sneakers: Array<ISneaker>;
 }
 
+export interface IStuffState {
+  stuffs: Array<IStuff>;
+}
+
 export interface IWebsiteState {
   websites: Array<ISite>;
 }
@@ -151,11 +170,6 @@ export interface InputGroupProps {
   onFocus?: () => void;
   error?: boolean;
   errorDetails?: string;
-}
-
-export interface IDateSelector {
-  date: moment.Moment;
-  setDate: React.Dispatch<React.SetStateAction<moment.Moment>>;
 }
 
 export interface IChartData {

@@ -22,7 +22,7 @@ const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine
         dispatch(deleteTracking(id));
         toast.success("Le numéro de suivi a bien été supprimé.", {
           position: "bottom-right",
-          autoClose: 5000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -33,7 +33,7 @@ const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine
       .catch((err) => {
         toast.error("Une erreur est survenue. Veuillez recommencez.", {
           position: "bottom-right",
-          autoClose: 5000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,

@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-
+/*
+Modèle de la partie suivi de colis
+*/
 const trackingsSchema = new mongoose.Schema(
     {
         trackingNumber: {

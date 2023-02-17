@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-
+/*
+Modèle de la partie marques
+*/
 const brandsSchema = new mongoose.Schema(
     {
         name: {

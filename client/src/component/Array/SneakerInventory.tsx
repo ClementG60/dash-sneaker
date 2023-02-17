@@ -13,13 +13,22 @@ import { BsFillPencilFill } from "react-icons/bs";
 import { GoCheck, GoX } from "react-icons/go";
 import moment from "moment";
 import DateSelector from "../Part/DateSelector";
+import TypeSelector from "../Part/TypeSelector";
+import AddButton from "../Part/AddButton";
 
 const SneakerInventory = () => {
-  const sneakers = useAppSelector((state) => state.sneakers.sneakers);
-  const brands = useAppSelector((state) => state.brands.brands);
-  const websites = useAppSelector((state) => state.websites.websites);
+  const sneakers = useAppSelector(
+    (state: { sneakers: { sneakers: any } }) => state.sneakers.sneakers
+  );
+  const brands = useAppSelector(
+    (state: { brands: { brands: any } }) => state.brands.brands
+  );
+  const websites = useAppSelector(
+    (state: { websites: { websites: any } }) => state.websites.websites
+  );
   const resellWebsites = useAppSelector(
-    (state) => state.resellWebsites.websites
+    (state: { resellWebsites: { websites: any } }) =>
+      state.resellWebsites.websites
   );
   const dispatch = useAppDispatch();
 
@@ -27,6 +36,9 @@ const SneakerInventory = () => {
   const [date, setDate] = useState<moment.Moment>(moment());
   const [id, setId] = useState<string>();
   const [typeSelected, setTypeSelected] = useState<string>("buying");
+
+  const year = moment(date).format("YYYY");
+  const month = moment(date).format("MM");
 
   const thsBuying: Array<string> = [
     "Marque",
@@ -61,7 +73,7 @@ const SneakerInventory = () => {
         dispatch(deleteSneaker(id));
         toast.success("La paire a bien été supprimé.", {
           position: "bottom-right",
-          autoClose: 5000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -72,7 +84,7 @@ const SneakerInventory = () => {
       .catch((err) => {
         toast.error("Une erreur est survenue. Veuillez recommencez.", {
           position: "bottom-right",
-          autoClose: 5000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -87,9 +99,6 @@ const SneakerInventory = () => {
     setId(id);
   };
 
-  const year = moment(date).format("YYYY");
-  const month = moment(date).format("MM");
-
   useEffect(() => {
     axios({
       method: "get",
@@ -99,38 +108,12 @@ const SneakerInventory = () => {
 
   return (
     <>
-      <div className="w-full mb-3">
-        <ul className="flex mx-auto w-4/12 justify-around text-indigo-900 font-medium">
-          <li
-            className={`w-1/2 cursor-pointer text-center border rounded-l-lg text-sm pt-1 pb-1 ${
-              typeSelected === "buying" &&
-              "bg-indigo-500 border-indigo-500 text-white font-bold"
-            } duration-300 ease-in-out`}
-            onClick={() => setTypeSelected("buying")}
-          >
-            Achat
-          </li>
-          <li
-            className={`w-1/2 cursor-pointer text-center border rounded-r-lg text-sm pt-1 pb-1 ${
-              typeSelected === "sales" &&
-              "bg-indigo-500 border-indigo-500 text-white font-bold"
-            } duration-300 ease-in-out`}
-            onClick={() => setTypeSelected("sales")}
-          >
-            Vente
-          </li>
-        </ul>
-      </div>
+      <TypeSelector
+        typeSelected={typeSelected}
+        setTypeSelected={setTypeSelected}
+      />
       <div className="mx-12 mb-5 flex justify-between">
-        <button
-          className="flex bg-indigo-500 text-white font-bold rounded my-auto hover:rotate-90 hover:scale-110 duration-300 cursor-pointer"
-          onClick={() => {
-            setOpenFormSneaker(!openFormSneaker);
-            setId("none");
-          }}
-        >
-          <AddIcon />
-        </button>
+        <AddButton openForm={openFormSneaker} setOpenForm={setOpenFormSneaker} setId={setId}/>
         <DateSelector date={date} setDate={setDate} />
       </div>
       <div>
@@ -197,7 +180,17 @@ const SneakerInventory = () => {
                       </div>
                     </td>
                   ) : (
-                    <td className={`py-4 ${sneaker?.resellPrice - sneaker?.buyingPrice < 0 ? "text-red-500" : (sneaker?.resellPrice - sneaker?.buyingPrice < 20 ? "text-amber-500" : (sneaker?.resellPrice - sneaker?.buyingPrice < 50 ? "text-yellow-500" : "text-green-500"))}`}>
+                    <td
+                      className={`py-4 ${
+                        sneaker?.resellPrice - sneaker?.buyingPrice < 0
+                          ? "text-red-500"
+                          : sneaker?.resellPrice - sneaker?.buyingPrice < 20
+                          ? "text-amber-500"
+                          : sneaker?.resellPrice - sneaker?.buyingPrice < 50
+                          ? "text-yellow-500"
+                          : "text-green-500"
+                      }`}
+                    >
                       {sneaker?.resellPrice - sneaker?.buyingPrice} €
                     </td>
                   )}

@@ -9,6 +9,7 @@ import {
 } from "../controllers/sneakerController.js";
 const router = express.Router();
 
+//routes
 router.get("/get", getSneakers);
 router.get("/get-by-id/:id", getSneakerById);
 router.get("/get-by-month/:type/:month/:year", getSneakersByMonth);

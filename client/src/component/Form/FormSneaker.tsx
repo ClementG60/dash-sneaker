@@ -153,7 +153,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
             dispatch(updateSneaker([id, res.data]));
             toast.success("La paire a bien été mise à jour.", {
               position: "bottom-right",
-              autoClose: 5000,
+              autoClose: 2500,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,

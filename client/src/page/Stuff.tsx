@@ -1,5 +1,7 @@
+import StuffInventory from "../component/Array/StuffInventory";
+
 const Stuff = () => {
-  return <div></div>;
+  return <StuffInventory />;
 };
 
 export default Stuff;

@@ -2,6 +2,13 @@ import StuffModel from "../models/stuffModel.js";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
+/* fonction permettant d'ajouter un objet
+@req : requête
+@res: réponse
+@return : 
+  - objet ajouté
+  - message d'erreur
+*/
 const addStuff = async (req, res) => {
   const newStuff = new StuffModel({
     type: req.body.type,
@@ -22,11 +29,23 @@ const addStuff = async (req, res) => {
   }
 };
 
+/* fonction permettant d'obtenir toutes les objets
+@req : requête
+@res: réponse
+@return : liste des objets
+*/
 const getStuffs = async (req, res) => {
   const stuffs = await StuffModel.find().select();
   res.status(200).json(stuffs);
 };
 
+/* fonction permettant de supprimer un objet
+@req : requête
+@res: réponse
+@return : 
+  - message de succès
+  - message d'erreur si l'id est inconnu
+*/
 const deleteStuff = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).send("ID unknown");

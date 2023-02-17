@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-
+/*
+Modèle de la partie sneaker
+*/
 const sneakerSchema = new mongoose.Schema(
     {
         brandId: {

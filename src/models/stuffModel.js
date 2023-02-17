@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-
+/*
+Modèle de la partie objets autres que les sneakers
+*/
 const stuffSchema = new mongoose.Schema(
   {
     type: {
@@ -20,6 +22,10 @@ const stuffSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    websiteId: {
+      type: String,
+      required: true,
+    },
     buyingDate: {
       type: Date,
       required: true,
@@ -34,6 +40,9 @@ const stuffSchema = new mongoose.Schema(
     resellPrice: {
       type: Number,
     },
+    resellWebsiteId: {
+      type: String
+  }
   },
   {
     timestamps: true,

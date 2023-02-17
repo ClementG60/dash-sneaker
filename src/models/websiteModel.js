@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-
+/*
+Modèle de la partie site d'achat
+*/
 const websiteSchema = new mongoose.Schema(
     {
         name: {

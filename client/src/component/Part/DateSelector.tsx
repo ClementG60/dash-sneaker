@@ -1,7 +1,11 @@
-import { IDateSelector } from "../../interface/Interface";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import moment from "moment";
+
+interface IDateSelector {
+  date: moment.Moment;
+  setDate: React.Dispatch<React.SetStateAction<moment.Moment>>;
+}
 
 const DateSelector = ({ date, setDate }: IDateSelector) => {  
   return (

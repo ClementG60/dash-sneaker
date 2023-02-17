@@ -20,7 +20,7 @@ const Brands = ({ brand, deleteProduct }: IBrandMap) => {
         dispatch(deleteBrand(id));
         toast.success("La marque a bien été supprimé.", {
           position: "bottom-right",
-          autoClose: 5000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -31,7 +31,7 @@ const Brands = ({ brand, deleteProduct }: IBrandMap) => {
       .catch((err) => {
         toast.error("Une erreur est survenue. Veuillez recommencez.", {
           position: "bottom-right",
-          autoClose: 5000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,

@@ -7,12 +7,24 @@ import { useAppDispatch } from "../../app/hooks";
 import { deleteTracking } from "../../feature/trackingsSlice";
 import { ITrackingArrayLine } from "../../interface/Interface";
 
-const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine) => {
+const TrackingArrayLine = ({
+  tracking,
+  refresh,
+  setRefresh,
+}: ITrackingArrayLine) => {
+  //state
   const [status, setStatus] = useState<string>();
   const [dateStatus, setDateStatus] = useState<string>();
 
+  //redux
   const dispatch = useAppDispatch();
 
+  /* fonction permettant de supprimer un suivi
+  @id : id du suivi à supprimer
+  @return : 
+    - message de succès
+    - message d'erreur
+  */
   const handleDeleteTracking = (id: string) => {
     axios({
       method: "delete",
@@ -43,6 +55,10 @@ const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine
       });
   };
 
+  /* hook permet de rafraichir les trackings suivant les transporteurs
+  @dépendence : refresh
+  @return : statut, date du statut
+  */
   useEffect(() => {
     // tracking.transporter === "UPS" &&
     //   axios({
@@ -61,8 +77,7 @@ const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine
         axios({
           method: "get",
           headers: {
-            "X-Okapi-Key":
-              `${process.env.REACT_APP_CHRONOPOST_KEY}`,
+            "X-Okapi-Key": `${process.env.REACT_APP_CHRONOPOST_KEY}`,
             Accept: "application/json",
           },
           url: `https://api.laposte.fr/suivi/v2/idships/${tracking.trackingNumber}?lang=fr_FR`,
@@ -89,7 +104,7 @@ const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine
             )
           );
         });
-        setRefresh(false);
+      setRefresh(false);
     }
   }, [refresh]);
 
@@ -116,7 +131,10 @@ const TrackingArrayLine = ({ tracking, refresh, setRefresh }: ITrackingArrayLine
         </div>
       </td>
       <td>
-        <div className="cursor-pointer text-lg px-1" onClick={() => handleDeleteTracking(tracking._id)}>
+        <div
+          className="cursor-pointer text-lg px-1"
+          onClick={() => handleDeleteTracking(tracking._id)}
+        >
           <FaTrash />
         </div>
       </td>

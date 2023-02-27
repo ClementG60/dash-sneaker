@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { deleteSneaker, setSneakers } from "../../feature/sneakersSlice";
 import { useState, useEffect } from "react";
-import AddIcon from "@mui/icons-material/Add";
 import Modal from "../Modal";
 import { FaTrash } from "react-icons/fa";
 import { BsFillPencilFill } from "react-icons/bs";
@@ -17,6 +16,7 @@ import TypeSelector from "../Part/TypeSelector";
 import AddButton from "../Part/AddButton";
 
 const SneakerInventory = () => {
+  //redux
   const sneakers = useAppSelector(
     (state: { sneakers: { sneakers: any } }) => state.sneakers.sneakers
   );
@@ -32,6 +32,7 @@ const SneakerInventory = () => {
   );
   const dispatch = useAppDispatch();
 
+  //state
   const [openFormSneaker, setOpenFormSneaker] = useState<boolean>(false);
   const [date, setDate] = useState<moment.Moment>(moment());
   const [id, setId] = useState<string>();
@@ -64,6 +65,12 @@ const SneakerInventory = () => {
     "Actions",
   ];
 
+  /* fonction permettant de supprimer une paire
+  @id : id de la paire à supprimer
+  @return : 
+    - message de succès
+    - message d'erreur
+  */
   const handleDeleteSneaker = (id: string) => {
     axios({
       method: "delete",
@@ -94,11 +101,18 @@ const SneakerInventory = () => {
       });
   };
 
+  /* fonction permettant de mettre à jour une paire (via modal)
+  @id : id de la dépense à supprimer
+  */
   const handleUpdate = (id: string) => {
     setOpenFormSneaker(!openFormSneaker);
     setId(id);
   };
 
+  /* hook permet de récupérer les dépenses par mois
+  @dépendence : month, year, dispatch
+  @return : liste des dépenses
+  */
   useEffect(() => {
     axios({
       method: "get",
@@ -113,7 +127,11 @@ const SneakerInventory = () => {
         setTypeSelected={setTypeSelected}
       />
       <div className="mx-12 mb-5 flex justify-between">
-        <AddButton openForm={openFormSneaker} setOpenForm={setOpenFormSneaker} setId={setId}/>
+        <AddButton
+          openForm={openFormSneaker}
+          setOpenForm={setOpenFormSneaker}
+          setId={setId}
+        />
         <DateSelector date={date} setDate={setDate} />
       </div>
       <div>

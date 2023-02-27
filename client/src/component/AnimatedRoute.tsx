@@ -7,6 +7,7 @@ import Stuff from "../page/Stuff";
 import TrackingOrder from "../page/TrackingOrder";
 import Websites from "../page/Website";
 
+//permet l'utilisation du useLocation
 const AnimatedRoute = ({isOpen}: IHome) => {
   const location = useLocation();
 

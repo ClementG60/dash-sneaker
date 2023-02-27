@@ -7,6 +7,7 @@ import brandsReducer from "../feature/brandsSlice";
 import trackingsReducer from "../feature/trackingsSlice";
 import stuffsReducer from "../feature/stuffsSlice";
 
+//configuration du store avec tous les reducers
 const store = configureStore({
   reducer: {
     websites: websitesReducer,

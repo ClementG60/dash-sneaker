@@ -12,13 +12,24 @@ import { setExpensives, deleteExpensive } from "../../feature/expensiveSlice";
 import DateSelector from "../Part/DateSelector";
 
 const ExpensiveInventory = () => {
+  //redux
   const expensives = useAppSelector((state) => state.expensives.expensives);
+  const dispatch = useAppDispatch();
+  //state
   const [openFormExpensive, setOpenFormExpensive] = useState<boolean>(false);
   const [date, setDate] = useState(moment());
-  const dispatch = useAppDispatch();
+
+  const year = moment(date).format("YYYY");
+  const month = moment(date).format("MM");
 
   const ths: Array<string> = ["Nom", "Type", "Date", "Prix", ""];
 
+  /* fonction permettant de supprimer une dépense
+  @id : id de la dépense à supprimer
+  @return : 
+    - message de succès
+    - message d'erreur
+  */
   const handleDeleteExpensive = (id: string) => {
     axios({
       method: "delete",
@@ -49,15 +60,18 @@ const ExpensiveInventory = () => {
       });
   };
 
-  const year = moment(date).format("YYYY");
-  const month = moment(date).format("MM");
 
+  /* hook permet de récupérer les dépenses par mois
+  @dépendence : month, year, dispatch
+  @return : liste des dépenses
+  */
   useEffect(() => {
     axios({
       method: "get",
       url: `${process.env.REACT_APP_URL_API}api/expensive/get-by-month/${month}/${year}`,
     }).then((res) => dispatch(setExpensives(res.data)));
   }, [month, year, dispatch]);
+
   return (
     <>
       <div className="mx-12 mb-5 flex justify-between">

@@ -9,9 +9,9 @@ import { toast } from "react-toastify";
 import gsap from "gsap";
 
 const TrackingArray = () => {
-  const trackings = useAppSelector(
-    (state) => state.trackings.trackings
-  );
+  //redux
+  const trackings = useAppSelector((state) => state.trackings.trackings);
+  //state
   const [openFormTracking, setOpenFormTracking] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<boolean>(true);
   const refreshButton = createRef<HTMLButtonElement>();
@@ -24,6 +24,10 @@ const TrackingArray = () => {
     "",
   ];
 
+  /* fonction permettant de refresh les suivis
+  @return : 
+    - message de succès
+  */
   const handleUpdateTracking = () => {
     setRefresh(true);
     toast.success("Les suivis ont été mis à jour.", {
@@ -38,6 +42,7 @@ const TrackingArray = () => {
     animationHoverButtonOff();
   };
 
+  //fonction d'animation sur le bouton de refresh (hover)
   const animationHoverButton = () => {
     gsap.to(refreshButton.current, {
       rotation: 180,
@@ -47,6 +52,7 @@ const TrackingArray = () => {
     });
   };
 
+  //fonction d'animation sur le bouton de refresh (hover out)
   const animationHoverButtonOff = () => {
     gsap.to(refreshButton.current, {
       rotation: "0_cw",

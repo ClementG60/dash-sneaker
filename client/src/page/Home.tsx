@@ -119,8 +119,6 @@ const Home = ({ isOpen }: IHome) => {
     }).then((res) => setResellWebsiteData(res.data));
   }, []);
 
-  console.log(resellWebsiteData);
-
   return (
     <div className="grid grid-cols-1 gap-3 p-5">
       <div>

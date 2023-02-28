@@ -4,7 +4,15 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { deleteStuff, setStuffs } from "../../feature/stuffsSlice";
+import DateSelector from "../Part/DateSelector";
 import TypeSelector from "../Part/TypeSelector";
+import AddButton from "../Part/AddButton";
+import { ISite, IStuff } from "../../interface/Interface";
+import Modal from "../Modal";
+import { FaTrash } from "react-icons/fa";
+import { BsFillPencilFill } from "react-icons/bs";
+import { GoCheck, GoX } from "react-icons/go";
+import { dateParser } from "../Utils";
 
 const StuffInventory = () => {
   const stuffs = useAppSelector(
@@ -64,7 +72,7 @@ const StuffInventory = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/sneaker/get-by-month/${typeSelected}/${month}/${year}`,
+      url: `${process.env.REACT_APP_URL_API}api/stuff/get-by-month/${typeSelected}/${month}/${year}`,
     }).then((res) => dispatch(setStuffs(res.data)));
   }, [month, year, typeSelected, dispatch]);
 
@@ -76,12 +84,13 @@ const StuffInventory = () => {
     "Site d'achat",
     "Prix d'achat",
     "Date d'achat",
+    "Vendu",
     "Actions",
   ];
 
   const thsSales: Array<string> = [
-    "Nom",
     "Type",
+    "Nom",
     "Couleur",
     "Taille",
     "Site de vente",
@@ -96,6 +105,120 @@ const StuffInventory = () => {
         typeSelected={typeSelected}
         setTypeSelected={setTypeSelected}
       />
+      <div className="mx-12 mb-5 flex justify-between">
+        <AddButton
+          openForm={openFormStuff}
+          setOpenForm={setOpenFormStuff}
+          setId={setId}
+        />
+        <DateSelector date={date} setDate={setDate} />
+      </div>
+      <div>
+        <table className="border-collapse table-auto w-11/12 text-center mx-auto">
+          <thead className="bg-slate-200 rounded-lg uppercase text-xs tracking-wide">
+            <tr>
+              {(typeSelected === "buying" ? thsBuying : thsSales).map(
+                (th: string, index: number) => {
+                  return (
+                    <th key={index} className="py-4 text-slate-400">
+                      {th}
+                    </th>
+                  );
+                }
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {stuffs.map((stuff: IStuff, index: number) => {
+              return (
+                <tr
+                  key={index}
+                  className="border-b text-sm text-indigo-900 font-medium"
+                >
+                  <td className="py-4">
+                    {stuff?.type}
+                  </td>
+                  <td className="py-4">{stuff?.description}</td>
+                  <td className="py-4">{stuff?.colorway}</td>
+                  <td>{stuff?.size}</td>
+                  <td>
+                    {typeSelected === "buying"
+                      ? websites?.map((website: ISite) => {
+                          if (stuff?.websiteId === website._id)
+                            return website.name;
+                        })
+                      : resellWebsites?.map((resellWebsite: ISite) => {
+                          if (stuff.resellWebsiteId === resellWebsite._id)
+                            return resellWebsite.name;
+                        })}
+                    {}
+                  </td>
+                  <td>
+                    {typeSelected === "buying"
+                      ? stuff?.buyingPrice
+                      : stuff?.resellPrice}{" "}
+                    €
+                  </td>
+                  <td>
+                    {typeSelected === "buying"
+                      ? dateParser(stuff?.buyingDate)
+                      : dateParser(stuff?.sellingDate)}
+                  </td>
+                  {typeSelected === "buying" ? (
+                    <td className="py-4">
+                      <div
+                        className={`flex text-lg justify-center ${
+                          stuff?.sold ? "text-green-500" : "text-red-500"
+                        }`}
+                      >
+                        {stuff?.sold ? <GoCheck /> : <GoX />}
+                      </div>
+                    </td>
+                  ) : (
+                    <td
+                      className={`py-4 ${
+                        stuff?.resellPrice - stuff?.buyingPrice < 0
+                          ? "text-red-500"
+                          : stuff?.resellPrice - stuff?.buyingPrice < 20
+                          ? "text-amber-500"
+                          : stuff?.resellPrice - stuff?.buyingPrice < 50
+                          ? "text-yellow-500"
+                          : "text-green-500"
+                      }`}
+                    >
+                      {stuff?.resellPrice - stuff?.buyingPrice} €
+                    </td>
+                  )}
+                  <td className="flex justify-around py-4">
+                    <div
+                      className="cursor-pointer text-lg px-1"
+                      onClick={() => stuff._id && handleUpdate(stuff._id)}
+                    >
+                      <BsFillPencilFill />
+                    </div>
+                    <div
+                      className="cursor-pointer text-lg px-1"
+                      onClick={() =>
+                        stuff._id && handleDeleteStuff(stuff._id)
+                      }
+                    >
+                      <FaTrash />
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        {openFormStuff && id && (
+          <Modal
+            setOpenModal={setOpenFormStuff}
+            model={"stuffs"}
+            id={id}
+            typeSelected={typeSelected}
+          />
+        )}
+        </div>
     </>
   );
 };

@@ -6,7 +6,7 @@ const initialState: IStuffState = {
 };
 
 export const stuffsSlice = createSlice({
-  name: "expensives",
+  name: "stuffs",
   initialState,
   reducers: {
     setStuffs: (state, { payload }) => {

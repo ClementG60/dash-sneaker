@@ -59,6 +59,7 @@ export interface ISneaker {
 
 export interface IStuff {
   _id?: string;
+  type: string;
   description: string;
   model: string;
   colorway: string;

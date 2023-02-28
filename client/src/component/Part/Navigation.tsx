@@ -16,7 +16,7 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
   const menus = [
     { name: "Accueil", link: "/", icon: <ImHome3 /> },
     { name: "Chaussures", link: "/inventory", icon: <GiRunningShoe /> },
-    { name: "Autres", link: "/others", icon: <MdInventory2 /> },
+    { name: "Autres", link: "/stuffs", icon: <MdInventory2 /> },
     { name: "Dépenses", link: "/expensive", icon: <MdPointOfSale /> },
     { name: "Retailers", link: "/website", icon: <SiWebcomponentsdotorg /> },
     { name: "Suivi de commandes", link: "/tracking", icon: <FaTruckLoading /> },

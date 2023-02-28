@@ -15,6 +15,7 @@ const addStuff = async (req, res) => {
     description: req.body.description,
     colorway: req.body.colorway ? req.body.colorway : null,
     buyingPrice: req.body.buyingPrice,
+    websiteId: req.body.websiteId,
     buyingDate: req.body.buyingDate,
     sold: req.body.sold,
     sellingDate: req.body.sellingDate ? req.body.sellingDate : null,
@@ -39,6 +40,26 @@ const getStuffs = async (req, res) => {
   res.status(200).json(stuffs);
 };
 
+/* fonction permettant d'obtenir toutes les objets par mois
+@req : requête
+@res: réponse
+@return : liste des paires
+*/
+const getStuffsByMonth = async (req, res) => {
+  const stuffs = await StuffModel
+    .find({
+      $and: [
+        { $expr: { $eq: [{ $year: (req.params.type === "buying" ? "$buyingDate" : "$sellingDate") }, req.params.year] } },
+        {
+          $expr: { $eq: [{ $month: (req.params.type === "buying" ? "$buyingDate" : "$sellingDate") }, req.params.month] },
+        },
+      ],
+    })
+    .sort({ buyingDate: 1 })
+    .select();
+  res.status(200).json(stuffs);
+};
+
 /* fonction permettant de supprimer un objet
 @req : requête
 @res: réponse
@@ -60,5 +81,6 @@ const deleteStuff = async (req, res) => {
 export {
     addStuff,
     getStuffs,
+    getStuffsByMonth,
     deleteStuff
 };

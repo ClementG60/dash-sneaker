@@ -17,7 +17,7 @@ const AnimatedRoute = ({isOpen}: IHome) => {
         <Route path="/" element={<Home isOpen={isOpen} />} />
         <Route path="/*" element={<Home isOpen={isOpen} />} />
         <Route path="/inventory" element={<Inventory />} />
-        <Route path="/others" element={<Stuff />} />
+        <Route path="/stuffs" element={<Stuff />} />
         <Route path="/website" element={<Websites />} />
         <Route path="/expensive" element={<Expensive />} />
         <Route path="/tracking" element={<TrackingOrder />} />

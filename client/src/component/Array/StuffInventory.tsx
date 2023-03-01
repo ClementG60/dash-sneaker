@@ -8,7 +8,7 @@ import DateSelector from "../Part/DateSelector";
 import TypeSelector from "../Part/TypeSelector";
 import AddButton from "../Part/AddButton";
 import { ISite, IStuff } from "../../interface/Interface";
-import Modal from "../Modal";
+import Modal from "../Part/Modal";
 import { FaTrash } from "react-icons/fa";
 import { BsFillPencilFill } from "react-icons/bs";
 import { GoCheck, GoX } from "react-icons/go";
@@ -37,11 +37,11 @@ const StuffInventory = () => {
   const handleDeleteStuff = (id: string) => {
     axios({
       method: "delete",
-      url: `${process.env.REACT_APP_URL_API}api/sneaker/delete/${id}`,
+      url: `${process.env.REACT_APP_URL_API}api/stuff/delete/${id}`,
     })
       .then((res) => {
         dispatch(deleteStuff(id));
-        toast.success("La paire a bien été supprimé.", {
+        toast.success("L'objet a bien été supprimé.", {
           position: "bottom-right",
           autoClose: 2500,
           hideProgressBar: false,

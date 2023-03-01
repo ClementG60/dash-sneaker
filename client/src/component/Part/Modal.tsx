@@ -1,8 +1,9 @@
-import { IModal } from "../interface/Interface";
+import { IModal } from "../../interface/Interface";
 import CloseIcon from "@mui/icons-material/Close";
-import FormSneaker from "./Form/FormSneaker";
-import FormExpensive from "./Form/FormExpensive";
-import FormTracking from "./Form/FormTracking";
+import FormSneaker from "../Form/FormSneaker";
+import FormExpensive from "../Form/FormExpensive";
+import FormTracking from "../Form/FormTracking";
+import FormStuff from "../Form/FormStuff";
 
 const Modal = ({ setOpenModal, model, id, typeSelected }: IModal) => {
   return (
@@ -21,6 +22,7 @@ const Modal = ({ setOpenModal, model, id, typeSelected }: IModal) => {
         {model === "sneakers" && <FormSneaker id={id} setOpenModal={setOpenModal} typeSelected={typeSelected}/>}
         {model === "expensives" && <FormExpensive />}
         {model === "tracking" && <FormTracking />}
+        {model === "stuffs" && <FormStuff id={id} setOpenModal={setOpenModal} typeSelected={typeSelected}/>}
       </div>
     </div>
   );

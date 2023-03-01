@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import Modal from "../Modal";
+import Modal from "../Part/Modal";
 import { FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { IExpensive } from "../../interface/Interface";

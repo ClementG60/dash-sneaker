@@ -1,7 +1,7 @@
 import { createRef, useState } from "react";
 import { useAppSelector } from "../../app/hooks";
 import AddIcon from "@mui/icons-material/Add";
-import Modal from "../Modal";
+import Modal from "../Part/Modal";
 import { ITracking } from "../../interface/Interface";
 import TrackingArrayLine from "./TrackingArrayLine";
 import { FiRefreshCw } from "react-icons/fi";

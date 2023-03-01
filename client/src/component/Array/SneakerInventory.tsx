@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { deleteSneaker, setSneakers } from "../../feature/sneakersSlice";
 import { useState, useEffect } from "react";
-import Modal from "../Modal";
+import Modal from "../Part/Modal";
 import { FaTrash } from "react-icons/fa";
 import { BsFillPencilFill } from "react-icons/bs";
 import { GoCheck, GoX } from "react-icons/go";

@@ -1,37 +1,33 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import axios from "axios";
-import {
-  addSneaker,
-  setSneakers,
-  updateSneaker,
-} from "../../feature/sneakersSlice";
 import * as yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IForm, ISneaker } from "../../interface/Interface";
+import { IForm, IStuff } from "../../interface/Interface";
 import InputGroup from "./InputGroup";
 import SelectGroup from "./SelectGroup";
 import moment from "moment";
 import { isEmpty } from "../Utils";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { addStuff, setStuffs, updateStuff } from "../../feature/stuffsSlice";
 
-const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
+const FormStuff = ({ id, setOpenModal, typeSelected }: IForm) => {
   const websites = useAppSelector((state) => state.websites.websites);
-  const brands = useAppSelector((state) => state.brands.brands);
   const resellWebsites = useAppSelector(
     (state) => state.resellWebsites.websites
   );
   const dispatch = useAppDispatch();
-  const [sneaker, setSneaker] = useState<ISneaker>();
-  const [loadingForm, setLoadingForm] = useState<boolean>(false);
+  const [stuff, setStuff] = useState<IStuff>();
+  const [loadingForm, setLoadingForm] = useState<boolean>(true);
 
   useEffect(() => {
     if (id !== "none") {
       axios
-        .get(`${process.env.REACT_APP_URL_API}api/sneaker/get-by-id/${id}`)
+        .get(`${process.env.REACT_APP_URL_API}api/stuff/get-by-id/${id}`)
         .then((res) => {
-          setSneaker(res.data);
+          setStuff(res.data);
+          console.log(res.data);
           setLoadingForm(true);
         });
     } else {
@@ -39,42 +35,14 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
     }
   }, [id]);
 
-  const sizes: Array<string> = [
-    "33 EU",
-    "34 EU",
-    "35 EU",
-    "36 EU",
-    "36.5 EU",
-    "37 EU",
-    "37.5 EU",
-    "38 EU",
-    "38.5 EU",
-    "39 EU",
-    "39.5 EU",
-    "40 EU",
-    "40.5 EU",
-    "41 EU",
-    "41.5 EU",
-    "42 EU",
-    "42.5 EU",
-    "43 EU",
-    "44 EU",
-    "44.5 EU",
-    "45 EU",
-    "45.5 EU",
-    "46 EU",
-    "47 EU",
-    "48 EU",
-    "49 EU",
-    "50 EU",
-    "51 EU",
-  ];
+  const sizes: Array<string> = ["XS", "S", "M", "L", "XL"];
+  const types: Array<string> = ["Billets", "Vetements"];
 
   const validationSchema = yup.object().shape({
-    brandId: yup.string().required("Merci de remplir la marque."),
-    model: yup.string().required("Merci de remplir le modèle."),
-    colorway: yup.string().required("Merci de remplir la couleur."),
-    size: yup.string().required("Merci de remplir la taille."),
+    type: yup.string().required("Merci de remplir le type."),
+    description: yup.string().required("Merci de remplir la description."),
+    colorway: yup.string(),
+    size: yup.string(),
     buyingPrice: yup
       .number()
       .typeError("Un nombre doit être spécifié.")
@@ -117,7 +85,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
     }),
   });
 
-  const methods = useForm<ISneaker>({
+  const methods = useForm<IStuff>({
     resolver: yupResolver(validationSchema),
   });
   const {
@@ -126,85 +94,105 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
     formState: { errors },
   } = methods;
 
-  const handleSneaker = (data: ISneaker) => {
+  const handleStuff = (data: IStuff) => {
     data.buyingDate = moment(Date.parse(data.buyingDate)).format();
     data.sellingDate &&
       (data.sellingDate = moment(Date.parse(data.sellingDate)).format());
-    id === "none"
-      ? axios
-          .post(`${process.env.REACT_APP_URL_API}api/sneaker/add`, data)
-          .then((res) => {
-            dispatch(addSneaker(data));
-            axios({
-              method: "get",
-              url: `${
-                process.env.REACT_APP_URL_API
-              }sneaker/get-by-month/${moment(data.buyingDate).format(
-                "MM"
-              )}/${moment(data.buyingDate).format("YYYY")}`,
-            }).then((res) => dispatch(setSneakers(res.data)));
-          })
-          .catch((err) => console.log(err))
-      : axios
-          .patch(
-            `${process.env.REACT_APP_URL_API}api/sneaker/update/${id}`,
-            data
-          )
-          .then((res) => {
-            dispatch(updateSneaker([id, res.data]));
-            toast.success("La paire a bien été mise à jour.", {
-              position: "bottom-right",
-              autoClose: 2500,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-            setOpenModal(false);
-            axios({
-              method: "get",
-              url: `${
-                process.env.REACT_APP_URL_API
-              }api/sneaker/get-by-month/${typeSelected}/${moment(
-                typeSelected === "buying" ? data.buyingDate : data.sellingDate
-              ).format("MM")}/${moment(
-                typeSelected === "buying" ? data.buyingDate : data.sellingDate
-              ).format("YYYY")}`,
-            }).then((res) => {
-              console.log(res.data);
-              dispatch(setSneakers(res.data));
-            });
-          })
-          .catch((err) => console.log(err));
+    id === "none" &&
+      axios
+        .post(`${process.env.REACT_APP_URL_API}api/stuff/add`, data)
+        .then((res) => {
+          dispatch(addStuff(data));
+          axios({
+            method: "get",
+            url: `${process.env.REACT_APP_URL_API}stuff/get-by-month/${moment(
+              data.buyingDate
+            ).format("MM")}/${moment(data.buyingDate).format("YYYY")}`,
+          }).then((res) => dispatch(setStuffs(res.data)));
+        })
+        .catch((err) => console.log(err));
+    id !== "none" && axios
+    .patch(
+      `${process.env.REACT_APP_URL_API}api/stuff/update/${id}`,
+      data
+    )
+    .then((res) => {
+      dispatch(updateStuff([id, res.data]));
+      toast.success("L'objet a bien été mis à jour.", {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setOpenModal(false);
+      axios({
+        method: "get",
+        url: `${
+          process.env.REACT_APP_URL_API
+        }api/stuff/get-by-month/${typeSelected}/${moment(
+          typeSelected === "buying" ? data.buyingDate : data.sellingDate
+        ).format("MM")}/${moment(
+          typeSelected === "buying" ? data.buyingDate : data.sellingDate
+        ).format("YYYY")}`,
+      }).then((res) => {
+        dispatch(setStuffs(res.data));
+      });
+    })
+    .catch((err) => console.log(err));
   };
 
-  return loadingForm || sneaker ? (
+  return loadingForm && stuff ? (
     <FormProvider {...methods}>
       <form
         action=""
         className="grid grid-cols-3 gap-6 text-center"
-        onSubmit={handleSubmit(handleSneaker)}
+        onSubmit={handleSubmit(handleStuff)}
       >
-        <SelectGroup
-          label="Marque"
-          nameId="brandId"
-          value={sneaker?.brandId ? sneaker?.brandId : ""}
-          data={brands}
-          error={errors.brandId}
-        />
+        <div className="w-full">
+          <div className="flex items-center">
+            <label
+              htmlFor="type"
+              className="text-indigo-500 font-medium pr-4 w-1/3"
+            >
+              Type
+            </label>
+            <select
+              id="type"
+              className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
+              defaultValue={stuff?.type ? stuff.type : ""}
+              {...register("type")}
+            >
+              <option disabled value=""></option>
+              {types.map((type, index) => {
+                return (
+                  <option key={index} value={type}>
+                    {type}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {errors.type && (
+            <p className="text-red-700 text-xs mt-2 text-left">
+              {errors.type.message}
+            </p>
+          )}
+        </div>
         <InputGroup
-          label="Modèle"
-          nameId="model"
+          label="Description"
+          nameId="description"
           type="text"
-          value={sneaker?.model}
-          error={errors.model}
+          value={stuff?.description}
+          error={errors.description}
         />
         <InputGroup
           label="Coloris"
           nameId="colorway"
           type="text"
-          value={sneaker?.colorway}
+          value={stuff?.colorway}
           error={errors.colorway}
         />
         <div className="w-full">
@@ -218,7 +206,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
             <select
               id="size"
               className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-              defaultValue={sneaker?.size ? sneaker.size : ""}
+              defaultValue={stuff?.size ? stuff.size : ""}
               {...register("size")}
             >
               <option disabled value=""></option>
@@ -241,22 +229,22 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
           label="Prix d'achat"
           nameId="buyingPrice"
           type="number"
-          value={sneaker?.buyingPrice}
+          value={stuff?.buyingPrice}
           error={errors.buyingPrice}
         />
         <InputGroup
           label="Date d'achat"
           nameId="buyingDate"
           type="date"
-          value={moment(sneaker?.buyingDate).format("YYYY-MM-DD")}
+          value={moment(stuff?.buyingDate).format("YYYY-MM-DD")}
           error={errors.buyingDate}
         />
         <SelectGroup
           label="Site"
           nameId="websiteId"
           data={websites}
-          value={sneaker?.websiteId ? sneaker.websiteId : ""}
-          error={errors.model}
+          value={stuff?.websiteId ? stuff.websiteId : ""}
+          error={errors.websiteId}
         />
         <div className="w-full">
           <div className="flex items-center">
@@ -271,9 +259,9 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
               className="bg-gray-200 rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
               {...register("sold")}
               defaultValue={
-                sneaker?.sold === true
+                stuff?.sold === true
                   ? "true"
-                  : sneaker?.sold === false
+                  : stuff?.sold === false
                   ? "false"
                   : ""
               }
@@ -295,7 +283,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
               label="Prix de vente"
               nameId="resellPrice"
               type="number"
-              value={sneaker?.resellPrice ? sneaker.resellPrice : undefined}
+              value={stuff?.resellPrice ? stuff.resellPrice : undefined}
               error={errors.resellPrice}
             />
             <InputGroup
@@ -303,8 +291,8 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
               nameId="sellingDate"
               type="date"
               value={
-                sneaker?.sellingDate
-                  ? moment(sneaker?.sellingDate).format("YYYY-MM-DD")
+                stuff?.sellingDate
+                  ? moment(stuff?.sellingDate).format("YYYY-MM-DD")
                   : undefined
               }
               error={errors.sellingDate}
@@ -314,8 +302,8 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
               nameId="resellWebsiteId"
               data={resellWebsites}
               value={
-                sneaker?.resellWebsiteId && !isEmpty(sneaker?.resellWebsiteId)
-                  ? sneaker.resellWebsiteId
+                stuff?.resellWebsiteId && !isEmpty(stuff?.resellWebsiteId)
+                  ? stuff.resellWebsiteId
                   : ""
               }
               error={errors.resellWebsiteId}
@@ -336,4 +324,4 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
   );
 };
 
-export default FormSneaker;
+export default FormStuff;

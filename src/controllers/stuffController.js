@@ -14,12 +14,14 @@ const addStuff = async (req, res) => {
     type: req.body.type,
     description: req.body.description,
     colorway: req.body.colorway ? req.body.colorway : null,
+    size: req.body.size ? req.body.size : null,
     buyingPrice: req.body.buyingPrice,
     websiteId: req.body.websiteId,
     buyingDate: req.body.buyingDate,
     sold: req.body.sold,
     sellingDate: req.body.sellingDate ? req.body.sellingDate : null,
     resellPrice: req.body.resellPrice ? req.body.resellPrice : null,
+    resellWebsiteId: req.body.resellWebsiteId ? req.body.resellWebsiteId : null,
   });
 
   try {
@@ -40,10 +42,29 @@ const getStuffs = async (req, res) => {
   res.status(200).json(stuffs);
 };
 
+/* fonction permettant d'obtenir un objet par id
+@req : requête
+@res: réponse
+@return : donnée de l'objet
+*/
+const getStuffById = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).send("ID unknown");
+  }
+
+  StuffModel.findById(req.params.id, (err, docs) => {
+    if (!err) {
+      res.send(docs);
+    } else {
+      console.log("Id unknown : " + err);
+    }
+  }).select();
+};
+
 /* fonction permettant d'obtenir toutes les objets par mois
 @req : requête
 @res: réponse
-@return : liste des paires
+@return : liste des objets
 */
 const getStuffsByMonth = async (req, res) => {
   const stuffs = await StuffModel
@@ -58,6 +79,47 @@ const getStuffsByMonth = async (req, res) => {
     .sort({ buyingDate: 1 })
     .select();
   res.status(200).json(stuffs);
+};
+
+/* fonction permettant de mettre à jour un objet
+@req : requête
+@res: réponse
+@return : 
+  - objet modifié
+  - message d'erreur
+*/
+const updateStuff = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).send("ID unknown");
+  }
+
+  const updateStuff = {
+    type: req.body.type,
+    description: req.body.description,
+    colorway: req.body.colorway ? req.body.colorway : null,
+    size: req.body.size ? req.body.size : null,
+    buyingPrice: req.body.buyingPrice,
+    websiteId: req.body.websiteId,
+    buyingDate: req.body.buyingDate,
+    sold: req.body.sold,
+    sellingDate: req.body.sellingDate ? req.body.sellingDate : null,
+    resellPrice: req.body.resellPrice ? req.body.resellPrice : null,
+    resellWebsiteId: req.body.resellWebsiteId ? req.body.resellWebsiteId : null,
+  };
+
+  try {
+    StuffModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: updateStuff },
+      { new: true },
+      (err, docs) => {
+        if (!err) return res.send(docs);
+        else res.status(400).send(err);
+      }
+    );
+  } catch (err) {
+    return res.status(400).send(err);
+  }
 };
 
 /* fonction permettant de supprimer un objet
@@ -81,6 +143,8 @@ const deleteStuff = async (req, res) => {
 export {
     addStuff,
     getStuffs,
+    getStuffById,
     getStuffsByMonth,
+    updateStuff,
     deleteStuff
 };

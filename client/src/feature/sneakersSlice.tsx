@@ -12,9 +12,6 @@ export const sneakersSlice = createSlice({
     setSneakers: (state, { payload }) => {
       state.sneakers = payload;
     },
-    setSneakerById: (state, { payload }) => {
-      state.sneakers = payload;
-    },
     addSneaker: (state, { payload }) => {
       state.sneakers.push(payload);
     },

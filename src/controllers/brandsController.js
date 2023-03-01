@@ -46,7 +46,7 @@ const deleteBrand = async (req, res) => {
     return res.status(400).send("ID unknown");
   }
 
-  BrandsModel.findByIdAndRemove(req.params.id, (err, docs) => {
+  await BrandsModel.findByIdAndRemove(req.params.id, (err, docs) => {
     if (!err) res.send(docs);
     else console.log("Delete error : " + err);
   });

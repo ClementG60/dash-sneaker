@@ -74,7 +74,7 @@ const deleteResellWebsite = async (req, res) => {
     return res.status(400).send("ID unknown");
   }
 
-  ResellWebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
+  await ResellWebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
     if (!err) res.send(docs);
     else console.log("Delete error : " + err);
   });
@@ -85,7 +85,7 @@ const deleteWebsite = async (req, res) => {
     return res.status(400).send("ID unknown");
   }
 
-  WebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
+  await WebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
     if (!err) res.send(docs);
     else console.log("Delete error : " + err);
   });

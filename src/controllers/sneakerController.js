@@ -52,7 +52,7 @@ const getSneakerById = async (req, res) => {
     return res.status(400).send("ID unknown");
   }
 
-  SneakerModel.findById(req.params.id, (err, docs) => {
+  await SneakerModel.findById(req.params.id, (err, docs) => {
     if (!err) {
       res.send(docs);
     } else {
@@ -108,7 +108,7 @@ const updateSneaker = async (req, res) => {
   };
 
   try {
-    SneakerModel.findByIdAndUpdate(
+    await SneakerModel.findByIdAndUpdate(
       req.params.id,
       { $set: updateSneaker },
       { new: true },
@@ -134,7 +134,7 @@ const deleteSneaker = async (req, res) => {
     return res.status(400).send("ID unknown");
   }
 
-  SneakerModel.findByIdAndRemove(req.params.id, (err, docs) => {
+  await SneakerModel.findByIdAndRemove(req.params.id, (err, docs) => {
     if (!err) res.send(docs);
     else console.log("Delete error : " + err);
   });

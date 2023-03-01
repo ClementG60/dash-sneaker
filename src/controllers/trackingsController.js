@@ -47,7 +47,7 @@ const deleteTracking = async (req, res) => {
     return res.status(400).send("ID unknown");
   }
 
-  TrackingsModel.findByIdAndRemove(req.params.id, (err, docs) => {
+  await TrackingsModel.findByIdAndRemove(req.params.id, (err, docs) => {
     if (!err) res.send(docs);
     else console.log("Delete error : " + err);
   });

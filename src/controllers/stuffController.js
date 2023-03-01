@@ -52,7 +52,7 @@ const getStuffById = async (req, res) => {
     return res.status(400).send("ID unknown");
   }
 
-  StuffModel.findById(req.params.id, (err, docs) => {
+  await StuffModel.findById(req.params.id, (err, docs) => {
     if (!err) {
       res.send(docs);
     } else {
@@ -108,7 +108,7 @@ const updateStuff = async (req, res) => {
   };
 
   try {
-    StuffModel.findByIdAndUpdate(
+    await StuffModel.findByIdAndUpdate(
       req.params.id,
       { $set: updateStuff },
       { new: true },
@@ -134,7 +134,7 @@ const deleteStuff = async (req, res) => {
     return res.status(400).send("ID unknown");
   }
 
-  StuffModel.findByIdAndRemove(req.params.id, (err, docs) => {
+  await StuffModel.findByIdAndRemove(req.params.id, (err, docs) => {
     if (!err) res.send(docs);
     else console.log("Delete error : " + err);
   });

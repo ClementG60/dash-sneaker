@@ -6,6 +6,9 @@ import { IChartData, IHome } from "../interface/Interface";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import CardChart from "../component/Card/CardChart";
 import CardSingleStat from "../component/Card/CardSingleStat";
+import CardSingleSkeleton from "../component/Skeleton/CardSingleSkeleton";
+import CardSumSkeleton from "../component/Skeleton/CardSumSkeleton";
+import CardChartSkeleton from "../component/Skeleton/CardChartSkeleton";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -66,6 +69,7 @@ const Home = ({ isOpen }: IHome) => {
       url: `${process.env.REACT_APP_URL_API}api/statistics/sums/price/expensives/month/${currentYear}/${currentMonth}`,
     }).then((res) => {
       setMonthExpensives(res.data[0].sum);
+      console.log(res.data);
     });
 
     axios({
@@ -73,6 +77,7 @@ const Home = ({ isOpen }: IHome) => {
       url: `${process.env.REACT_APP_URL_API}api/statistics/sums/price/expensives/month/${pastYear}/${pastMonth}`,
     }).then((res) => {
       setLastMonthExpensives(res.data[0].sum);
+      console.log(res.data);
     });
 
     axios({
@@ -80,6 +85,7 @@ const Home = ({ isOpen }: IHome) => {
       url: `${process.env.REACT_APP_URL_API}api/statistics/sums/price/sneakersBuying/month/${currentYear}/${currentMonth}`,
     }).then((res) => {
       setMonthBuys(res.data[0].sum);
+      console.log(res.data);
     });
 
     axios({
@@ -126,7 +132,7 @@ const Home = ({ isOpen }: IHome) => {
           Récapitulatif du mois
         </h2>
         <div className="grid grid-cols-3">
-          {monthExpensives && lastMonthExpensives && (
+          {monthExpensives && lastMonthExpensives ? (
             <div className="col-start-1">
               <CardSum
                 sum={monthExpensives}
@@ -135,26 +141,32 @@ const Home = ({ isOpen }: IHome) => {
                 isOpen={isOpen}
               />
             </div>
+          ) : (
+            <CardSumSkeleton isOpen={isOpen} />
           )}
-          {monthBuys && lastMonthBuys && (
+          {monthBuys && lastMonthBuys ? (
             <CardSum
               sum={monthBuys}
               title={"Achat"}
               lastSumMonth={lastMonthBuys}
               isOpen={isOpen}
             />
+          ) : (
+            <CardSumSkeleton isOpen={isOpen} />
           )}
-          {monthSells && lastMonthSells && (
+          {monthSells && lastMonthSells ? (
             <CardSum
               sum={monthSells}
               title={"Vente"}
               lastSumMonth={lastMonthSells}
               isOpen={isOpen}
             />
+          ) : (
+            <CardSumSkeleton isOpen={isOpen} />
           )}
         </div>
         <div className="grid grid-cols-3">
-          {brandBuyData && brandBuyData.length > 0 && (
+          {brandBuyData && brandBuyData.length > 0 ? (
             <CardChart
               title="Marques"
               data={brandBuyData}
@@ -162,8 +174,10 @@ const Home = ({ isOpen }: IHome) => {
               labelTitle="Nombre d'achat(s)"
               type="brand"
             />
+          ) : (
+            <CardChartSkeleton isOpen={isOpen} />
           )}
-          {websiteBuyData && websiteBuyData.length > 0 && (
+          {websiteBuyData && websiteBuyData.length > 0 ? (
             <CardChart
               title="Site d'achat"
               data={websiteBuyData}
@@ -171,8 +185,10 @@ const Home = ({ isOpen }: IHome) => {
               labelTitle="Nombres d'achat(s)"
               type="website"
             />
+          ) : (
+            <CardChartSkeleton isOpen={isOpen} />
           )}
-          {resellWebsiteData && resellWebsiteData.length > 0 && (
+          {resellWebsiteData && resellWebsiteData.length > 0 ? (
             <CardChart
               title="Site de ventes"
               data={resellWebsiteData}
@@ -180,6 +196,8 @@ const Home = ({ isOpen }: IHome) => {
               labelTitle="Nombre de vente(s)"
               type="resellWebsite"
             />
+          ) : (
+            <CardChartSkeleton isOpen={isOpen} />
           )}
         </div>
       </div>
@@ -188,7 +206,7 @@ const Home = ({ isOpen }: IHome) => {
           Récapitulatif de l'année
         </h2>
         <div className="grid grid-cols-2">
-          {totalShoe && totalShoeLastYear && (
+          {totalShoe && totalShoeLastYear ? (
             <div className="col-start-1">
               <CardSingleStat
                 data={totalShoe}
@@ -196,13 +214,17 @@ const Home = ({ isOpen }: IHome) => {
                 isOpen={isOpen}
               />
             </div>
+          ) : (
+            <CardSingleSkeleton isOpen={isOpen} />
           )}
-          {totalShoeSold && totalShoeSoldLastYear && (
+          {totalShoeSold && totalShoeSoldLastYear ? (
             <CardSingleStat
               data={totalShoeSold}
               title={"Nombre de ventes total"}
               isOpen={isOpen}
             />
+          ) : (
+            <CardSingleSkeleton isOpen={isOpen} />
           )}
         </div>
       </div>

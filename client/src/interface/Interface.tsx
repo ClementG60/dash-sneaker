@@ -1,4 +1,6 @@
-import moment from "moment";
+export interface IOpen {
+  isOpen:  boolean;
+}
 
 export interface ISite {
   _id: string;

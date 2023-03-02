@@ -1,4 +1,3 @@
-
 import { Doughnut } from "react-chartjs-2";
 import { useAppSelector } from "../../app/hooks";
 import { IBrand, IChartData, ICardChart } from "../../interface/Interface";
@@ -68,8 +67,12 @@ const CardChart = ({ title, isOpen, data, type, labelTitle }: ICardChart) => {
       mx-auto mt-2 p-6 h-30 drop-shadow-xl hover:drop-shadow-2xl duration-300`}
     >
       <p className="text-lg font-bold mb-3 text-indigo-900">{title}</p>
-      {<Doughnut data={chartData} />}
-      <p className="text-indigo-900 text-sm text-center mt-2">Total : {count}</p>
+      <div>
+        {<Doughnut data={chartData} />}
+        <p className="text-indigo-900 text-sm text-center mt-2">
+          Total : {count}
+        </p>
+      </div>
     </div>
   );
 };

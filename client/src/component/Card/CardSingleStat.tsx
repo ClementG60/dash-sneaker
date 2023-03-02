@@ -1,8 +1,8 @@
 import { ICardSingleStat } from "../../interface/Interface";
 
 const CardSingleStat = ({ data, title, isOpen }: ICardSingleStat) => {
-    return (
-<div
+  return (
+    <div
       className={`bg-white rounded-[16px] ${
         isOpen ? "w-11/12" : "w-9/12"
       } 2xl:w-6/12
@@ -13,7 +13,7 @@ const CardSingleStat = ({ data, title, isOpen }: ICardSingleStat) => {
         <p className="text-5xl font-bold text-indigo-600">{data}</p>
       </div>
     </div>
-    );
+  );
 };
 
 export default CardSingleStat;

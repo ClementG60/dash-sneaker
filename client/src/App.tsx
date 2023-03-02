@@ -10,6 +10,7 @@ import moment from "moment";
 import { ToastContainer } from "react-toastify";
 import { setTrackings } from "./feature/trackingsSlice";
 import AnimatedRoute from "./component/AnimatedRoute";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 const App = () => {
   moment.locale("fr", {
@@ -46,19 +47,23 @@ const App = () => {
 
   return (
     <div className="bg-slate-100">
-      <BrowserRouter>
-        <div className="flex flex-row min-h-full">
-          <div className={`flex-none ${isOpen ? "w-60" : "w-16"} duration-300`}>
-            <Navigation setIsOpen={setIsOpen} isOpen={isOpen} />
-          </div>
-          <div className="flex-auto">
-            <div className="mt-4">
-              <AnimatedRoute isOpen={isOpen}/>
+      <SkeletonTheme baseColor="#F2F2F2" highlightColor="#E6E6E6">
+        <BrowserRouter>
+          <div className="flex flex-row min-h-full">
+            <div
+              className={`flex-none ${isOpen ? "w-60" : "w-16"} duration-300`}
+            >
+              <Navigation setIsOpen={setIsOpen} isOpen={isOpen} />
+            </div>
+            <div className="flex-auto">
+              <div className="mt-4">
+                <AnimatedRoute isOpen={isOpen} />
+              </div>
             </div>
           </div>
-        </div>
-      </BrowserRouter>
-      <ToastContainer />
+        </BrowserRouter>
+        <ToastContainer />
+      </SkeletonTheme>
     </div>
   );
 };

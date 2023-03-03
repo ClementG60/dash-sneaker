@@ -14,6 +14,7 @@ import moment from "moment";
 import DateSelector from "../Part/DateSelector";
 import TypeSelector from "../Part/TypeSelector";
 import AddButton from "../Part/AddButton";
+import ArrayLineSkeleton from "../Skeleton/ArrayLineSkeleton";
 
 const SneakerInventory = () => {
   //redux
@@ -37,6 +38,7 @@ const SneakerInventory = () => {
   const [date, setDate] = useState<moment.Moment>(moment());
   const [id, setId] = useState<string>();
   const [typeSelected, setTypeSelected] = useState<string>("buying");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const year = moment(date).format("YYYY");
   const month = moment(date).format("MM");
@@ -109,15 +111,19 @@ const SneakerInventory = () => {
     setId(id);
   };
 
-  /* hook permet de récupérer les dépenses par mois
+  /* hook permet de récupérer les paires par mois
   @dépendence : month, year, dispatch
-  @return : liste des dépenses
+  @return : liste des paires
   */
   useEffect(() => {
+    setIsLoading(true);
     axios({
       method: "get",
       url: `${process.env.REACT_APP_URL_API}api/sneaker/get-by-month/${typeSelected}/${month}/${year}`,
-    }).then((res) => dispatch(setSneakers(res.data)));
+    }).then((res) => {
+      dispatch(setSneakers(res.data));
+      setIsLoading(false);
+    });
   }, [month, year, typeSelected, dispatch]);
 
   return (
@@ -150,87 +156,91 @@ const SneakerInventory = () => {
             </tr>
           </thead>
           <tbody>
-            {sneakers.map((sneaker: ISneaker, index: number) => {
-              return (
-                <tr
-                  key={index}
-                  className="border-b text-sm text-indigo-900 font-medium"
-                >
-                  <td className="py-4">
-                    {brands?.map((brand: IBrand) => {
-                      if (sneaker?.brandId === brand._id) return brand.name;
-                    })}
-                  </td>
-                  <td className="py-4">{sneaker?.model}</td>
-                  <td className="py-4">{sneaker?.colorway}</td>
-                  <td>{sneaker?.size}</td>
-                  <td>
-                    {typeSelected === "buying"
-                      ? websites?.map((website: ISite) => {
-                          if (sneaker?.websiteId === website._id)
-                            return website.name;
-                        })
-                      : resellWebsites?.map((resellWebsite: ISite) => {
-                          if (sneaker.resellWebsiteId === resellWebsite._id)
-                            return resellWebsite.name;
-                        })}
-                    {}
-                  </td>
-                  <td>
-                    {typeSelected === "buying"
-                      ? sneaker?.buyingPrice
-                      : sneaker?.resellPrice}{" "}
-                    €
-                  </td>
-                  <td>
-                    {typeSelected === "buying"
-                      ? dateParser(sneaker?.buyingDate)
-                      : dateParser(sneaker?.sellingDate)}
-                  </td>
-                  {typeSelected === "buying" ? (
+            {sneakers.length === 0 || isLoading ? (
+              <ArrayLineSkeleton trNumber={5} tdNumber={9} />
+            ) : (
+              sneakers.map((sneaker: ISneaker, index: number) => {
+                return (
+                  <tr
+                    key={index}
+                    className="border-b text-sm text-indigo-900 font-medium"
+                  >
                     <td className="py-4">
-                      <div
-                        className={`flex text-lg justify-center ${
-                          sneaker?.sold ? "text-green-500" : "text-red-500"
+                      {brands?.map((brand: IBrand) => {
+                        if (sneaker?.brandId === brand._id) return brand.name;
+                      })}
+                    </td>
+                    <td className="py-4">{sneaker?.model}</td>
+                    <td className="py-4">{sneaker?.colorway}</td>
+                    <td>{sneaker?.size}</td>
+                    <td>
+                      {typeSelected === "buying"
+                        ? websites?.map((website: ISite) => {
+                            if (sneaker?.websiteId === website._id)
+                              return website.name;
+                          })
+                        : resellWebsites?.map((resellWebsite: ISite) => {
+                            if (sneaker.resellWebsiteId === resellWebsite._id)
+                              return resellWebsite.name;
+                          })}
+                      {}
+                    </td>
+                    <td>
+                      {typeSelected === "buying"
+                        ? sneaker?.buyingPrice
+                        : sneaker?.resellPrice}{" "}
+                      €
+                    </td>
+                    <td>
+                      {typeSelected === "buying"
+                        ? dateParser(sneaker?.buyingDate)
+                        : dateParser(sneaker?.sellingDate)}
+                    </td>
+                    {typeSelected === "buying" ? (
+                      <td className="py-4">
+                        <div
+                          className={`flex text-lg justify-center ${
+                            sneaker?.sold ? "text-green-500" : "text-red-500"
+                          }`}
+                        >
+                          {sneaker?.sold ? <GoCheck /> : <GoX />}
+                        </div>
+                      </td>
+                    ) : (
+                      <td
+                        className={`py-4 ${
+                          sneaker?.resellPrice - sneaker?.buyingPrice < 0
+                            ? "text-red-500"
+                            : sneaker?.resellPrice - sneaker?.buyingPrice < 20
+                            ? "text-amber-500"
+                            : sneaker?.resellPrice - sneaker?.buyingPrice < 50
+                            ? "text-yellow-500"
+                            : "text-green-500"
                         }`}
                       >
-                        {sneaker?.sold ? <GoCheck /> : <GoX />}
+                        {sneaker?.resellPrice - sneaker?.buyingPrice} €
+                      </td>
+                    )}
+                    <td className="flex justify-around py-4">
+                      <div
+                        className="cursor-pointer text-lg px-1"
+                        onClick={() => sneaker._id && handleUpdate(sneaker._id)}
+                      >
+                        <BsFillPencilFill />
+                      </div>
+                      <div
+                        className="cursor-pointer text-lg px-1"
+                        onClick={() =>
+                          sneaker._id && handleDeleteSneaker(sneaker._id)
+                        }
+                      >
+                        <FaTrash />
                       </div>
                     </td>
-                  ) : (
-                    <td
-                      className={`py-4 ${
-                        sneaker?.resellPrice - sneaker?.buyingPrice < 0
-                          ? "text-red-500"
-                          : sneaker?.resellPrice - sneaker?.buyingPrice < 20
-                          ? "text-amber-500"
-                          : sneaker?.resellPrice - sneaker?.buyingPrice < 50
-                          ? "text-yellow-500"
-                          : "text-green-500"
-                      }`}
-                    >
-                      {sneaker?.resellPrice - sneaker?.buyingPrice} €
-                    </td>
-                  )}
-                  <td className="flex justify-around py-4">
-                    <div
-                      className="cursor-pointer text-lg px-1"
-                      onClick={() => sneaker._id && handleUpdate(sneaker._id)}
-                    >
-                      <BsFillPencilFill />
-                    </div>
-                    <div
-                      className="cursor-pointer text-lg px-1"
-                      onClick={() =>
-                        sneaker._id && handleDeleteSneaker(sneaker._id)
-                      }
-                    >
-                      <FaTrash />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
         {openFormSneaker && id && (

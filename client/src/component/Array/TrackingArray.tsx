@@ -7,6 +7,7 @@ import TrackingArrayLine from "./TrackingArrayLine";
 import { FiRefreshCw } from "react-icons/fi";
 import { toast } from "react-toastify";
 import gsap from "gsap";
+import ArrayLineSkeleton from "../Skeleton/ArrayLineSkeleton";
 
 const TrackingArray = () => {
   //redux
@@ -14,6 +15,7 @@ const TrackingArray = () => {
   //state
   const [openFormTracking, setOpenFormTracking] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const refreshButton = createRef<HTMLButtonElement>();
 
   const ths: Array<string> = [
@@ -96,16 +98,21 @@ const TrackingArray = () => {
           </tr>
         </thead>
         <tbody>
-          {trackings.map((tracking: ITracking, index: number) => {
-            return (
-              <TrackingArrayLine
-                key={index}
-                tracking={tracking}
-                refresh={refresh}
-                setRefresh={setRefresh}
-              />
-            );
-          })}
+          {trackings.length === 0 || isLoading ? (
+            <ArrayLineSkeleton trNumber={3} tdNumber={4} />
+          ) : (
+            trackings.map((tracking: ITracking, index: number) => {
+              return (
+                <TrackingArrayLine
+                  key={index}
+                  tracking={tracking}
+                  setIsLoading={setIsLoading}
+                  refresh={refresh}
+                  setRefresh={setRefresh}
+                />
+              );
+            })
+          )}
         </tbody>
       </table>
       {openFormTracking && (

@@ -58,7 +58,7 @@ const getStuffById = async (req, res) => {
     } else {
       console.log("Id unknown : " + err);
     }
-  }).select();
+  }).clone();
 };
 
 /* fonction permettant d'obtenir toutes les objets par mois
@@ -76,8 +76,7 @@ const getStuffsByMonth = async (req, res) => {
         },
       ],
     })
-    .sort({ buyingDate: 1 })
-    .select();
+    .sort({ buyingDate: 1 });
   res.status(200).json(stuffs);
 };
 

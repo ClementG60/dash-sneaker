@@ -10,6 +10,7 @@ import axios from "axios";
 import moment from "moment";
 import { setExpensives, deleteExpensive } from "../../feature/expensiveSlice";
 import DateSelector from "../Part/DateSelector";
+import ArrayLineSkeleton from "../Skeleton/ArrayLineSkeleton";
 
 const ExpensiveInventory = () => {
   //redux
@@ -18,6 +19,7 @@ const ExpensiveInventory = () => {
   //state
   const [openFormExpensive, setOpenFormExpensive] = useState<boolean>(false);
   const [date, setDate] = useState(moment());
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const year = moment(date).format("YYYY");
   const month = moment(date).format("MM");
@@ -60,7 +62,6 @@ const ExpensiveInventory = () => {
       });
   };
 
-
   /* hook permet de récupérer les dépenses par mois
   @dépendence : month, year, dispatch
   @return : liste des dépenses
@@ -69,7 +70,10 @@ const ExpensiveInventory = () => {
     axios({
       method: "get",
       url: `${process.env.REACT_APP_URL_API}api/expensive/get-by-month/${month}/${year}`,
-    }).then((res) => dispatch(setExpensives(res.data)));
+    }).then((res) => {
+      dispatch(setExpensives(res.data));
+      setIsLoading(false);
+    });
   }, [month, year, dispatch]);
 
   return (
@@ -97,27 +101,31 @@ const ExpensiveInventory = () => {
             </tr>
           </thead>
           <tbody>
-            {expensives.map((expensive: IExpensive, index: number) => {
-              return (
-                <tr
-                  key={index}
-                  className="border-b text-sm text-indigo-900 font-medium"
-                >
-                  <td className="py-4">{expensive.name}</td>
-                  <td>{expensive.type}</td>
-                  <td>{dateParser(expensive.date)}</td>
-                  <td>{expensive.price} €</td>
-                  <td>
-                    <div
-                      className="flex justify-center cursor-pointer text-lg text-center"
-                      onClick={() => handleDeleteExpensive(expensive._id)}
-                    >
-                      <FaTrash />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+            {expensives.length === 0 || isLoading ? (
+              <ArrayLineSkeleton trNumber={4} tdNumber={5} />
+            ) : (
+              expensives.map((expensive: IExpensive, index: number) => {
+                return (
+                  <tr
+                    key={index}
+                    className="border-b text-sm text-indigo-900 font-medium"
+                  >
+                    <td className="py-4">{expensive.name}</td>
+                    <td>{expensive.type}</td>
+                    <td>{dateParser(expensive.date)}</td>
+                    <td>{expensive.price} €</td>
+                    <td>
+                      <div
+                        className="flex justify-center cursor-pointer text-lg text-center"
+                        onClick={() => handleDeleteExpensive(expensive._id)}
+                      >
+                        <FaTrash />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>

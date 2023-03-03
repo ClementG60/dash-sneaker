@@ -11,6 +11,7 @@ const TrackingArrayLine = ({
   tracking,
   refresh,
   setRefresh,
+  setIsLoading,
 }: ITrackingArrayLine) => {
   //state
   const [status, setStatus] = useState<string>();
@@ -86,6 +87,7 @@ const TrackingArrayLine = ({
           setDateStatus(
             moment(res.data.shipment.event[0].date).format("DD/MM/YYYY HH:mm")
           );
+          setIsLoading(false);
         });
 
       tracking.transporter === "DHL" &&
@@ -105,6 +107,7 @@ const TrackingArrayLine = ({
           );
         });
       setRefresh(false);
+      setIsLoading(false);
     }
   }, [refresh]);
 

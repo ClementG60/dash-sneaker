@@ -1,8 +1,8 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import CardSum from "../component/Card/CardSum";
 import moment from "moment";
-import { IChartData, IHome, ISite, IStat } from "../interface/Interface";
+import { IChartData, IHome } from "../interface/Interface";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import CardChart from "../component/Card/CardChart";
 import CardSingleStat from "../component/Card/CardSingleStat";
@@ -102,7 +102,6 @@ const Home = ({ isOpen }: IHome) => {
       });
     });
   }, []);
-  
 
   return (
     <div className="grid grid-cols-1 gap-3 p-5">

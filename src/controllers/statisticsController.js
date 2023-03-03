@@ -28,9 +28,7 @@ const getSalesStats = async (req, res) => {
       : {
           $expr: { $eq: ["$sold", true] },
         }
-  )
-    .sort({ sellingDate: 1 })
-    .select();
+  ).sort({ sellingDate: 1 });
   res.status(200).json(sales);
 };
 
@@ -57,9 +55,7 @@ const getBuyingStats = async (req, res) => {
           ],
         }
       : {}
-  )
-    .sort({ buyingDate: 1 })
-    .select();
+  ).sort({ buyingDate: 1 });
   res.status(200).json(buying);
 };
 
@@ -70,27 +66,37 @@ const getBuyingStats = async (req, res) => {
 */
 const getSumBuyingStats = async (req, res) => {
   const type = "$" + req.params.type;
-  const sales = await SneakerModel.aggregate(
-    [
-      {
-        $match: {
-          $and: [
-            {
-              $expr: {
-                $eq: [{ $year: req.params.data === "buys" ? "$buyingDate" : "$sellingDate" }, Number(req.params.year)],
-              },
+  const sales = await SneakerModel.aggregate([
+    {
+      $match: {
+        $and: [
+          {
+            $expr: {
+              $eq: [
+                {
+                  $year:
+                    req.params.data === "buys" ? "$buyingDate" : "$sellingDate",
+                },
+                Number(req.params.year),
+              ],
             },
-            {
-              $expr: {
-                $eq: [{ $month: req.params.data === "buys" ? "$buyingDate" : "$sellingDate" }, Number(req.params.month)],
-              },
+          },
+          {
+            $expr: {
+              $eq: [
+                {
+                  $month:
+                    req.params.data === "buys" ? "$buyingDate" : "$sellingDate",
+                },
+                Number(req.params.month),
+              ],
             },
-          ],
-        },
+          },
+        ],
       },
-      { $group: { _id: type, count: { $sum: 1 } } },
-    ]
-  );
+    },
+    { $group: { _id: type, count: { $sum: 1 } } },
+  ]);
   res.status(200).json(sales);
 };
 
@@ -117,9 +123,7 @@ const getExpensivesStats = async (req, res) => {
       : {
           $expr: { $eq: ["$sold", true] },
         }
-  )
-    .sort({ sellingDate: 1 })
-    .select();
+  ).sort({ sellingDate: 1 });
   res.status(200).json(expensive);
 };
 
@@ -179,4 +183,10 @@ const getSums = async (req, res) => {
   res.status(200).json(sales);
 };
 
-export { getSalesStats, getBuyingStats, getSumBuyingStats, getExpensivesStats, getSums };
+export {
+  getSalesStats,
+  getBuyingStats,
+  getSumBuyingStats,
+  getExpensivesStats,
+  getSums,
+};

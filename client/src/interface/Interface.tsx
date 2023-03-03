@@ -87,7 +87,8 @@ export interface ITracking {
 }
 
 export interface ITrackingArrayLine {
-  setRefresh: (value: boolean) => void
+  setRefresh: (value: boolean) => void;
+  setIsLoading: (value: boolean) => void;
   refresh: boolean;
   tracking: {
     _id: string;

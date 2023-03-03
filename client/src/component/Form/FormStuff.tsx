@@ -28,11 +28,12 @@ const FormStuff = ({ id, setOpenModal, typeSelected }: IForm) => {
         .then((res) => {
           setStuff(res.data);
           console.log(res.data);
-          setLoadingForm(true);
+          setLoadingForm(false);
         });
     } else {
-      setLoadingForm(true);
+      setLoadingForm(false);
     }
+    console.log(loadingForm);
   }, [id]);
 
   const sizes: Array<string> = ["XS", "S", "M", "L", "XL"];
@@ -111,40 +112,38 @@ const FormStuff = ({ id, setOpenModal, typeSelected }: IForm) => {
           }).then((res) => dispatch(setStuffs(res.data)));
         })
         .catch((err) => console.log(err));
-    id !== "none" && axios
-    .patch(
-      `${process.env.REACT_APP_URL_API}api/stuff/update/${id}`,
-      data
-    )
-    .then((res) => {
-      dispatch(updateStuff([id, res.data]));
-      toast.success("L'objet a bien été mis à jour.", {
-        position: "bottom-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setOpenModal(false);
-      axios({
-        method: "get",
-        url: `${
-          process.env.REACT_APP_URL_API
-        }api/stuff/get-by-month/${typeSelected}/${moment(
-          typeSelected === "buying" ? data.buyingDate : data.sellingDate
-        ).format("MM")}/${moment(
-          typeSelected === "buying" ? data.buyingDate : data.sellingDate
-        ).format("YYYY")}`,
-      }).then((res) => {
-        dispatch(setStuffs(res.data));
-      });
-    })
-    .catch((err) => console.log(err));
+    id !== "none" &&
+      axios
+        .patch(`${process.env.REACT_APP_URL_API}api/stuff/update/${id}`, data)
+        .then((res) => {
+          dispatch(updateStuff([id, res.data]));
+          toast.success("L'objet a bien été mis à jour.", {
+            position: "bottom-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setOpenModal(false);
+          axios({
+            method: "get",
+            url: `${
+              process.env.REACT_APP_URL_API
+            }api/stuff/get-by-month/${typeSelected}/${moment(
+              typeSelected === "buying" ? data.buyingDate : data.sellingDate
+            ).format("MM")}/${moment(
+              typeSelected === "buying" ? data.buyingDate : data.sellingDate
+            ).format("YYYY")}`,
+          }).then((res) => {
+            dispatch(setStuffs(res.data));
+          });
+        })
+        .catch((err) => console.log(err));
   };
 
-  return loadingForm && stuff ? (
+  return (
     <FormProvider {...methods}>
       <form
         action=""
@@ -317,10 +316,6 @@ const FormStuff = ({ id, setOpenModal, typeSelected }: IForm) => {
         />
       </form>
     </FormProvider>
-  ) : (
-    <div>
-      <i className="fas fa-spinner fa-spin"></i>
-    </div>
   );
 };
 

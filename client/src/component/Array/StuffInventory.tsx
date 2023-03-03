@@ -13,6 +13,7 @@ import { FaTrash } from "react-icons/fa";
 import { BsFillPencilFill } from "react-icons/bs";
 import { GoCheck, GoX } from "react-icons/go";
 import { dateParser } from "../Utils";
+import ArrayLineSkeleton from "../Skeleton/ArrayLineSkeleton";
 
 const StuffInventory = () => {
   const stuffs = useAppSelector(
@@ -29,6 +30,7 @@ const StuffInventory = () => {
   const [id, setId] = useState<string>();
   const [typeSelected, setTypeSelected] = useState<string>("buying");
   const [date, setDate] = useState(moment());
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const dispatch = useAppDispatch();
 
   const year = moment(date).format("YYYY");
@@ -73,7 +75,10 @@ const StuffInventory = () => {
     axios({
       method: "get",
       url: `${process.env.REACT_APP_URL_API}api/stuff/get-by-month/${typeSelected}/${month}/${year}`,
-    }).then((res) => dispatch(setStuffs(res.data)));
+    }).then((res) => {
+      dispatch(setStuffs(res.data));
+      setIsLoading(false);
+    });
   }, [month, year, typeSelected, dispatch]);
 
   const thsBuying: Array<string> = [
@@ -129,85 +134,87 @@ const StuffInventory = () => {
             </tr>
           </thead>
           <tbody>
-            {stuffs.map((stuff: IStuff, index: number) => {
-              return (
-                <tr
-                  key={index}
-                  className="border-b text-sm text-indigo-900 font-medium"
-                >
-                  <td className="py-4">
-                    {stuff?.type}
-                  </td>
-                  <td className="py-4">{stuff?.description}</td>
-                  <td className="py-4">{stuff?.colorway}</td>
-                  <td>{stuff?.size}</td>
-                  <td>
-                    {typeSelected === "buying"
-                      ? websites?.map((website: ISite) => {
-                          if (stuff?.websiteId === website._id)
-                            return website.name;
-                        })
-                      : resellWebsites?.map((resellWebsite: ISite) => {
-                          if (stuff.resellWebsiteId === resellWebsite._id)
-                            return resellWebsite.name;
-                        })}
-                    {}
-                  </td>
-                  <td>
-                    {typeSelected === "buying"
-                      ? stuff?.buyingPrice
-                      : stuff?.resellPrice}{" "}
-                    €
-                  </td>
-                  <td>
-                    {typeSelected === "buying"
-                      ? dateParser(stuff?.buyingDate)
-                      : dateParser(stuff?.sellingDate)}
-                  </td>
-                  {typeSelected === "buying" ? (
-                    <td className="py-4">
-                      <div
-                        className={`flex text-lg justify-center ${
-                          stuff?.sold ? "text-green-500" : "text-red-500"
+            {stuffs.length === 0 || isLoading ? (
+              <ArrayLineSkeleton trNumber={3} tdNumber={9} />
+            ) : (
+              stuffs.map((stuff: IStuff, index: number) => {
+                return (
+                  <tr
+                    key={index}
+                    className="border-b text-sm text-indigo-900 font-medium"
+                  >
+                    <td className="py-4">{stuff?.type}</td>
+                    <td className="py-4">{stuff?.description}</td>
+                    <td className="py-4">{stuff?.colorway}</td>
+                    <td>{stuff?.size}</td>
+                    <td>
+                      {typeSelected === "buying"
+                        ? websites?.map((website: ISite) => {
+                            if (stuff?.websiteId === website._id)
+                              return website.name;
+                          })
+                        : resellWebsites?.map((resellWebsite: ISite) => {
+                            if (stuff.resellWebsiteId === resellWebsite._id)
+                              return resellWebsite.name;
+                          })}
+                      {}
+                    </td>
+                    <td>
+                      {typeSelected === "buying"
+                        ? stuff?.buyingPrice
+                        : stuff?.resellPrice}{" "}
+                      €
+                    </td>
+                    <td>
+                      {typeSelected === "buying"
+                        ? dateParser(stuff?.buyingDate)
+                        : dateParser(stuff?.sellingDate)}
+                    </td>
+                    {typeSelected === "buying" ? (
+                      <td className="py-4">
+                        <div
+                          className={`flex text-lg justify-center ${
+                            stuff?.sold ? "text-green-500" : "text-red-500"
+                          }`}
+                        >
+                          {stuff?.sold ? <GoCheck /> : <GoX />}
+                        </div>
+                      </td>
+                    ) : (
+                      <td
+                        className={`py-4 ${
+                          stuff?.resellPrice - stuff?.buyingPrice < 0
+                            ? "text-red-500"
+                            : stuff?.resellPrice - stuff?.buyingPrice < 20
+                            ? "text-amber-500"
+                            : stuff?.resellPrice - stuff?.buyingPrice < 50
+                            ? "text-yellow-500"
+                            : "text-green-500"
                         }`}
                       >
-                        {stuff?.sold ? <GoCheck /> : <GoX />}
+                        {stuff?.resellPrice - stuff?.buyingPrice} €
+                      </td>
+                    )}
+                    <td className="flex justify-around py-4">
+                      <div
+                        className="cursor-pointer text-lg px-1"
+                        onClick={() => stuff._id && handleUpdate(stuff._id)}
+                      >
+                        <BsFillPencilFill />
+                      </div>
+                      <div
+                        className="cursor-pointer text-lg px-1"
+                        onClick={() =>
+                          stuff._id && handleDeleteStuff(stuff._id)
+                        }
+                      >
+                        <FaTrash />
                       </div>
                     </td>
-                  ) : (
-                    <td
-                      className={`py-4 ${
-                        stuff?.resellPrice - stuff?.buyingPrice < 0
-                          ? "text-red-500"
-                          : stuff?.resellPrice - stuff?.buyingPrice < 20
-                          ? "text-amber-500"
-                          : stuff?.resellPrice - stuff?.buyingPrice < 50
-                          ? "text-yellow-500"
-                          : "text-green-500"
-                      }`}
-                    >
-                      {stuff?.resellPrice - stuff?.buyingPrice} €
-                    </td>
-                  )}
-                  <td className="flex justify-around py-4">
-                    <div
-                      className="cursor-pointer text-lg px-1"
-                      onClick={() => stuff._id && handleUpdate(stuff._id)}
-                    >
-                      <BsFillPencilFill />
-                    </div>
-                    <div
-                      className="cursor-pointer text-lg px-1"
-                      onClick={() =>
-                        stuff._id && handleDeleteStuff(stuff._id)
-                      }
-                    >
-                      <FaTrash />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
         {openFormStuff && id && (
@@ -218,7 +225,7 @@ const StuffInventory = () => {
             typeSelected={typeSelected}
           />
         )}
-        </div>
+      </div>
     </>
   );
 };

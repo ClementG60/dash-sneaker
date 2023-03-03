@@ -74,10 +74,11 @@ const TrackingArray = () => {
           <AddIcon />
         </button>
         <button
-          className="flex bg-indigo-500 text-white font-bold rounded my-auto duration-300 cursor-pointer p-1"
+          className="flex bg-indigo-500 text-white font-bold rounded my-auto duration-300 cursor-pointer p-1 disabled:bg-slate-300 disabled:opacity-50"
           ref={refreshButton}
           onMouseEnter={() => animationHoverButton()}
           onMouseLeave={() => animationHoverButtonOff()}
+          disabled={trackings.length === 0 ? true : false}
         >
           <FiRefreshCw onClick={() => handleUpdateTracking()} />
         </button>

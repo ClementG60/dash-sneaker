@@ -7,6 +7,11 @@ export interface ISite {
   name: string;
 }
 
+export interface IStat {
+  name: string;
+  number: number;
+}
+
 export interface ISiteMap {
   deleteProduct: boolean;
   site: ISite;
@@ -79,7 +84,6 @@ export interface ITracking {
   _id: string;
   transporter: string;
   trackingNumber: string;
- 
 }
 
 export interface ITrackingArrayLine {

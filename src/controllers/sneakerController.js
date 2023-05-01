@@ -2,6 +2,26 @@ import SneakerModel from "../models/sneakerModel.js";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
+// const getUser = async (req, res) => {
+//   const { id } = req.params;
+
+//   try {
+//     if (!mongoose.Types.ObjectId.isValid(id)) {
+//       throw new Error('Invalid user ID');
+//     }
+
+//     const user = await User.findById(id);
+
+//     if (!user) {
+//       throw new Error('User not found');
+//     }
+
+//     res.status(200).json(user);
+//   } catch (error) {
+//     res.status(404).json({ error: error.message });
+//   }
+// };
+
 /* fonction permettant d'ajouter une paire
 @req : requête
 @res: réponse
@@ -38,7 +58,7 @@ const addSneaker = async (req, res) => {
 @return : liste des sneakers
 */
 const getSneakers = async (req, res) => {
-  const sneakers = await SneakerModel.find().select();
+  const sneakers = await SneakerModel.find().sort({ buyingDate: 1 });
   res.status(200).json(sneakers);
 };
 
@@ -67,16 +87,32 @@ const getSneakerById = async (req, res) => {
 @return : liste des paires
 */
 const getSneakersByMonth = async (req, res) => {
-  const sneakers = await SneakerModel
-    .find({
-      $and: [
-        { $expr: { $eq: [{ $year: (req.params.type === "buying" ? "$buyingDate" : "$sellingDate") }, req.params.year] } },
-        {
-          $expr: { $eq: [{ $month: (req.params.type === "buying" ? "$buyingDate" : "$sellingDate") }, req.params.month] },
+  const sneakers = await SneakerModel.find({
+    $and: [
+      {
+        $expr: {
+          $eq: [
+            {
+              $year:
+                req.params.type === "buying" ? "$buyingDate" : "$sellingDate",
+            },
+            req.params.year,
+          ],
         },
-      ],
-    })
-    .sort({ buyingDate: 1 });
+      },
+      {
+        $expr: {
+          $eq: [
+            {
+              $month:
+                req.params.type === "buying" ? "$buyingDate" : "$sellingDate",
+            },
+            req.params.month,
+          ],
+        },
+      },
+    ],
+  }).sort({ buyingDate: 1 });
   res.status(200).json(sneakers);
 };
 

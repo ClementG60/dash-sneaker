@@ -1,15 +1,15 @@
-import Navigation from "./component/Part/Navigation";
+import Navigation from "./interface/componants/Part/Navigation";
 import { BrowserRouter } from "react-router-dom";
 import { useAppDispatch } from "./app/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { setResellWebsites } from "./feature/resellWebsitesSlice";
-import { setWebsites } from "./feature/websitesSlice";
-import { setBrands } from "./feature/brandsSlice";
+import { setResellWebsites } from "./domain/usecases/resellWebsitesSlice";
+import { setWebsites } from "./domain/usecases/websitesSlice";
+import { setBrands } from "./domain/usecases/brandsSlice";
 import moment from "moment";
 import { ToastContainer } from "react-toastify";
-import { setTrackings } from "./feature/trackingsSlice";
-import AnimatedRoute from "./component/AnimatedRoute";
+import { setTrackings } from "./domain/usecases/trackingsSlice";
+import AnimatedRoute from "./interface/componants/AnimatedRoute";
 import { SkeletonTheme } from "react-loading-skeleton";
 
 const App = () => {

@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import websitesReducer from "../feature/websitesSlice";
-import resellWebsitesReducer from "../feature/resellWebsitesSlice";
-import sneakersReducer from "../feature/sneakersSlice";
-import expensivesReducer from "../feature/expensiveSlice";
-import brandsReducer from "../feature/brandsSlice";
-import trackingsReducer from "../feature/trackingsSlice";
-import stuffsReducer from "../feature/stuffsSlice";
+import websitesReducer from "../domain/usecases/websitesSlice";
+import resellWebsitesReducer from "../domain/usecases/resellWebsitesSlice";
+import sneakersReducer from "../domain/usecases/sneakersSlice";
+import expensivesReducer from "../domain/usecases/expensiveSlice";
+import brandsReducer from "../domain/usecases/brandsSlice";
+import trackingsReducer from "../domain/usecases/trackingsSlice";
+import stuffsReducer from "../domain/usecases/stuffsSlice";
 
 //configuration du store avec tous les reducers
 const store = configureStore({

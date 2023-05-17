@@ -16,6 +16,8 @@ import TypeSelector from "../Part/TypeSelector";
 import AddButton from "../Part/AddButton";
 import ArrayLineSkeleton from "../Skeleton/ArrayLineSkeleton";
 import SearchBar from "../Part/SearchBar";
+import { getSneakers } from "../../../infrastructure/SneakerAPI";
+import { axiosPrivate } from "../../../infrastructure/api/axios";
 
 const SneakerInventory = () => {
   //redux

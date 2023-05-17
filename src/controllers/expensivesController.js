@@ -31,8 +31,13 @@ const addExpensive = async (req, res) => {
 @return : liste des dépenses
 */
 const getExpensives = async (req, res) => {
-  const expensives = await ExpensivesModel.find().select();
-  res.status(200).json(expensives);
+  try {
+    const expensives = await ExpensivesModel.find().select();
+    return res.status(200).json(expensives);
+  } catch (err) {
+    return res.status(404).send(err);
+  }
+
 };
 
 /* fonction permettant d'obtenir toutes les dépenses par mois
@@ -61,7 +66,7 @@ const getExpensivesByMonth = async (req, res) => {
 */
 const deleteExpensive = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
   ExpensivesModel.findByIdAndRemove(req.params.id, (err, docs) => {

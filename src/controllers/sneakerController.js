@@ -48,6 +48,7 @@ const addSneaker = async (req, res) => {
     const sneaker = await newSneaker.save();
     return res.status(201).json(sneaker);
   } catch (err) {
+    console.error(err);
     return res.status(400).send(err);
   }
 };
@@ -58,8 +59,13 @@ const addSneaker = async (req, res) => {
 @return : liste des sneakers
 */
 const getSneakers = async (req, res) => {
-  const sneakers = await SneakerModel.find().sort({ buyingDate: 1 });
-  res.status(200).json(sneakers);
+  try {
+    const sneakers = await SneakerModel.find().sort({ buyingDate: 1 });
+    res.status(200).json(sneakers);
+  } catch (err) {
+    console.error(err);
+    return res.status(404).send(err);
+  }
 };
 
 /* fonction permettant d'obtenir une paire par id
@@ -69,14 +75,14 @@ const getSneakers = async (req, res) => {
 */
 const getSneakerById = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
   await SneakerModel.findById(req.params.id, (err, docs) => {
     if (!err) {
       res.send(docs);
     } else {
-      console.log("Id unknown : " + err);
+      console.log("Id inconnu : " + err);
     }
   }).clone();
 };
@@ -87,33 +93,38 @@ const getSneakerById = async (req, res) => {
 @return : liste des paires
 */
 const getSneakersByMonth = async (req, res) => {
-  const sneakers = await SneakerModel.find({
-    $and: [
-      {
-        $expr: {
-          $eq: [
-            {
-              $year:
-                req.params.type === "buying" ? "$buyingDate" : "$sellingDate",
-            },
-            req.params.year,
-          ],
+  try {
+    const sneakers = await SneakerModel.find({
+      $and: [
+        {
+          $expr: {
+            $eq: [
+              {
+                $year:
+                  req.params.type === "buying" ? "$buyingDate" : "$sellingDate",
+              },
+              req.params.year,
+            ],
+          },
         },
-      },
-      {
-        $expr: {
-          $eq: [
-            {
-              $month:
-                req.params.type === "buying" ? "$buyingDate" : "$sellingDate",
-            },
-            req.params.month,
-          ],
+        {
+          $expr: {
+            $eq: [
+              {
+                $month:
+                  req.params.type === "buying" ? "$buyingDate" : "$sellingDate",
+              },
+              req.params.month,
+            ],
+          },
         },
-      },
-    ],
-  }).sort({ buyingDate: 1 });
-  res.status(200).json(sneakers);
+      ],
+    }).sort({ buyingDate: 1 });
+    res.status(200).json(sneakers);
+  } catch (err) {
+    console.error(err);
+    return res.status(404).send(err);
+  }
 };
 
 /* fonction permettant de mettre à jour une paire
@@ -125,7 +136,7 @@ const getSneakersByMonth = async (req, res) => {
 */
 const updateSneaker = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
   const updateSneaker = {
@@ -166,13 +177,18 @@ const updateSneaker = async (req, res) => {
 */
 const deleteSneaker = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
-  await SneakerModel.findByIdAndRemove(req.params.id, (err, docs) => {
-    if (!err) res.send(docs);
-    else console.log("Delete error : " + err);
-  });
+  try {
+    await SneakerModel.findByIdAndRemove(req.params.id, (err, docs) => {
+      if (!err) res.send(docs);
+      else console.error("Delete error : " + err);
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(404).send(err);
+  }
 };
 
 export {

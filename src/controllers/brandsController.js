@@ -30,8 +30,13 @@ const addBrand = async (req, res) => {
 @return : liste des marques
 */
 const getBrands = async (req, res) => {
-  const brands = await BrandsModel.find().sort({ name: 1 }).select();
-  res.status(200).json(brands);
+  try {
+    const brands = await BrandsModel.find().sort({ name: 1 }).select();
+    return res.status(200).json(brands);
+  } catch (err) {
+    console.error(err);
+    return res.status(404).send(err);
+  }
 };
 
 /* fonction permettant de supprimer une marque
@@ -43,13 +48,21 @@ const getBrands = async (req, res) => {
 */
 const deleteBrand = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
-  await BrandsModel.findByIdAndRemove(req.params.id, (err, docs) => {
-    if (!err) res.send(docs);
-    else console.log("Delete error : " + err);
-  });
+  try {
+    await BrandsModel.findByIdAndRemove(req.params.id, (err, docs) => {
+      if (!err) res.send(docs);
+      else {
+        console.error("Delete error : " + err);
+        return res.status(404).send(err);
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(404).send(err);
+  }
 };
 
 export { addBrand, deleteBrand, getBrands };

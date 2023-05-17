@@ -20,7 +20,9 @@ const addTracking = async (req, res) => {
     return res.status(201).json(tracking);
   } catch (err) {
     if (err.code === 11000)
-      return res.status(400).send({ message: "Ce numéro de suivi existe déjà." });
+      return res
+        .status(400)
+        .send({ message: "Ce numéro de suivi existe déjà." });
     else res.status(400).send(err);
   }
 };
@@ -31,8 +33,13 @@ const addTracking = async (req, res) => {
 @return : liste des suivis
 */
 const getTrackings = async (req, res) => {
-  const trackings = await TrackingsModel.find().select();
-  res.status(200).json(trackings);
+  try {
+    const trackings = await TrackingsModel.find().select();
+    return res.status(200).json(trackings);
+  } catch (err) {
+    console.error(err);
+    return res.status(404).send(err);
+  }
 };
 
 /* fonction permettant de supprimer un suivi
@@ -44,13 +51,18 @@ const getTrackings = async (req, res) => {
 */
 const deleteTracking = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
-  await TrackingsModel.findByIdAndRemove(req.params.id, (err, docs) => {
-    if (!err) res.send(docs);
-    else console.log("Delete error : " + err);
-  });
+  try {
+    await TrackingsModel.findByIdAndRemove(req.params.id, (err, docs) => {
+      if (!err) res.send(docs);
+      else console.log("Delete error : " + err);
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send(err);
+  }
 };
 
 export { addTracking, getTrackings, deleteTracking };

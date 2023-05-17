@@ -9,8 +9,13 @@ const ObjectId = mongoose.Types.ObjectId;
 @return : liste des sites d'achat
 */
 const getWebsite = async (req, res) => {
-  const websites = await WebsiteModel.find().sort({ name: 1 }).select();
-  res.status(200).json(websites);
+  try {
+    const websites = await WebsiteModel.find().sort({ name: 1 }).select();
+    return res.status(200).json(websites);
+  } catch (err) {
+    console.error(err);
+    return res.status(404).send(err);
+  }
 };
 
 /* fonction permettant d'obtenir toutes les sites de vente
@@ -19,8 +24,13 @@ const getWebsite = async (req, res) => {
 @return : liste des sites de vente
 */
 const getResellWebsite = async (req, res) => {
-  const websites = await ResellWebsiteModel.find().sort({ name: 1 }).select();
-  res.status(200).json(websites);
+  try {
+    const websites = await ResellWebsiteModel.find().sort({ name: 1 }).select();
+    return res.status(200).json(websites);
+  } catch (err) {
+    console.error(err);
+    return res.status(404).send(err);
+  }
 };
 
 /* fonction permettant d'ajouter une marque
@@ -40,9 +50,9 @@ const addWebsite = async (req, res) => {
     const website = await newWebsite.save();
     return res.status(201).json(website);
   } catch (err) {
-    if (err.code === 11000)
-      return res.status(400).send({ message: "Le site existe déjà." });
-    else res.status(400).send(err);
+    return res
+      .status(400)
+      .send(err.code === 11000 ? { message: "Le site existe déjà." } : err);
   }
 };
 
@@ -63,15 +73,15 @@ const addResellWebsite = async (req, res) => {
     const resellWebsite = await newResellWebsite.save();
     return res.status(201).json(resellWebsite);
   } catch (err) {
-    if (err.code === 11000)
-      return res.status(400).send({ message: "Le site existe déjà." });
-    else res.status(400).send(err);
+    return res
+      .status(400)
+      .send(err.code === 11000 ? { message: "Le site existe déjà." } : err);
   }
 };
 
 const deleteResellWebsite = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
   await ResellWebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
@@ -82,13 +92,15 @@ const deleteResellWebsite = async (req, res) => {
 
 const deleteWebsite = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
-  await WebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
-    if (!err) res.send(docs);
-    else console.log("Delete error : " + err);
-  });
+  try {
+    await WebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
+      if (!err) res.send(docs);
+      else console.log("Delete error : " + err);
+    });
+  } catch (err) {}
 };
 
 export {

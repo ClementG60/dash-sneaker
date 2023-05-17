@@ -38,8 +38,13 @@ const addStuff = async (req, res) => {
 @return : liste des objets
 */
 const getStuffs = async (req, res) => {
-  const stuffs = await StuffModel.find().select();
-  res.status(200).json(stuffs);
+  try {
+    const stuffs = await StuffModel.find().select();
+    res.status(200).json(stuffs);
+  } catch (err) {
+    console.error(err);
+    return res.status(404).send(err);
+  }
 };
 
 /* fonction permettant d'obtenir un objet par id
@@ -49,14 +54,14 @@ const getStuffs = async (req, res) => {
 */
 const getStuffById = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
   await StuffModel.findById(req.params.id, (err, docs) => {
     if (!err) {
       res.send(docs);
     } else {
-      console.log("Id unknown : " + err);
+      console.log("Id inconnu : " + err);
     }
   }).clone();
 };
@@ -67,17 +72,38 @@ const getStuffById = async (req, res) => {
 @return : liste des objets
 */
 const getStuffsByMonth = async (req, res) => {
-  const stuffs = await StuffModel
-    .find({
+  try {
+    const stuffs = await StuffModel.find({
       $and: [
-        { $expr: { $eq: [{ $year: (req.params.type === "buying" ? "$buyingDate" : "$sellingDate") }, req.params.year] } },
         {
-          $expr: { $eq: [{ $month: (req.params.type === "buying" ? "$buyingDate" : "$sellingDate") }, req.params.month] },
+          $expr: {
+            $eq: [
+              {
+                $year:
+                  req.params.type === "buying" ? "$buyingDate" : "$sellingDate",
+              },
+              req.params.year,
+            ],
+          },
+        },
+        {
+          $expr: {
+            $eq: [
+              {
+                $month:
+                  req.params.type === "buying" ? "$buyingDate" : "$sellingDate",
+              },
+              req.params.month,
+            ],
+          },
         },
       ],
-    })
-    .sort({ buyingDate: 1 });
-  res.status(200).json(stuffs);
+    }).sort({ buyingDate: 1 });
+    return res.status(200).json(stuffs);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send(err);
+  }
 };
 
 /* fonction permettant de mettre à jour un objet
@@ -89,7 +115,7 @@ const getStuffsByMonth = async (req, res) => {
 */
 const updateStuff = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
   const updateStuff = {
@@ -130,7 +156,7 @@ const updateStuff = async (req, res) => {
 */
 const deleteStuff = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID unknown");
+    return res.status(400).send("ID inconnu");
   }
 
   await StuffModel.findByIdAndRemove(req.params.id, (err, docs) => {
@@ -140,10 +166,10 @@ const deleteStuff = async (req, res) => {
 };
 
 export {
-    addStuff,
-    getStuffs,
-    getStuffById,
-    getStuffsByMonth,
-    updateStuff,
-    deleteStuff
+  addStuff,
+  getStuffs,
+  getStuffById,
+  getStuffsByMonth,
+  updateStuff,
+  deleteStuff,
 };

@@ -26,12 +26,12 @@ const App = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/website/get-resell-websites`,
+      url: `${process.env.REACT_APP_URL_API}api/website/get/resell-websites`,
     }).then((res) => dispatch(setResellWebsites(res.data)));
 
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/website/get-websites`,
+      url: `${process.env.REACT_APP_URL_API}api/website/get/websites`,
     }).then((res) => dispatch(setWebsites(res.data)));
 
     axios({

@@ -8,24 +8,10 @@ const ObjectId = mongoose.Types.ObjectId;
 @res: réponse
 @return : liste des sites d'achat
 */
-const getWebsite = async (req, res) => {
+const getWebsites = async (req, res) => {
+  const Model = req.params.type === "websites" ? WebsiteModel : ResellWebsiteModel;
   try {
-    const websites = await WebsiteModel.find().sort({ name: 1 }).select();
-    return res.status(200).json(websites);
-  } catch (err) {
-    console.error(err);
-    return res.status(404).send(err);
-  }
-};
-
-/* fonction permettant d'obtenir toutes les sites de vente
-@req : requête
-@res: réponse
-@return : liste des sites de vente
-*/
-const getResellWebsite = async (req, res) => {
-  try {
-    const websites = await ResellWebsiteModel.find().sort({ name: 1 }).select();
+    const websites = await Model.find().sort({ name: 1 }).select();
     return res.status(200).json(websites);
   } catch (err) {
     console.error(err);
@@ -57,17 +43,6 @@ const addWebsite = async (req, res) => {
   }
 };
 
-// const deleteResellWebsite = async (req, res) => {
-//   if (!ObjectId.isValid(req.params.id)) {
-//     return res.status(400).send("ID inconnu");
-//   }
-
-//   await ResellWebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
-//     if (!err) res.send(docs);
-//     else console.log("Delete error : " + err);
-//   });
-// };
-
 const deleteWebsite = async (req, res) => {
   const Model =
     req.params.type === "website" ? WebsiteModel : ResellWebsiteModel;
@@ -85,9 +60,7 @@ const deleteWebsite = async (req, res) => {
 };
 
 export {
-  getWebsite,
-  getResellWebsite,
+  getWebsites,
   addWebsite,
   deleteWebsite,
-  //deleteResellWebsite,
 };

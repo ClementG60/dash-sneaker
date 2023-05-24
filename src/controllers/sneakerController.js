@@ -153,19 +153,15 @@ const updateSneaker = async (req, res) => {
     resellWebsiteId: req.body.resellWebsiteId ? req.body.resellWebsiteId : null,
   };
 
-  try {
-    await SneakerModel.findByIdAndUpdate(
-      req.params.id,
-      { $set: updateSneaker },
-      { new: true },
-      (err, docs) => {
-        if (!err) return res.send(docs);
-        else res.status(400).send(err);
-      }
-    );
-  } catch (err) {
-    return res.status(400).send(err);
-  }
+  await SneakerModel.findByIdAndUpdate(
+    req.params.id,
+    { $set: updateSneaker },
+    { new: true },
+    (err, docs) => {
+      if (!err) return res.send(docs);
+      else console.error(err);
+    }
+  );
 };
 
 /* fonction permettant de supprimer une paire
@@ -177,17 +173,16 @@ const updateSneaker = async (req, res) => {
 */
 const deleteSneaker = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID inconnu");
+    throw new Error("ID de la sneaker invalide");
   }
 
   try {
-    await SneakerModel.findByIdAndRemove(req.params.id, (err, docs) => {
-      if (!err) res.send(docs);
-      else console.error("Delete error : " + err);
-    });
-  } catch (err) {
-    console.error(err);
-    return res.status(404).send(err);
+    const sneakerToDelete = await SneakerModel.findByIdAndRemove(
+      req.params.id
+    ).exec();
+    return res.send(sneakerToDelete);
+  } catch (error) {
+    return res.status(404).json({ error: error.message });
   }
 };
 

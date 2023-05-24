@@ -8,7 +8,7 @@ import FormStuff from "../Form/FormStuff";
 const Modal = ({ setOpenModal, model, id, typeSelected }: IModal) => {
   return (
     <div className="fixed z-10 bg-transparent/50 mx-auto p-6 top-0 left-0 h-full w-full">
-      <div className="bg-slate-100 w-5/6 h-1/2 opacity-100 mx-auto p-6 rounded-xl">
+      <div className="bg-slate-100 w-5/6 h-2/3 opacity-100 mx-auto p-6 rounded-xl">
         <div
           className="cursor-pointer flex flex-row-reverse mb-3"
           onClick={() => {

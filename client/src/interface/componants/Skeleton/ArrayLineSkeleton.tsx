@@ -6,19 +6,19 @@ interface IArrayLineSkeleton {
 }
 
 const ArrayLineSkeleton = ({ tdNumber, trNumber }: IArrayLineSkeleton) => {
-  const getTd = (number: Number) => {
+  const getTd = (number: number) => {
     let content = [];
     for (let i = 1; i <= number; i++) {
       if (i === number) {
         content.push(
-          <td className="py-4 flex justify-around">
+          <td className="py-4 flex justify-around" key={i}>
             <Skeleton width={30} height={30} />
             <Skeleton width={30} height={30} />
           </td>
         );
       } else {
         content.push(
-          <td className="py-4">
+          <td className="py-4" key={i}>
             <Skeleton width={"50%"} height={25} />
           </td>
         );
@@ -27,10 +27,10 @@ const ArrayLineSkeleton = ({ tdNumber, trNumber }: IArrayLineSkeleton) => {
     return content;
   };
 
-  const getArrayLineSkeleton = (number: Number) => {
+  const getArrayLineSkeleton = (number: number) => {
     let content = [];
     for (let i = 1; i <= number; i++) {
-      content.push(<tr>{getTd(tdNumber)}</tr>);
+      content.push(<tr key={i}>{getTd(tdNumber)}</tr>);
     }
     return content;
   };

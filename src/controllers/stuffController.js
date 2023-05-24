@@ -156,13 +156,17 @@ const updateStuff = async (req, res) => {
 */
 const deleteStuff = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID inconnu");
+    throw new Error("ID de l'objet invalide");
   }
 
-  await StuffModel.findByIdAndRemove(req.params.id, (err, docs) => {
-    if (!err) res.send(docs);
-    else console.log("Delete error : " + err);
-  });
+  try {
+    const stuffToDelete = await StuffModel.findByIdAndRemove(
+      req.params.id
+    ).exec();
+    return res.send(stuffToDelete);
+  } catch (error) {
+    return res.status(404).json({ error: error.message });
+  }
 };
 
 export {

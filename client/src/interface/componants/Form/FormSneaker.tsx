@@ -139,7 +139,7 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
               method: "get",
               url: `${
                 process.env.REACT_APP_URL_API
-              }sneaker/get-by-month/${moment(data.buyingDate).format(
+              }api/sneaker/get-by-month/${typeSelected}/${moment(data.buyingDate).format(
                 "MM"
               )}/${moment(data.buyingDate).format("YYYY")}`,
             }).then((res) => dispatch(setSneakers(res.data)));

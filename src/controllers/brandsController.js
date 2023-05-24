@@ -48,20 +48,16 @@ const getBrands = async (req, res) => {
 */
 const deleteBrand = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID inconnu");
+    throw new Error("ID de la marque invalide");
   }
 
   try {
-    await BrandsModel.findByIdAndRemove(req.params.id, (err, docs) => {
-      if (!err) res.send(docs);
-      else {
-        console.error("Delete error : " + err);
-        return res.status(404).send(err);
-      }
-    });
-  } catch (err) {
-    console.error(err);
-    return res.status(404).send(err);
+    const brandToDelete = await BrandsModel.findByIdAndRemove(
+      req.params.id
+    ).exec();
+    return res.send(brandToDelete);
+  } catch (error) {
+    return res.status(404).json({ error: error.message });
   }
 };
 

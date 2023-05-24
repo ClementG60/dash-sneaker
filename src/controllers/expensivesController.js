@@ -37,7 +37,6 @@ const getExpensives = async (req, res) => {
   } catch (err) {
     return res.status(404).send(err);
   }
-
 };
 
 /* fonction permettant d'obtenir toutes les dépenses par mois
@@ -66,13 +65,17 @@ const getExpensivesByMonth = async (req, res) => {
 */
 const deleteExpensive = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID inconnu");
+    throw new Error("ID de la dépense invalide");
   }
 
-  ExpensivesModel.findByIdAndRemove(req.params.id, (err, docs) => {
-    if (!err) res.send(docs);
-    else console.log("Delete error : " + err);
-  });
+  try {
+    const expensiveToDelete = await ExpensivesModel.findByIdAndRemove(
+      req.params.id
+    ).exec();
+    return res.send(expensiveToDelete);
+  } catch (error) {
+    return res.status(404).json({ error: error.message });
+  }
 };
 
 export { addExpensive, deleteExpensive, getExpensives, getExpensivesByMonth };

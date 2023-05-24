@@ -16,8 +16,6 @@ import TypeSelector from "../Part/TypeSelector";
 import AddButton from "../Part/AddButton";
 import ArrayLineSkeleton from "../Skeleton/ArrayLineSkeleton";
 import SearchBar from "../Part/SearchBar";
-import { getSneakers } from "../../../infrastructure/SneakerAPI";
-import { axiosPrivate } from "../../../infrastructure/api/axios";
 
 const SneakerInventory = () => {
   //redux
@@ -84,6 +82,7 @@ const SneakerInventory = () => {
       url: `${process.env.REACT_APP_URL_API}api/sneaker/delete/${id}`,
     })
       .then((res) => {
+        console.log(res);
         dispatch(deleteSneaker(id));
         toast.success("La paire a bien été supprimé.", {
           position: "bottom-right",
@@ -96,6 +95,7 @@ const SneakerInventory = () => {
         });
       })
       .catch((err) => {
+        console.log(err);
         toast.error("Une erreur est survenue. Veuillez recommencez.", {
           position: "bottom-right",
           autoClose: 2500,

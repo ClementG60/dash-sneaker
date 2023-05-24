@@ -1,5 +1,5 @@
 export interface IOpen {
-  isOpen:  boolean;
+  isOpen: boolean;
 }
 
 export interface ISite {
@@ -94,7 +94,7 @@ export interface ITrackingArrayLine {
     _id: string;
     transporter: string;
     trackingNumber: string;
-  }
+  };
 }
 
 export interface IModal {

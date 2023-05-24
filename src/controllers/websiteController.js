@@ -41,7 +41,8 @@ const getResellWebsite = async (req, res) => {
   - message d'erreur
 */
 const addWebsite = async (req, res) => {
-  const newWebsite = new WebsiteModel({
+  const Model = req.body.type === "website" ? WebsiteModel : ResellWebsiteModel;
+  const newWebsite = new Model({
     name: req.body.name,
     img: req.body.img,
   });

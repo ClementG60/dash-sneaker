@@ -2,7 +2,10 @@ import { IAddSite } from "../../../domain/entities/Interface";
 import { createRef, useState } from "react";
 import axios from "axios";
 import { useAppDispatch } from "../../../app/hooks";
-import { addWebsite, setWebsites } from "../../../domain/usecases/websitesSlice";
+import {
+  addWebsite,
+  setWebsites,
+} from "../../../domain/usecases/websitesSlice";
 import {
   addResellWebsite,
   setResellWebsites,
@@ -18,12 +21,13 @@ const FormWebsite = ({ type }: IAddSite) => {
     e.preventDefault();
 
     const data = {
+      type: type,
       name: website,
       img: `./assets/img/${website}`,
     };
 
     axios
-      .post(`${process.env.REACT_APP_URL_API}api/website/add-${type}`, data)
+      .post(`${process.env.REACT_APP_URL_API}api/website/add-website`, data)
       .then((res) => {
         if (type === "website") {
           dispatch(addWebsite(data));

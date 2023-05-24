@@ -7,7 +7,7 @@ import { FaTrash } from "react-icons/fa";
 import { gsap } from "gsap";
 
 const Websites = () => {
-  const [typeSelected, setTypeSelected] = useState<string>("retailers");
+  const [typeSelected, setTypeSelected] = useState<string>("website");
   const [deleteProduct, setDeleteProduct] = useState<boolean>(false);
 
   const deleteButton = createRef<HTMLButtonElement>();
@@ -28,41 +28,39 @@ const Websites = () => {
       gsap.to(deleteButton.current, {
         rotation: 0,
         duration: 0.1,
-      })
+      });
     }
   }, [deleteProduct, deleteButton]);
+
+  const menu = [
+    { name: "Sites d'achat", type: "website" },
+    { name: "Sites de vente", type: "resellWebsite" },
+    { name: "Marques", type: "brand" },
+  ];
 
   return (
     <>
       <div className="w-full mb-3">
         <ul className="flex mx-auto w-6/12 justify-around text-indigo-900 font-medium">
-          <li
-            className={`w-1/2 cursor-pointer text-center border rounded-l-lg text-sm pt-1 pb-1 ${
-              typeSelected === "retailers" &&
-              "bg-indigo-500 border-indigo-500 text-white font-bold"
-            } duration-300 ease-in-out`}
-            onClick={() => setTypeSelected("retailers")}
-          >
-            Sites d'achat
-          </li>
-          <li
-            className={`w-1/2 cursor-pointer text-center border text-sm pt-1 pb-1 ${
-              typeSelected === "resellWebsites" &&
-              "bg-indigo-500 border-indigo-500 text-white font-bold"
-            } duration-300 ease-in-out`}
-            onClick={() => setTypeSelected("resellWebsites")}
-          >
-            Sites de vente
-          </li>
-          <li
-            className={`w-1/2 cursor-pointer text-center border rounded-r-lg text-sm pt-1 pb-1 ${
-              typeSelected === "brands" &&
-              "bg-indigo-500 border-indigo-500 text-white font-bold"
-            } duration-300 ease-in-out`}
-            onClick={() => setTypeSelected("brands")}
-          >
-            Marques
-          </li>
+          {menu.map((item, index) => {
+            return (
+              <li
+                className={`w-1/2 cursor-pointer text-center border ${
+                  index === 0
+                    ? "rounded-l-lg"
+                    : index === 2
+                    ? "rounded-r-lg"
+                    : null
+                } text-sm pt-1 pb-1 ${
+                  typeSelected === item.type &&
+                  "bg-indigo-500 border-indigo-500 text-white font-bold"
+                } duration-300 ease-in-out`}
+                onClick={() => setTypeSelected(item.type)}
+              >
+                {item.name}
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className=" w-11/12 flex justify-end">
@@ -76,27 +74,27 @@ const Websites = () => {
           <FaTrash />
         </button>
       </div>
-      {typeSelected === "retailers" && (
+      {typeSelected === "website" && (
         <>
           <GetSites
-            type={"retailer"}
+            type={"website"}
             deleteProduct={deleteProduct}
             setDeleteProduct={setDeleteProduct}
           />
           <FormWebsite type={"website"} />
         </>
       )}
-      {typeSelected === "resellWebsites" && (
+      {typeSelected === "resellWebsite" && (
         <>
           <GetSites
-            type={"reseller"}
+            type={"resellWebsite"}
             deleteProduct={deleteProduct}
             setDeleteProduct={setDeleteProduct}
           />
-          <FormWebsite type={"resell-website"} />
+          <FormWebsite type={"resellWebsite"} />
         </>
       )}
-      {typeSelected === "brands" && (
+      {typeSelected === "brand" && (
         <>
           <GetBrands
             deleteProduct={deleteProduct}

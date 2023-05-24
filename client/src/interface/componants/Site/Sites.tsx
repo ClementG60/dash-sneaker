@@ -15,7 +15,7 @@ const Sites = ({ site, deleteProduct, type }: ISiteMap) => {
   const handleDelete = (id: string) => {
     axios({
       method: "delete",
-      url: `${process.env.REACT_APP_URL_API}api/website/delete-website/${id}`,
+      url: `${process.env.REACT_APP_URL_API}api/website/delete-website/${type === "retailer" ? "website" : "resellWebsite"}/${id}`,
     })
       .then((res) => {
         dispatch(

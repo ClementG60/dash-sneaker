@@ -57,58 +57,37 @@ const addWebsite = async (req, res) => {
   }
 };
 
-/* fonction permettant d'ajouter une marque
-@req : requête
-@res: réponse
-@return : 
-  - site de vente ajouté
-  - message d'erreur
-*/
-const addResellWebsite = async (req, res) => {
-  const newResellWebsite = new ResellWebsiteModel({
-    name: req.body.name,
-    img: req.body.img,
-  });
+// const deleteResellWebsite = async (req, res) => {
+//   if (!ObjectId.isValid(req.params.id)) {
+//     return res.status(400).send("ID inconnu");
+//   }
 
-  try {
-    const resellWebsite = await newResellWebsite.save();
-    return res.status(201).json(resellWebsite);
-  } catch (err) {
-    return res
-      .status(400)
-      .send(err.code === 11000 ? { message: "Le site existe déjà." } : err);
-  }
-};
-
-const deleteResellWebsite = async (req, res) => {
-  if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID inconnu");
-  }
-
-  await ResellWebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
-    if (!err) res.send(docs);
-    else console.log("Delete error : " + err);
-  });
-};
+//   await ResellWebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
+//     if (!err) res.send(docs);
+//     else console.log("Delete error : " + err);
+//   });
+// };
 
 const deleteWebsite = async (req, res) => {
+  const Model =
+    req.params.type === "website" ? WebsiteModel : ResellWebsiteModel;
+
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID inconnu");
+    throw new Error("ID du site invalide");
   }
 
   try {
-    await WebsiteModel.findByIdAndRemove(req.params.id, (err, docs) => {
-      if (!err) res.send(docs);
-      else console.log("Delete error : " + err);
-    });
-  } catch (err) {}
+    const websiteToDelete = await Model.findByIdAndRemove(req.params.id).exec();
+    return res.send(websiteToDelete);
+  } catch (error) {
+    return res.status(404).json({ error: error.message });
+  }
 };
 
 export {
   getWebsite,
   getResellWebsite,
   addWebsite,
-  addResellWebsite,
   deleteWebsite,
-  deleteResellWebsite,
+  //deleteResellWebsite,
 };

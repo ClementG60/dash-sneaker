@@ -1,12 +1,12 @@
 import { createRef, useLayoutEffect, useState } from "react";
-import FormBrand from "../../interface/componants/Form/FormBrand";
-import FormWebsite from "../../interface/componants/Form/FormWebsite";
-import GetBrands from "../../interface/componants/Brand/GetBrands";
-import GetSites from "../../interface/componants/Site/GetSites";
+import FormBrand from "../componants/Form/FormBrand";
+import FormWebsite from "../componants/Form/FormWebsite";
+import GetBrands from "../componants/Brand/GetBrands";
+import GetSites from "../componants/Site/GetSites";
 import { FaTrash } from "react-icons/fa";
 import { gsap } from "gsap";
 
-const Websites = () => {
+const WebsiteBrand = () => {
   const [typeSelected, setTypeSelected] = useState<string>("website");
   const [deleteProduct, setDeleteProduct] = useState<boolean>(false);
 
@@ -107,4 +107,4 @@ const Websites = () => {
   );
 };
 
-export default Websites;
+export default WebsiteBrand;

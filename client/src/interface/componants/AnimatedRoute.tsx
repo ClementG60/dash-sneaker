@@ -5,7 +5,7 @@ import Home from "../../interface/pages/Home";
 import Inventory from "../../interface/pages/Inventory";
 import Stuff from "../../interface/pages/Stuff";
 import TrackingOrder from "../../interface/pages/TrackingOrder";
-import Websites from "../../interface/pages/Website";
+import WebsiteBrand from "../pages/WebsiteBrand";
 
 //permet l'utilisation du useLocation
 const AnimatedRoute = ({ isOpen }: IHome) => {
@@ -18,7 +18,7 @@ const AnimatedRoute = ({ isOpen }: IHome) => {
         <Route path="/*" element={<Home isOpen={isOpen} />} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/stuffs" element={<Stuff />} />
-        <Route path="/website" element={<Websites />} />
+        <Route path="/website-brand" element={<WebsiteBrand />} />
         <Route path="/expensive" element={<Expensive />} />
         <Route path="/tracking" element={<TrackingOrder />} />
       </Routes>

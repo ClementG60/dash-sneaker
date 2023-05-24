@@ -18,7 +18,7 @@ const Navigation = ({ setIsOpen, isOpen }: INavigation) => {
     { name: "Chaussures", link: "/inventory", icon: <GiRunningShoe /> },
     { name: "Autres", link: "/stuffs", icon: <MdInventory2 /> },
     { name: "Dépenses", link: "/expensive", icon: <MdPointOfSale /> },
-    { name: "Retailers", link: "/website", icon: <SiWebcomponentsdotorg /> },
+    { name: "Sites et marques", link: "/website-brand", icon: <SiWebcomponentsdotorg /> },
     { name: "Suivi de commandes", link: "/tracking", icon: <FaTruckLoading /> },
   ];
   return (

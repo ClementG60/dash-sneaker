@@ -4,7 +4,10 @@ import { dateParser } from "../Utils";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { deleteSneaker, setSneakers } from "../../../domain/usecases/sneakersSlice";
+import {
+  deleteSneaker,
+  setSneakers,
+} from "../../../domain/usecases/sneakersSlice";
 import { useState, useEffect } from "react";
 import Modal from "../Part/Modal";
 import { FaTrash } from "react-icons/fa";
@@ -45,6 +48,11 @@ const SneakerInventory = () => {
 
   const year = moment(date).format("YYYY");
   const month = moment(date).format("MM");
+
+  const dataTypeSelector: Array<{ name: string; type: string }> = [
+    { name: "Achat", type: "buying" },
+    { name: "Vente", type: "sales" },
+  ];
 
   const thsBuying: Array<string> = [
     "Marque",
@@ -143,6 +151,7 @@ const SneakerInventory = () => {
   return (
     <>
       <TypeSelector
+        data={dataTypeSelector}
         typeSelected={typeSelected}
         setTypeSelected={setTypeSelected}
       />
@@ -190,6 +199,7 @@ const SneakerInventory = () => {
                       className="border-b text-sm text-indigo-900 font-medium"
                     >
                       <td className="py-4">
+                        {/* eslint-disable-next-line array-callback-return */}
                         {brands?.map((brand: IBrand) => {
                           if (sneaker?.brandId === brand._id) return brand.name;
                         })}
@@ -199,11 +209,13 @@ const SneakerInventory = () => {
                       <td>{sneaker?.size}</td>
                       <td>
                         {typeSelected === "buying"
-                          ? websites?.map((website: ISite) => {
+                          ? /* eslint-disable-next-line array-callback-return */
+                            websites?.map((website: ISite) => {
                               if (sneaker?.websiteId === website._id)
                                 return website.name;
                             })
-                          : resellWebsites?.map((resellWebsite: ISite) => {
+                          : /* eslint-disable-next-line array-callback-return */
+                            resellWebsites?.map((resellWebsite: ISite) => {
                               if (sneaker.resellWebsiteId === resellWebsite._id)
                                 return resellWebsite.name;
                             })}

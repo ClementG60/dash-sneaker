@@ -36,6 +36,11 @@ const StuffInventory = () => {
   const year = moment(date).format("YYYY");
   const month = moment(date).format("MM");
 
+  const dataTypeSelector: Array<{ name: string; type: string }> = [
+    { name: "Achat", type: "buying" },
+    { name: "Vente", type: "sales" },
+  ];
+
   const handleDeleteStuff = (id: string) => {
     axios({
       method: "delete",
@@ -107,6 +112,7 @@ const StuffInventory = () => {
   return (
     <>
       <TypeSelector
+        data={dataTypeSelector}
         typeSelected={typeSelected}
         setTypeSelected={setTypeSelected}
       />

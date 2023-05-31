@@ -19,6 +19,11 @@ import TypeSelector from "../Part/TypeSelector";
 import AddButton from "../Part/AddButton";
 import ArrayLineSkeleton from "../Skeleton/ArrayLineSkeleton";
 import SearchBar from "../Part/SearchBar";
+import {
+  deleteSneakerAPI,
+  getSneakersAPI,
+  getSneakersByMonthAPI,
+} from "../../../infrastructure/SneakerAPI";
 
 const SneakerInventory = () => {
   //redux
@@ -85,14 +90,11 @@ const SneakerInventory = () => {
     - message d'erreur
   */
   const handleDeleteSneaker = (id: string) => {
-    axios({
-      method: "delete",
-      url: `${process.env.REACT_APP_URL_API}api/sneaker/delete/${id}`,
-    })
+    deleteSneakerAPI(id)
       .then((res) => {
         console.log(res);
         dispatch(deleteSneaker(id));
-        toast.success("La paire a bien été supprimé.", {
+        toast.success("La paire a bien été supprimée.", {
           position: "bottom-right",
           autoClose: 2500,
           hideProgressBar: false,
@@ -131,18 +133,12 @@ const SneakerInventory = () => {
   useEffect(() => {
     setIsLoading(true);
     !search &&
-      axios({
-        method: "get",
-        url: `${process.env.REACT_APP_URL_API}api/sneaker/get-by-month/${typeSelected}/${month}/${year}`,
-      }).then((res) => {
+      getSneakersByMonthAPI({ typeSelected, month, year }).then((res) => {
         dispatch(setSneakers(res.data));
         setIsLoading(false);
       });
     search &&
-      axios({
-        method: "get",
-        url: `${process.env.REACT_APP_URL_API}api/sneaker/get`,
-      }).then((res) => {
+      getSneakersAPI().then((res) => {
         dispatch(setSneakers(res.data));
         setIsLoading(false);
       });

@@ -12,6 +12,8 @@ import { setTrackings } from "./domain/usecases/trackingsSlice";
 import AnimatedRoute from "./interface/componants/AnimatedRoute";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { getWebsitesAPI } from "./infrastructure/WebsiteAPI";
+import { getTrackingsAPI } from "./infrastructure/TrackingAPI";
+import { getBrandsAPI } from "./infrastructure/BrandAPI";
 
 const App = () => {
   moment.locale("fr", {
@@ -28,18 +30,12 @@ const App = () => {
     getWebsitesAPI("resell-websites").then((res) =>
       dispatch(setResellWebsites(res.data))
     );
-
+    
     getWebsitesAPI("websites").then((res) => dispatch(setWebsites(res.data)));
 
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/brand/get`,
-    }).then((res) => dispatch(setBrands(res.data)));
+    getBrandsAPI().then((res) => dispatch(setBrands(res.data)));
 
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/trackings/get`,
-    }).then((res) => dispatch(setTrackings(res.data)));
+    getTrackingsAPI().then((res) => dispatch(setTrackings(res.data)));
   }, [dispatch]);
 
   return (

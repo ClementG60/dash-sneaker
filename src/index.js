@@ -25,7 +25,7 @@ app.use("/api/website", websiteRoute);
 app.use("/api/expensive", expensiveRoute);
 app.use("/api/statistics", statisticsRoute);
 app.use("/api/brand", brandsRoute);
-app.use("/api/trackings", trackingsRoute);
+app.use("/api/tracking", trackingsRoute);
 
 app.listen(5000, () => {
   console.log(`server running on port 5000`)

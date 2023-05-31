@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../../app/hooks";
 import { addBrand, setBrands } from "../../../domain/usecases/brandsSlice";
+import { addBrandAPI } from "../../../infrastructure/BrandAPI";
 
 const FormBrand = () => {
   const inputBrand = useRef<HTMLInputElement | null>(null);
@@ -15,8 +16,7 @@ const FormBrand = () => {
       name: inputBrand.current?.value,
     };
 
-    axios
-      .post(`${process.env.REACT_APP_URL_API}api/brand/add`, data)
+    addBrandAPI(data)
       .then((res) => {
         dispatch(addBrand(data));
         axios({

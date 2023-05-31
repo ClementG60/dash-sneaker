@@ -6,16 +6,14 @@ import { useAppDispatch } from "../../../app/hooks";
 import { deleteBrand } from "../../../domain/usecases/brandsSlice";
 import { IBrandMap } from "../../../domain/entities/Interface";
 import { IoMdClose } from "react-icons/io";
+import { deleteBrandAPI } from "../../../infrastructure/BrandAPI";
 
 const Brands = ({ brand, deleteProduct }: IBrandMap) => {
   const deleteBrands = createRef<HTMLLIElement>();
   const dispatch = useAppDispatch();
 
   const handleDelete = (id: string) => {
-    axios({
-      method: "delete",
-      url: `${process.env.REACT_APP_URL_API}api/brand/delete/${id}`,
-    })
+    deleteBrandAPI(id)
       .then((res) => {
         dispatch(deleteBrand(id));
         toast.success("La marque a bien été supprimé.", {

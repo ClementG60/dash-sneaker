@@ -2,24 +2,21 @@ import { createRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ISiteMap } from "../../../domain/entities/Interface";
 import { IoMdClose } from "react-icons/io";
-import axios from "axios";
 import { useAppDispatch } from "../../../app/hooks";
 import { deleteWebsite } from "../../../domain/usecases/websitesSlice";
 import { toast } from "react-toastify";
 import { deleteResellWebsite } from "../../../domain/usecases/resellWebsitesSlice";
+import { deleteWebsiteAPI } from "../../../infrastructure/WebsiteAPI";
 
 const Sites = ({ site, deleteProduct, type }: ISiteMap) => {
   const deleteSites = createRef<HTMLLIElement>();
   const dispatch = useAppDispatch();
 
   const handleDelete = (id: string) => {
-    axios({
-      method: "delete",
-      url: `${process.env.REACT_APP_URL_API}api/website/delete-website/${type === "retailer" ? "website" : "resellWebsite"}/${id}`,
-    })
+    deleteWebsiteAPI(type, id)
       .then((res) => {
         dispatch(
-          type === "retailer" ? deleteWebsite(id) : deleteResellWebsite(id)
+          type === "website" ? deleteWebsite(id) : deleteResellWebsite(id)
         );
         toast.success("Le site a bien été supprimé.", {
           position: "bottom-right",

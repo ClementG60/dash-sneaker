@@ -136,7 +136,7 @@ const getSneakersByMonth = async (req, res) => {
 */
 const updateSneaker = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID inconnu");
+    throw new Error("ID de la paire invalide");
   }
 
   const updateSneaker = {
@@ -153,15 +153,16 @@ const updateSneaker = async (req, res) => {
     resellWebsiteId: req.body.resellWebsiteId ? req.body.resellWebsiteId : null,
   };
 
-  await SneakerModel.findByIdAndUpdate(
-    req.params.id,
-    { $set: updateSneaker },
-    { new: true },
-    (err, docs) => {
-      if (!err) return res.send(docs);
-      else console.error(err);
-    }
-  );
+  try {
+    const sneakerToUpdate = await SneakerModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: updateSneaker },
+      { new: true }
+    ).exec();
+    return res.send(sneakerToUpdate);
+  } catch (error) {
+    return res.status(404).json({ error: error.message });
+  }
 };
 
 /* fonction permettant de supprimer une paire

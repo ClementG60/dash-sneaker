@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import { setTrackings } from "./domain/usecases/trackingsSlice";
 import AnimatedRoute from "./interface/componants/AnimatedRoute";
 import { SkeletonTheme } from "react-loading-skeleton";
+import { getWebsitesAPI } from "./infrastructure/WebsiteAPI";
 
 const App = () => {
   moment.locale("fr", {
@@ -24,15 +25,11 @@ const App = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/website/get/resell-websites`,
-    }).then((res) => dispatch(setResellWebsites(res.data)));
+    getWebsitesAPI("resell-websites").then((res) =>
+      dispatch(setResellWebsites(res.data))
+    );
 
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_URL_API}api/website/get/websites`,
-    }).then((res) => dispatch(setWebsites(res.data)));
+    getWebsitesAPI("websites").then((res) => dispatch(setWebsites(res.data)));
 
     axios({
       method: "get",

@@ -15,6 +15,7 @@ import SelectGroup from "./SelectGroup";
 import moment from "moment";
 import { isEmpty } from "../Utils";
 import { toast } from "react-toastify";
+import { addSneakerAPI, updateSneakerAPI } from "../../../infrastructure/SneakerAPI";
 
 const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
   const websites = useAppSelector((state) => state.websites.websites);
@@ -131,25 +132,20 @@ const FormSneaker = ({ id, setOpenModal, typeSelected }: IForm) => {
     data.sellingDate &&
       (data.sellingDate = moment(Date.parse(data.sellingDate)).format());
     id === "none"
-      ? axios
-          .post(`${process.env.REACT_APP_URL_API}api/sneaker/add`, data)
+      ? addSneakerAPI(data)
           .then((res) => {
             dispatch(addSneaker(data));
             axios({
               method: "get",
               url: `${
                 process.env.REACT_APP_URL_API
-              }api/sneaker/get-by-month/${typeSelected}/${moment(data.buyingDate).format(
-                "MM"
-              )}/${moment(data.buyingDate).format("YYYY")}`,
+              }api/sneaker/get-by-month/${typeSelected}/${moment(
+                data.buyingDate
+              ).format("MM")}/${moment(data.buyingDate).format("YYYY")}`,
             }).then((res) => dispatch(setSneakers(res.data)));
           })
           .catch((err) => console.log(err))
-      : axios
-          .patch(
-            `${process.env.REACT_APP_URL_API}api/sneaker/update/${id}`,
-            data
-          )
+      : updateSneakerAPI(data, id)
           .then((res) => {
             dispatch(updateSneaker([id, res.data]));
             toast.success("La paire a bien été mise à jour.", {

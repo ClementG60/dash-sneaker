@@ -11,6 +11,7 @@ import {
   setResellWebsites,
 } from "../../../domain/usecases/resellWebsitesSlice";
 import { toast } from "react-toastify";
+import { addWebsiteAPI, getWebsitesAPI } from "../../../infrastructure/WebsiteAPI";
 
 const FormWebsite = ({ type }: IAddSite) => {
   const [website, setWebsite] = useState<string>();
@@ -26,21 +27,18 @@ const FormWebsite = ({ type }: IAddSite) => {
       img: `./assets/img/${website}`,
     };
 
-    axios
-      .post(`${process.env.REACT_APP_URL_API}api/website/add-website`, data)
+    addWebsiteAPI(data)
       .then((res) => {
         if (type === "website") {
           dispatch(addWebsite(data));
-          axios({
-            method: "get",
-            url: `${process.env.REACT_APP_URL_API}api/website/get-websites`,
-          }).then((res) => dispatch(setWebsites(res.data)));
+          getWebsitesAPI("websites").then((res) =>
+            dispatch(setWebsites(res.data))
+          );
         } else {
           dispatch(addResellWebsite(data));
-          axios({
-            method: "get",
-            url: `${process.env.REACT_APP_URL_API}api/website/get-resell-websites`,
-          }).then((res) => dispatch(setResellWebsites(res.data)));
+          getWebsitesAPI("resell-websites").then((res) =>
+            dispatch(setResellWebsites(res.data))
+          );
         }
         setWebsite("");
       })

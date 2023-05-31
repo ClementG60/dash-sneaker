@@ -185,9 +185,9 @@ const SneakerInventory = () => {
               <ArrayLineSkeleton trNumber={5} tdNumber={9} />
             ) : (
               sneakers
-                .filter((sneaker: ISneaker) =>
-                  sneaker.model.toLowerCase().includes(query)
-                )
+                // .filter((sneaker: ISneaker) =>
+                //   sneaker.model.toLowerCase().includes(query)
+                // )
                 .map((sneaker: ISneaker, index: number) => {
                   return (
                     <tr

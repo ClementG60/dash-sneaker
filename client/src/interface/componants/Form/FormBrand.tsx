@@ -1,21 +1,38 @@
 import axios from "axios";
-import React, { useRef } from "react";
+import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../../app/hooks";
 import { addBrand, setBrands } from "../../../domain/usecases/brandsSlice";
 import { addBrandAPI } from "../../../infrastructure/BrandAPI";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { IBrand } from "../../../domain/entities/Interface";
+import InputGroup from "./InputGroup";
+import { useEffect } from "react";
 
 const FormBrand = () => {
-  const inputBrand = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
 
-  const handleBrand = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const validationSchema = yup.object().shape({
+    name: yup.string().required("Merci de remplir la marque."),
+  });
 
-    const data = {
-      name: inputBrand.current?.value,
-    };
+  const methods = useForm<IBrand>({
+    resolver: yupResolver(validationSchema),
+  });
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = methods;
 
+  useEffect(() => {
+    isSubmitSuccessful && reset({ name: "" });
+  }, [isSubmitSuccessful, reset]);
+
+  const handleBrand = (data: IBrand) => {
     addBrandAPI(data)
       .then((res) => {
         dispatch(addBrand(data));
@@ -35,33 +52,29 @@ const FormBrand = () => {
           progress: undefined,
         })
       );
-
-    if (inputBrand.current) {
-      inputBrand.current.value = "";
-    }
   };
 
   return (
     <div className="mt-5 w-11/12 mx-auto border-t-2 text-center">
-      <form
-        action=""
-        onSubmit={(e) => handleBrand(e)}
-        className="grid grid-cols-1 w-3/6 mx-auto mt-3"
-      >
-        <input
-          type="text"
-          name="website"
-          id="website"
-          className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          ref={inputBrand}
-          placeholder="Marque à ajouter"
-        />
-        <input
-          type="submit"
-          value="Ajouter"
-          className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md hover:bg-indigo-400"
-        />
-      </form>
+      <FormProvider {...methods}>
+        <form
+          action=""
+          onSubmit={handleSubmit(handleBrand)}
+          className="grid grid-cols-1 w-3/6 mx-auto mt-3"
+        >
+          <InputGroup
+            nameId="name"
+            type="string"
+            value=""
+            error={errors.name}
+          />
+          <input
+            type="submit"
+            value="Ajouter"
+            className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md hover:bg-indigo-400"
+          />
+        </form>
+      </FormProvider>
     </div>
   );
 };

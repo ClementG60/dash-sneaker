@@ -39,6 +39,12 @@ export interface IGetBrands {
   setDeleteProduct: (value: boolean) => void;
 }
 
+export interface IHandleWebsite {
+  type: string;
+  name: string;
+  img: string;
+}
+
 export interface IAddSite {
   type: string;
 }

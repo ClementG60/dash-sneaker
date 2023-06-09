@@ -1,6 +1,5 @@
-import { IAddSite } from "../../../domain/entities/Interface";
-import { createRef, useState } from "react";
-import axios from "axios";
+import { IAddSite, IHandleWebsite, ISite } from "../../../domain/entities/Interface";
+import { createRef, useEffect, useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
 import {
   addWebsite,
@@ -11,21 +10,41 @@ import {
   setResellWebsites,
 } from "../../../domain/usecases/resellWebsitesSlice";
 import { toast } from "react-toastify";
-import { addWebsiteAPI, getWebsitesAPI } from "../../../infrastructure/WebsiteAPI";
+import {
+  addWebsiteAPI,
+  getWebsitesAPI,
+} from "../../../infrastructure/WebsiteAPI";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { FormProvider, useForm } from "react-hook-form";
+import * as yup from "yup";
+import InputGroup from "./InputGroup";
 
 const FormWebsite = ({ type }: IAddSite) => {
-  const [website, setWebsite] = useState<string>();
   const submitButton = createRef<HTMLInputElement>();
   const dispatch = useAppDispatch();
 
-  const handleAddWebsite = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const validationSchema = yup.object().shape({
+    name: yup.string().required("Merci de remplir la marque."),
+  });
 
-    const data = {
-      type: type,
-      name: website,
-      img: `./assets/img/${website}`,
-    };
+  const methods = useForm<IHandleWebsite>({
+    resolver: yupResolver(validationSchema),
+  });
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = methods;
+
+  useEffect(() => {
+    isSubmitSuccessful && reset({ name: "" });
+  }, [isSubmitSuccessful, reset]);
+
+  const handleWebsite = (data: IHandleWebsite) => {
+    data.type = type;
+    data.img = "./assets/img/test"
 
     addWebsiteAPI(data)
       .then((res) => {
@@ -40,7 +59,6 @@ const FormWebsite = ({ type }: IAddSite) => {
             dispatch(setResellWebsites(res.data))
           );
         }
-        setWebsite("");
       })
       .catch((err) =>
         toast.error(err.response.data.message, {
@@ -57,27 +75,26 @@ const FormWebsite = ({ type }: IAddSite) => {
 
   return (
     <div className="mt-5 w-11/12 mx-auto border-t-2 text-center">
-      <form
-        action=""
-        onSubmit={(e) => handleAddWebsite(e)}
-        className="grid grid-cols-1 w-3/6 mx-auto mt-3"
-      >
-        <input
-          type="text"
-          name="website"
-          id="website"
-          className="bg-gray-200 appearance-none rounded border-2 border-gray-200 w-full h-full py-2 px-4 focus:border-indigo-500 focus:outline-none focus:bg-white"
-          onChange={(e) => setWebsite(e.target.value)}
-          value={website}
-          placeholder="Site à ajouter"
-        />
-        <input
-          type="submit"
-          value="Ajouter"
-          className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md"
-          ref={submitButton}
-        />
-      </form>
+      <FormProvider {...methods}>
+        <form
+          action=""
+          onSubmit={handleSubmit(handleWebsite)}
+          className="grid grid-cols-1 w-3/6 mx-auto mt-3"
+        >
+          <InputGroup
+            nameId="name"
+            type="string"
+            value=""
+            error={errors.name}
+          />
+          <input
+            type="submit"
+            value="Ajouter"
+            className="cursor-pointer col-span-3 mt-3 rounded-md bg-indigo-500 text-white w-1/6 mx-auto py-3 text-md"
+            ref={submitButton}
+          />
+        </form>
+      </FormProvider>
     </div>
   );
 };
